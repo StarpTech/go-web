@@ -1,3 +1,5 @@
+![big-gopher](big-gopher.png)
+
 # go-web
 Modern Web Application with Golang
 
