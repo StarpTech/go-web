@@ -10,5 +10,5 @@ Modern Web Application with Golang
 - [ ] Testsuite
 - [ ] Validation
 - [ ] Configuration
-- [ ] Frontend build pipline
+- [ ] Frontend build pipeline
 - [ ] Postgresql models
