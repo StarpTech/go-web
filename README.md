@@ -8,6 +8,7 @@ Modern Web Application with Golang "Keep it simple, stupid"
 - Language [Go](https://golang.org/) +1.8
 - ORM library [gorm](https://github.com/jinzhu/gorm)
 - Configuration [env](github.com/caarlos0/env)
+- Payload validation [validator](https://github.com/go-playground/validator)
 
 # Getting Started
 
@@ -20,7 +21,7 @@ $ go run main.go
 # TODO
 
 - [X] Testsuite
-- [ ] Parameter Validation
+- [X] Parameter Validation
 - [X] Configuration
 - [ ] Frontend build pipeline
 - [X] Postgresql models

@@ -37,7 +37,7 @@ func (ctrl User) GetUserDetails(c echo.Context) error {
 
 	if err != nil {
 		c.Logger().Error("invalid user id")
-		return c.String(http.StatusBadRequest, "")
+		return c.String(http.StatusBadRequest, "") // @TODO consistent error handling
 	}
 
 	db := db.GetDB()
@@ -45,7 +45,7 @@ func (ctrl User) GetUserDetails(c echo.Context) error {
 
 	if db.First(&user).Error != nil {
 		c.Logger().Errorf("user with id %v could not be found", userID)
-		return c.String(http.StatusNotFound, "")
+		return c.String(http.StatusNotFound, "") // @TODO consistent error handling
 	}
 
 	return c.Render(http.StatusOK, "details.html", user)
@@ -57,7 +57,7 @@ func (ctrl User) GetUserJSON(c echo.Context) error {
 
 	if err != nil {
 		c.Logger().Error("invalid user id")
-		return c.String(http.StatusBadRequest, "")
+		return c.String(http.StatusBadRequest, "") // @TODO consistent error handling
 	}
 
 	db := db.GetDB()
@@ -65,7 +65,7 @@ func (ctrl User) GetUserJSON(c echo.Context) error {
 
 	if db.First(&user).Error != nil {
 		c.Logger().Errorf("user with id %v could not be found", userID)
-		return c.String(http.StatusNotFound, "")
+		return c.String(http.StatusNotFound, "") // @TODO consistent error handling
 	}
 
 	return c.JSON(http.StatusOK, user)

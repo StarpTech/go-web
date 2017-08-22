@@ -4,14 +4,18 @@ import (
 	"github.com/labstack/echo"
 	"github.com/labstack/echo/middleware"
 	"github.com/starptech/go-web/config"
+	v "gopkg.in/go-playground/validator.v9"
 )
 
 func NewEngine() *echo.Echo {
 	c := config.GetConfig()
 	e := echo.New()
 	e.Debug = !c.IsProduction
-	e.Use(middleware.Logger())
+
+	// define validator
+	e.Validator = &Validator{validator: v.New()}
 	e.Use(middleware.Recover())
+	e.Use(middleware.Logger())
 
 	// add custom error formatter
 	e.HTTPErrorHandler = HTTPErrorHandler
