@@ -3,10 +3,13 @@ package server
 import (
 	"github.com/labstack/echo"
 	"github.com/labstack/echo/middleware"
+	"github.com/starptech/go-web/config"
 )
 
 func NewEngine() *echo.Echo {
+	c := config.GetConfig()
 	e := echo.New()
+	e.Debug = !c.IsProduction
 	e.Use(middleware.Logger())
 	e.Use(middleware.Recover())
 
