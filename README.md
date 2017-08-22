@@ -1,7 +1,7 @@
 ![big-gopher](big-gopher.png)
 
 # Go-Web
-Modern Web Application with Golang
+Modern Web Application with Golang "Keep it simple, stupid"
 
 # Stack
 - HTTP Middleware [Echo](https://echo.labstack.com/)
