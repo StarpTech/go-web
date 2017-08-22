@@ -19,8 +19,8 @@ $ go run main.go
 
 # TODO
 
-- [ ] Testsuite
-- [ ] Validation
-- [ ] Configuration
+- [X] Testsuite
+- [ ] Parameter Validation
+- [X] Configuration
 - [ ] Frontend build pipeline
-- [ ] Postgresql models
+- [X] Postgresql models
