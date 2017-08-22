@@ -1,8 +1,13 @@
 package server
 
-import "github.com/jinzhu/gorm"
-import "github.com/starptech/go-web/models"
+import (
+	"github.com/starptech/go-web/db"
+	"github.com/starptech/go-web/models"
+)
 
-func Up(db *gorm.DB) {
-	db.AutoMigrate(&models.User{})
+type Migration struct{}
+
+func (m *Migration) Up() {
+	database := db.GetDB()
+	database.AutoMigrate(&models.User{})
 }

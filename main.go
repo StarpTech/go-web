@@ -2,7 +2,6 @@ package main
 
 import (
 	config "github.com/starptech/go-web/config"
-	db "github.com/starptech/go-web/db"
 	server "github.com/starptech/go-web/server"
 )
 
@@ -10,8 +9,8 @@ func main() {
 	config := config.GetConfig()
 
 	// migration
-	database := db.GetDB()
-	server.Up(database)
+	m := server.Migration{}
+	m.Up()
 
 	// start server
 	echo := server.NewEngine()
