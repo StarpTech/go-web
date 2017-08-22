@@ -42,7 +42,7 @@ func NewEngine() *echo.Echo {
 	e.GET("/feed", feedCtrl.GetFeed)
 
 	// add static files
-	e.Static("/", "assets")
+	e.Static("/", "public")
 
 	return e
 }
