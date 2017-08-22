@@ -31,3 +31,8 @@ $ go run main.go
 - [X] Gracefully shutdown
 - [X] Consistent error-handling
 - [X] Web Development with Custom elements
+- [] Metric endpoint
+- [] JWT Decoding
+- [] Benchmarks
+- [] Unit tests
+- [] Setup Travis CI with static code analysis
