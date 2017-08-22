@@ -24,7 +24,6 @@ func NewTemplateRenderer(layoutsDir, templatesDir string) *templateRenderer {
 }
 
 func (t *templateRenderer) Render(w io.Writer, name string, data interface{}, c echo.Context) error {
-
 	tmpl, ok := t.templates[name]
 	if !ok {
 		c.Logger().Fatalf("the template %s does not exist", name)
@@ -35,6 +34,9 @@ func (t *templateRenderer) Render(w io.Writer, name string, data interface{}, c 
 }
 
 func (t *templateRenderer) Load(layoutsDir, templatesDir string) {
+
+	fmt.Println(layoutsDir, templatesDir)
+
 	layouts, err := filepath.Glob(layoutsDir)
 	if err != nil {
 		log.Fatal(err)

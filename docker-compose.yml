@@ -1,0 +1,21 @@
+PostgreSQL:
+  restart: always
+  image: sameersbn/postgresql:9.6-2
+  ports:
+    - "5432:5432"
+  environment:
+    - DEBUG=false
+
+    - DB_USER=gorm
+    - DB_PASS=mypassword
+    - DB_NAME=gorm
+    - DB_TEMPLATE=
+
+    - DB_EXTENSION=
+
+    - REPLICATION_MODE=
+    - REPLICATION_USER=
+    - REPLICATION_PASS=
+    - REPLICATION_SSLMODE=
+  volumes:
+    - /srv/docker/postgresql:/var/lib/postgresql

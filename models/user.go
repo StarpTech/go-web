@@ -1,8 +1,11 @@
 package models
 
-import "github.com/jinzhu/gorm"
+import "time"
 
 type User struct {
-	gorm.Model
-	Name string
+	ID        uint64 `gorm:"primary_key"`
+	CreatedAt time.Time
+	UpdatedAt time.Time
+	DeletedAt *time.Time
+	Name      string `sql:"type:varchar(30)"`
 }

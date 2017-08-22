@@ -17,7 +17,7 @@ func NewEngine() *echo.Echo {
 	e.HTTPErrorHandler = HTTPErrorHandler
 
 	// Add html templates with go template syntax
-	renderer := NewTemplateRenderer("../templates/layouts/*.html", "../templates/*.html")
+	renderer := NewTemplateRenderer(c.TemplateDir+"/layouts/*.html", c.TemplateDir+"/*.html")
 	e.Renderer = renderer
 
 	// add controllers
@@ -25,14 +25,14 @@ func NewEngine() *echo.Echo {
 	feedCtrl := new(Feed)
 	importCtrl := new(Importer)
 
+	// add api endpoints
+	g := e.Group("/api")
+	g.GET("/:id", userCtrl.GetUserJSON)
+
 	// add routes
 	e.GET("/:id", userCtrl.GetUser)
 	e.GET("/:id/details", userCtrl.GetUserDetails)
 	e.POST("/import", importCtrl.ImportUser)
-
-	// add api endpoints
-	g := e.Group("/api")
-	g.GET("/:id", userCtrl.GetUserJSON)
 
 	// add feed
 	e.GET("/feed", feedCtrl.GetFeed)

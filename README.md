@@ -13,6 +13,7 @@ Modern Web Application with Golang
 
 ```
 $ go get ./...
+$ docker-compose up
 $ go run main.go
 ```
 

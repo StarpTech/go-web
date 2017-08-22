@@ -4,6 +4,8 @@ import (
 	"net/http"
 
 	"github.com/labstack/echo"
+	"github.com/starptech/go-web/db"
+	"github.com/starptech/go-web/models"
 )
 
 type Importer struct{}
@@ -19,6 +21,13 @@ func (ctrl Importer) ImportUser(c echo.Context) error {
 	if err != nil {
 		c.Logger().Fatalf("entity could not be bound %q", err)
 		return c.String(http.StatusBadRequest, "")
+	}
+
+	model := models.User{Name: u.Name}
+	db := db.GetDB()
+	if db.Create(&model).Error != nil {
+		c.Logger().Fatalf("entity could not be created %q", err)
+		return c.JSON(http.StatusBadRequest, u)
 	}
 
 	return c.JSON(http.StatusOK, u)
