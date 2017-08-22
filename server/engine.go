@@ -37,10 +37,10 @@ func NewEngine() *echo.Echo {
 	// add routes
 	e.GET("/users/:id", userCtrl.GetUser)
 	e.GET("/users/:id/details", userCtrl.GetUserDetails)
-	e.POST("/recipes/import", importCtrl.ImportUser)
+	e.POST("/users/import", importCtrl.ImportUser)
 
 	// add feed
-	e.GET("/recipes/feed", feedCtrl.GetFeed)
+	e.GET("/users/feed", feedCtrl.GetFeed)
 
 	return e
 }
