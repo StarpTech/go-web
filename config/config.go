@@ -6,24 +6,31 @@ import (
 	"path"
 
 	"github.com/caarlos0/env"
+	"github.com/joho/godotenv"
+	"github.com/labstack/gommon/log"
 )
 
 var config *configuration
 
 type configuration struct {
-	Port             string   `env:"PORT" envDefault:":8080"`
-	Dialect          string   `env:"DIALECT" envDefault:"postgres"`
-	PublicDir        string   `env:"PUBLIC_DIR" envDefault:"public"`
-	TemplateDir      string   `env:"TPL_DIR" envDefault:"templates"`
-	ConnectionString string   `env:"CONNECTION_STRING" envDefault:"host=localhost user=gorm dbname=gorm sslmode=disable password=mypassword"`
-	IsProduction     bool     `env:"PRODUCTION"`
-	GrayLogAddr      string   `env:"GRAYLOG_ADDR" envDefault:""`
-	Hosts            []string `env:"HOSTS" envSeparator:":"`
+	Address          string `env:"ADDRESS" envDefault:":8080"`
+	Dialect          string `env:"DIALECT" envDefault:"postgres"`
+	PublicDir        string `env:"PUBLIC_DIR" envDefault:"public"`
+	TemplateDir      string `env:"TPL_DIR" envDefault:"templates"`
+	ConnectionString string `env:"CONNECTION_STRING" envDefault:""`
+	IsProduction     bool   `env:"PRODUCTION"`
+	GrayLogAddr      string `env:"GRAYLOG_ADDR" envDefault:""`
 }
 
 func init() {
+
+	err := godotenv.Load()
+	if err != nil {
+		log.Info("No .env file could be found")
+	}
+
 	cfg := configuration{}
-	err := env.Parse(&cfg)
+	err = env.Parse(&cfg)
 	if err != nil {
 		fmt.Printf("%+v\n", err)
 	}

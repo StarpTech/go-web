@@ -14,5 +14,5 @@ func main() {
 
 	// start server
 	echo := server.NewEngine()
-	echo.Logger.Fatal(echo.Start(config.Port))
+	echo.Logger.Fatal(echo.Start(config.Address))
 }

@@ -8,6 +8,7 @@ Modern Web Application with Golang "Keep it simple, stupid"
 - Language [Go](https://golang.org/) +1.8
 - ORM library [gorm](https://github.com/jinzhu/gorm)
 - Configuration [env](github.com/caarlos0/env)
+- Load ENV variables from .env file [godotenv](go get github.com/joho/godotenv)
 - Payload validation [validator](https://github.com/go-playground/validator)
 
 # Getting Started
@@ -23,6 +24,8 @@ $ go run main.go
 - [X] Testsuite
 - [X] Parameter Validation
 - [X] Configuration
+- [X] Load ENV variables from .env file
+- [X] Add Graylog logger
 - [X] Frontend build pipeline
 - [X] Postgresql models
 - [X] Web Development with Custom elements
