@@ -25,4 +25,4 @@ $ go run main.go
 - [X] Configuration
 - [X] Frontend build pipeline
 - [X] Postgresql models
-- [ ] Web Development with Custom elements
+- [X] Web Development with Custom elements
