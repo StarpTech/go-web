@@ -34,9 +34,6 @@ func (t *templateRenderer) Render(w io.Writer, name string, data interface{}, c 
 }
 
 func (t *templateRenderer) Load(layoutsDir, templatesDir string) {
-
-	fmt.Println(layoutsDir, templatesDir)
-
 	layouts, err := filepath.Glob(layoutsDir)
 	if err != nil {
 		log.Fatal(err)

@@ -13,6 +13,7 @@ var config *configuration
 type configuration struct {
 	Port             string   `env:"PORT" envDefault:":8080"`
 	Dialect          string   `env:"dialect" envDefault:"postgres"`
+	PublicDir        string   `env:"publicDir" envDefault:"public"`
 	TemplateDir      string   `env:"templateDir" envDefault:"templates"`
 	ConnectionString string   `env:"connectionString" envDefault:"host=localhost user=gorm dbname=gorm sslmode=disable password=mypassword"`
 	IsProduction     bool     `env:"PRODUCTION"`
@@ -32,6 +33,7 @@ func init() {
 	}
 
 	cfg.TemplateDir = path.Join(wd, cfg.TemplateDir)
+	cfg.PublicDir = path.Join(wd, cfg.PublicDir)
 	config = &cfg
 }
 

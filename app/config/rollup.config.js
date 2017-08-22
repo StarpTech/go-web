@@ -6,30 +6,32 @@ import bundleSize from './rollup-plugin-bundle-size'
 import scssTask from './rollup.scss.config'
 import uglifyTask from './rollup.uglify.config'
 
-const distPath = 'dist/bundle'
+const componentsDistPath = 'dist/components'
+const userDistPath = 'dist/user'
+const userDetailsDistPath = 'dist/user-details'
 
-const defaultConfig = {
-  input: 'src/main.js',
+const componentConfig = {
+  input: 'src/components.js',
   plugins: [
     json(),
     resolve({
       browser: true
     }),
     scssTask({
-      distPath
+      distPath: componentsDistPath
     }),
     babel({
       exclude: 'node_modules/**'
     }),
     uglifyTask({
-      distPath
+      distPath: componentsDistPath
     }),
     bundleSize()
   ],
   output: {
-    file: `${distPath}.js`,
+    file: `${componentsDistPath}.js`,
     format: 'iife',
-    name: 'App',
+    name: 'Components',
     sourcemap: true
   },
   watch: {
@@ -37,4 +39,62 @@ const defaultConfig = {
   }
 }
 
-export default defaultConfig
+const userConfig = {
+  input: 'src/user.js',
+  plugins: [
+    json(),
+    resolve({
+      browser: true
+    }),
+    scssTask({
+      distPath: userDistPath
+    }),
+    babel({
+      exclude: 'node_modules/**'
+    }),
+    uglifyTask({
+      distPath: userDistPath
+    }),
+    bundleSize()
+  ],
+  output: {
+    file: `${userDistPath}.js`,
+    format: 'iife',
+    name: 'User',
+    sourcemap: true
+  },
+  watch: {
+    exclude: ['node_modules/**']
+  }
+}
+
+const userDetailsConfig = {
+  input: 'src/user-details.js',
+  plugins: [
+    json(),
+    resolve({
+      browser: true
+    }),
+    scssTask({
+      distPath: userDetailsDistPath
+    }),
+    babel({
+      exclude: 'node_modules/**'
+    }),
+    uglifyTask({
+      distPath: userDetailsDistPath
+    }),
+    bundleSize()
+  ],
+  output: {
+    file: `${userDetailsDistPath}.js`,
+    format: 'iife',
+    name: 'UserDetails',
+    sourcemap: true
+  },
+  watch: {
+    exclude: ['node_modules/**']
+  }
+}
+
+export default [componentConfig, userConfig, userDetailsConfig]

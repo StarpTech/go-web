@@ -24,9 +24,12 @@ func (ctrl Importer) ImportUser(c echo.Context) error {
 		return c.String(http.StatusBadRequest, "") // @TODO consistent error handling
 	}
 
-	if errV := c.Validate(u).(validator.ValidationErrors); errV != nil {
-		c.Logger().Error(errV.Error())
-		return errors.New(errV.Error())
+	errV := c.Validate(u)
+
+	if errV != nil {
+		err := errV.(validator.ValidationErrors)
+		c.Logger().Error(err.Error())
+		return errors.New(err.Error())
 	}
 
 	model := models.User{Name: u.Name}

@@ -23,5 +23,6 @@ $ go run main.go
 - [X] Testsuite
 - [X] Parameter Validation
 - [X] Configuration
-- [ ] Frontend build pipeline
+- [X] Frontend build pipeline
 - [X] Postgresql models
+- [ ] Web Development with Custom elements
