@@ -32,15 +32,15 @@ func NewEngine() *echo.Echo {
 
 	// add api endpoints
 	g := e.Group("/api")
-	g.GET("/recipe/:id", userCtrl.GetUserJSON)
+	g.GET("/users/:id", userCtrl.GetUserJSON)
 
 	// add routes
-	e.GET("/recipe/:id", userCtrl.GetUser)
-	e.GET("/recipe/:id/details", userCtrl.GetUserDetails)
-	e.POST("/import", importCtrl.ImportUser)
+	e.GET("/users/:id", userCtrl.GetUser)
+	e.GET("/users/:id/details", userCtrl.GetUserDetails)
+	e.POST("/recipes/import", importCtrl.ImportUser)
 
 	// add feed
-	e.GET("/feed", feedCtrl.GetFeed)
+	e.GET("/recipes/feed", feedCtrl.GetFeed)
 
 	return e
 }

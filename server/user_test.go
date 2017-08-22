@@ -11,7 +11,7 @@ import (
 
 func TestUserPage(t *testing.T) {
 	e := NewEngine()
-	req := httptest.NewRequest(echo.GET, "/recipe/1", nil)
+	req := httptest.NewRequest(echo.GET, "/users/1", nil)
 	rec := httptest.NewRecorder()
 	e.ServeHTTP(rec, req)
 	assert.Equal(t, http.StatusOK, rec.Code)
@@ -19,7 +19,7 @@ func TestUserPage(t *testing.T) {
 
 func TestUserDetailPage(t *testing.T) {
 	e := NewEngine()
-	req := httptest.NewRequest(echo.GET, "/recipe/1/details", nil)
+	req := httptest.NewRequest(echo.GET, "/users/1/details", nil)
 	rec := httptest.NewRecorder()
 	e.ServeHTTP(rec, req)
 	assert.Equal(t, http.StatusOK, rec.Code)

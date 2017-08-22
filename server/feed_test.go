@@ -11,7 +11,7 @@ import (
 
 func TestFeed(t *testing.T) {
 	e := NewEngine()
-	req := httptest.NewRequest(echo.GET, "/feed", nil)
+	req := httptest.NewRequest(echo.GET, "/recipes/feed", nil)
 	rec := httptest.NewRecorder()
 	e.ServeHTTP(rec, req)
 	assert.Equal(t, http.StatusOK, rec.Code)
