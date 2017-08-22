@@ -37,3 +37,5 @@ $ go run main.go
 - [] Benchmarks
 - [] Unit tests
 - [] Setup Travis CI with static code analysis
+- [] Swagger Documentation
+- [] Code documentation `godoc`
