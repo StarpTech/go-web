@@ -7,8 +7,8 @@ Modern Web Application with Golang "Keep it simple, stupid"
 - HTTP Middleware [Echo](https://echo.labstack.com/)
 - Language [Go](https://golang.org/) +1.8
 - ORM library [gorm](https://github.com/jinzhu/gorm)
-- Configuration [env](github.com/caarlos0/env)
-- Load ENV variables from .env file [godotenv](go get github.com/joho/godotenv)
+- Configuration [env](https://github.com/caarlos0/env)
+- Load ENV variables from .env file [godotenv](https://github.com/joho/godotenv)
 - Payload validation [validator](https://github.com/go-playground/validator)
 
 # Getting Started
