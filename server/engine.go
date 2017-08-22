@@ -1,22 +1,45 @@
 package server
 
 import (
+	"io"
+	"os"
+
 	"github.com/labstack/echo"
 	"github.com/labstack/echo/middleware"
+	"github.com/labstack/gommon/log"
 	"github.com/starptech/go-web/config"
+	"gopkg.in/Graylog2/go-gelf.v2/gelf"
 	v "gopkg.in/go-playground/validator.v9"
 )
 
 func NewEngine() *echo.Echo {
 	c := config.GetConfig()
 	e := echo.New()
-	e.Debug = !c.IsProduction
+
+	logger := log.New("server")
+
+	if c.GrayLogAddr != "" {
+		gelfWriter, err := gelf.NewUDPWriter(c.GrayLogAddr)
+		if err != nil {
+			logger.Fatalf("gelf.NewWriter: %s", err)
+		}
+		// Log to greylog and stderr
+		logger.SetOutput(io.MultiWriter(os.Stderr, gelfWriter))
+	}
+
+	// enable colors for beautying the beast
+	if c.IsProduction {
+		logger.EnableColor()
+		e.Logger.SetLevel(log.DEBUG)
+	} else {
+		e.Logger.SetLevel(log.ERROR)
+	}
+
+	e.Logger = logger
 
 	// define validator
 	e.Validator = &Validator{validator: v.New()}
 	e.Use(middleware.Recover())
-	e.Use(middleware.Logger())
-
 	// add custom error formatter
 	e.HTTPErrorHandler = HTTPErrorHandler
 
