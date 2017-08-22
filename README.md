@@ -4,8 +4,17 @@
 Modern Web Application with Golang
 
 # Stack
-- [Echo](https://echo.labstack.com/)
-- [Go](https://golang.org/) +1.8
+- HTTP Middleware [Echo](https://echo.labstack.com/)
+- Language [Go](https://golang.org/) +1.8
+- ORM library [gorm](https://github.com/jinzhu/gorm)
+- Configuration [env](github.com/caarlos0/env)
+
+# Getting Started
+
+```
+$ go get ./...
+$ go run main.go
+```
 
 # TODO
 

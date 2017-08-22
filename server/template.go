@@ -64,6 +64,4 @@ func (t *templateRenderer) Load(layoutsDir, templatesDir string) {
 
 		t.templates[fileName] = template.Must(t.templates[fileName].ParseFiles(files...))
 	}
-
-	fmt.Println(t.templates)
 }

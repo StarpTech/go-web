@@ -1,8 +1,12 @@
 package main
 
-import s "github.com/starptech/go-web/server"
+import (
+	config "github.com/starptech/go-web/config"
+	server "github.com/starptech/go-web/server"
+)
 
 func main() {
-	s := s.New()
-	s.Logger.Fatal(s.Start(":8080"))
+	config := config.GetConfig()
+	echo := server.NewEngine()
+	echo.Logger.Fatal(echo.Start(config.Port))
 }
