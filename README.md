@@ -28,4 +28,5 @@ $ go run main.go
 - [X] Add Graylog logger
 - [X] Frontend build pipeline
 - [X] Postgresql models
+- [X] Gracefully shutdown
 - [X] Web Development with Custom elements

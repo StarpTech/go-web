@@ -11,11 +11,13 @@ import (
 func NewEngine() *echo.Echo {
 	c := config.GetConfig()
 	e := echo.New()
-	e.Logger = logger.Log
+	e.Logger = logger.GetLogger()
 
 	// define validator
 	e.Validator = &Validator{validator: v.New()}
 	e.Use(middleware.Recover())
+	e.Use(middleware.Logger())
+
 	// add custom error formatter
 	e.HTTPErrorHandler = HTTPErrorHandler
 
@@ -30,18 +32,15 @@ func NewEngine() *echo.Echo {
 
 	// add api endpoints
 	g := e.Group("/api")
-	g.GET("/:id", userCtrl.GetUserJSON)
+	g.GET("/recipe/:id", userCtrl.GetUserJSON)
 
 	// add routes
-	e.GET("/:id", userCtrl.GetUser)
-	e.GET("/:id/details", userCtrl.GetUserDetails)
+	e.GET("/recipe/:id", userCtrl.GetUser)
+	e.GET("/recipe/:id/details", userCtrl.GetUserDetails)
 	e.POST("/import", importCtrl.ImportUser)
 
 	// add feed
 	e.GET("/feed", feedCtrl.GetFeed)
-
-	// add static files
-	e.Static("/", c.PublicDir)
 
 	return e
 }

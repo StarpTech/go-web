@@ -9,12 +9,12 @@ import (
 	"gopkg.in/Graylog2/go-gelf.v2/gelf"
 )
 
-var Log *log.Logger
+var logger *log.Logger
 
 func init() {
 	c := config.GetConfig()
 
-	logger := log.New("server")
+	l := log.New("server")
 
 	if c.GrayLogAddr != "" {
 		gelfWriter, err := gelf.NewUDPWriter(c.GrayLogAddr)
@@ -22,17 +22,21 @@ func init() {
 			log.Fatalf("gelf.NewWriter: %s", err)
 		}
 		// Log to greylog and stderr
-		logger.SetOutput(io.MultiWriter(os.Stderr, gelfWriter))
+		l.SetOutput(io.MultiWriter(os.Stderr, gelfWriter))
 	}
 
 	// enable colors to beauty the beast
 	if !c.IsProduction {
-		logger.EnableColor()
-		logger.SetLevel(log.DEBUG)
+		l.EnableColor()
+		l.SetLevel(log.DEBUG)
 	} else {
-		logger.SetLevel(log.ERROR)
+		l.SetLevel(log.ERROR)
 	}
 
-	Log = logger
+	logger = l
 
+}
+
+func GetLogger() *log.Logger {
+	return logger
 }

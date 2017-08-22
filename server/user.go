@@ -16,7 +16,7 @@ func (ctrl User) GetUser(c echo.Context) error {
 	userID, err := strconv.Atoi(up)
 
 	if err != nil {
-		c.Logger().Error("invalid user id")
+		c.Logger().Errorf("invalid user id: %s", err)
 		return c.String(http.StatusBadRequest, "")
 	}
 
@@ -36,7 +36,7 @@ func (ctrl User) GetUserDetails(c echo.Context) error {
 	userID, err := strconv.Atoi(up)
 
 	if err != nil {
-		c.Logger().Error("invalid user id")
+		c.Logger().Errorf("invalid user id: %s", err)
 		return c.String(http.StatusBadRequest, "") // @TODO consistent error handling
 	}
 
@@ -56,7 +56,7 @@ func (ctrl User) GetUserJSON(c echo.Context) error {
 	userID, err := strconv.Atoi(up)
 
 	if err != nil {
-		c.Logger().Error("invalid user id")
+		c.Logger().Errorf("invalid user id: %s", err)
 		return c.String(http.StatusBadRequest, "") // @TODO consistent error handling
 	}
 
