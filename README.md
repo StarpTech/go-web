@@ -29,4 +29,5 @@ $ go run main.go
 - [X] Frontend build pipeline
 - [X] Postgresql models
 - [X] Gracefully shutdown
+- [X] Consistent error-handling
 - [X] Web Development with Custom elements

@@ -20,8 +20,9 @@ func (ctrl Importer) ImportUser(c echo.Context) error {
 	u := new(UserEntity)
 
 	if errB := c.Bind(u); errB != nil {
-		c.Logger().Errorf("entity could not be bound %q", errB)
-		return c.String(http.StatusBadRequest, "") // @TODO consistent error handling
+		b := boom{Code: InvalidBindingModel, Message: "invalid user model", Details: errB}
+		c.Logger().Error(errB)
+		return c.JSON(http.StatusBadRequest, b)
 	}
 
 	errV := c.Validate(u)
@@ -36,8 +37,9 @@ func (ctrl Importer) ImportUser(c echo.Context) error {
 	db := db.GetDB()
 
 	if errM := db.Create(&model).Error; errM != nil {
-		c.Logger().Errorf("entity could not be created %q", errM)
-		return c.JSON(http.StatusBadRequest, u) // @TODO consistent error handling
+		b := boom{Code: EntityCreationError, Message: "user could not be created", Details: errM}
+		c.Logger().Error(errM)
+		return c.JSON(http.StatusBadRequest, b)
 	}
 
 	return c.JSON(http.StatusOK, u)
