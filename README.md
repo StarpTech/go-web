@@ -10,6 +10,7 @@ Modern Web Application with Golang "Keep it simple, stupid"
 - Configuration [env](https://github.com/caarlos0/env)
 - Load ENV variables from .env file [godotenv](https://github.com/joho/godotenv)
 - Payload validation [validator](https://github.com/go-playground/validator)
+- Templating [Go Templates](https://golang.org/pkg/text/template/)
 
 # Getting Started
 
@@ -31,6 +32,7 @@ $ go run main.go
 - [X] Gracefully shutdown
 - [X] Consistent error-handling
 - [X] Web Development with Custom elements
+- [X] Templating
 - [ ] Correct linking with the app bundles
 - [ ] Metric endpoint
 - [ ] JWT Decoding
