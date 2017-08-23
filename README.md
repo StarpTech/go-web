@@ -1,5 +1,7 @@
 ![big-gopher](big-gopher.png)
 
+[![Build Status](https://travis-ci.org/StarpTech/go-web.svg?branch=master)](https://travis-ci.org/StarpTech/go-web)
+
 # Go-Web
 Modern Web Application with Golang "Keep it simple, stupid"
 
