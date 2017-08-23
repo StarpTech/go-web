@@ -33,7 +33,7 @@ $ go run main.go
 - [X] Consistent error-handling
 - [X] Web Development with Custom elements
 - [X] Templating
-- [ ] Correct linking with the app bundles
+- [X] Correct linking with the app bundles
 - [X] Metric endpoint (Prometheus)
 - [X] Healthcheck endpoint
 - [ ] JWT Decoding

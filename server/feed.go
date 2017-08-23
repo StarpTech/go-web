@@ -9,7 +9,7 @@ import (
 
 type Feed struct{}
 
-func (ctrl Feed) GetFeed(db *gorm.DB) echo.HandlerFunc {
+func (ctrl Feed) GetFeed(db *gorm.DB, config *Configuration) echo.HandlerFunc {
 	return func(c echo.Context) error {
 		var user struct {
 			Name string `json:"name"`

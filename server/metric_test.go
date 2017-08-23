@@ -9,10 +9,10 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-func TestFeed(t *testing.T) {
-	req := httptest.NewRequest(echo.GET, "/users/feed", nil)
+func TestMetric(t *testing.T) {
+	req := httptest.NewRequest(echo.GET, "/.well-known/metrics", nil)
 	rec := httptest.NewRecorder()
-
 	e.engine.Echo.ServeHTTP(rec, req)
+
 	assert.Equal(t, http.StatusOK, rec.Code)
 }

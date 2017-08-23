@@ -5,14 +5,19 @@ import (
 )
 
 func main() {
-	e := server.NewEngine()
+	config := server.NewConfig()
+	logger := server.NewLogger(config.GrayLogAddr, config.IsProduction)
 
-	m := server.Migration{Db: e.Db}
+	engine := server.NewEngine(config)
+	engine.SetLogger(logger)
+	engine.ServeStaticFiles()
+
+	m := server.Migration{Db: engine.Db}
 	m.Up()
 
 	go func() {
-		e.Echo.Logger.Fatal(e.Echo.Start(e.Config.Address))
+		logger.Fatal(engine.Start(config.Address))
 	}()
 
-	e.GracefulShutdown()
+	engine.GracefulShutdown()
 }

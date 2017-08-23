@@ -9,9 +9,15 @@ import (
 	"github.com/starptech/go-web/models"
 )
 
-type User struct{}
+type (
+	User          struct{}
+	UserViewModel struct {
+		Name      string
+		PublicDir string
+	}
+)
 
-func (ctrl User) GetUser(db *gorm.DB) echo.HandlerFunc {
+func (ctrl User) GetUser(db *gorm.DB, config *Configuration) echo.HandlerFunc {
 	return func(c echo.Context) error {
 		up := c.Param("id")
 		userID, err := strconv.Atoi(up)
@@ -32,11 +38,16 @@ func (ctrl User) GetUser(db *gorm.DB) echo.HandlerFunc {
 			return c.JSON(http.StatusNotFound, b)
 		}
 
-		return c.Render(http.StatusOK, "user.html", user)
+		vm := UserViewModel{
+			Name:      user.Name,
+			PublicDir: config.AssetsPublicDir,
+		}
+
+		return c.Render(http.StatusOK, "user.html", vm)
 	}
 }
 
-func (ctrl User) GetUserDetails(db *gorm.DB) echo.HandlerFunc {
+func (ctrl User) GetUserDetails(db *gorm.DB, config *Configuration) echo.HandlerFunc {
 	return func(c echo.Context) error {
 		up := c.Param("id")
 		userID, err := strconv.Atoi(up)
@@ -57,11 +68,16 @@ func (ctrl User) GetUserDetails(db *gorm.DB) echo.HandlerFunc {
 			return c.JSON(http.StatusNotFound, b)
 		}
 
-		return c.Render(http.StatusOK, "details.html", user)
+		vm := UserViewModel{
+			Name:      user.Name,
+			PublicDir: config.AssetsPublicDir,
+		}
+
+		return c.Render(http.StatusOK, "details.html", vm)
 	}
 }
 
-func (ctrl User) GetUserJSON(db *gorm.DB) echo.HandlerFunc {
+func (ctrl User) GetUserJSON(db *gorm.DB, config *Configuration) echo.HandlerFunc {
 	return func(c echo.Context) error {
 		up := c.Param("id")
 		userID, err := strconv.Atoi(up)
@@ -82,6 +98,11 @@ func (ctrl User) GetUserJSON(db *gorm.DB) echo.HandlerFunc {
 			return c.JSON(http.StatusNotFound, b)
 		}
 
-		return c.JSON(http.StatusOK, user)
+		vm := UserViewModel{
+			Name:      user.Name,
+			PublicDir: config.AssetsPublicDir,
+		}
+
+		return c.JSON(http.StatusOK, vm)
 	}
 }

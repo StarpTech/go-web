@@ -11,10 +11,10 @@ import (
 )
 
 func TestImportRecipe(t *testing.T) {
-	e := NewEngine()
-	req := httptest.NewRequest(echo.POST, "/recipes/import", strings.NewReader(`{ "name": "bernd" }`))
+	req := httptest.NewRequest(echo.POST, "/users/import", strings.NewReader(`{ "name": "bernd" }`))
 	req.Header.Set("Content-Type", "application/json")
 	rec := httptest.NewRecorder()
-	e.Echo.ServeHTTP(rec, req)
+	e.engine.Echo.ServeHTTP(rec, req)
+
 	assert.Equal(t, http.StatusOK, rec.Code)
 }

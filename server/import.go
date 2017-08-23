@@ -16,7 +16,7 @@ type UserEntity struct {
 	Name string `json:"name" validate:"required"`
 }
 
-func (ctrl Importer) ImportUser(db *gorm.DB) echo.HandlerFunc {
+func (ctrl Importer) ImportUser(db *gorm.DB, config *Configuration) echo.HandlerFunc {
 	return func(c echo.Context) error {
 		u := new(UserEntity)
 

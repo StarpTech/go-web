@@ -1,11 +1,11 @@
 {{define "js"}}
-<script src="/user.js"></script>
+<script src="{{.PublicDir}}/user.js"></script>
 {{end}}
 
 
 {{define "style"}}
-<link href="/components.css"></link>
-<link href="/user.css"></link>
+<link href="{{.PublicDir}}/components.css"></link>
+<link href="{{.PublicDir}}/user.css"></link>
 {{end}}
 
 {{define "title"}}User{{end}}
