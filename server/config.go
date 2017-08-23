@@ -23,7 +23,7 @@ func NewConfig(files ...string) *Configuration {
 	err := godotenv.Load(files...)
 
 	if err != nil {
-		log.Info("No .env file could be found")
+		log.Infof("No .env file could be found %q", files)
 	}
 
 	cfg := Configuration{}

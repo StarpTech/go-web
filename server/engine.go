@@ -50,14 +50,18 @@ func NewEngine(config *Configuration) *Engine {
 	healthCtrl := new(Healthcheck)
 	importCtrl := new(Importer)
 
+	// api rest endpoints
 	g := engine.Echo.Group("/api")
 	g.GET("/users/:id", userCtrl.GetUserJSON(engine.Db, engine.Config))
 
+	// pages
 	u := engine.Echo.Group("/users")
 	u.GET("/:id", userCtrl.GetUser(engine.Db, engine.Config))
 	u.GET("/:id/details", userCtrl.GetUserDetails(engine.Db, engine.Config))
-	u.POST("/import", importCtrl.ImportUser(engine.Db, engine.Config))
-	u.GET("/feed", feedCtrl.GetFeed(engine.Db, engine.Config))
+
+	// special endpoints
+	engine.Echo.POST("/import", importCtrl.ImportUser(engine.Db, engine.Config))
+	engine.Echo.GET("/feed", feedCtrl.GetFeed(engine.Db, engine.Config))
 
 	// metric / health endpoint according to RFC 5785
 	engine.Echo.GET("/.well-known/health-check", healthCtrl.GetHealthcheck(engine.Db))
