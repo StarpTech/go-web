@@ -15,12 +15,13 @@ import (
 )
 
 type Engine struct {
-	Echo   *echo.Echo
-	Config *config.Configuration
-	Logger *log.Logger
-	Db     *gorm.DB
+	Echo   *echo.Echo            // HTTP middleware
+	Config *config.Configuration // Central configuration
+	Logger *log.Logger           // Global logger also for request logging
+	Db     *gorm.DB              // database connection
 }
 
+// NewEngine is created a new instance of the application
 func NewEngine() *Engine {
 
 	config := config.GetConfig()
@@ -49,6 +50,7 @@ func NewEngine() *Engine {
 	// add controllers
 	userCtrl := new(User)
 	feedCtrl := new(Feed)
+	metricCtrl := new(Metric)
 	importCtrl := new(Importer)
 
 	g := engine.Echo.Group("/api")
@@ -59,6 +61,9 @@ func NewEngine() *Engine {
 	u.GET("/:id/details", userCtrl.GetUserDetails(db))
 	u.POST("/import", importCtrl.ImportUser(db))
 	u.GET("/feed", feedCtrl.GetFeed(db))
+
+	// metric endpoint according to RFC 5785
+	engine.Echo.GET("/.well-known/health-check", metricCtrl.GetMetric(db))
 
 	return engine
 }

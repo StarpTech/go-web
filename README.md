@@ -34,10 +34,10 @@ $ go run main.go
 - [X] Web Development with Custom elements
 - [X] Templating
 - [ ] Correct linking with the app bundles
-- [ ] Metric endpoint
+- [X] Metric endpoint
 - [ ] JWT Decoding
 - [ ] Benchmarks
 - [ ] Unit tests
-- [ ] Setup Travis CI with static code analysis
+- [X] Setup Travis CI with static code analysis
 - [ ] Swagger Documentation
 - [ ] Code documentation `godoc`
