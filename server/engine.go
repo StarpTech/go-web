@@ -10,6 +10,7 @@ import (
 	"github.com/labstack/echo"
 	"github.com/labstack/echo/middleware"
 	"github.com/labstack/gommon/log"
+	"github.com/prometheus/client_golang/prometheus/promhttp"
 	"github.com/starptech/go-web/config"
 	v "gopkg.in/go-playground/validator.v9"
 )
@@ -50,7 +51,7 @@ func NewEngine() *Engine {
 	// add controllers
 	userCtrl := new(User)
 	feedCtrl := new(Feed)
-	metricCtrl := new(Metric)
+	healthCtrl := new(Healthcheck)
 	importCtrl := new(Importer)
 
 	g := engine.Echo.Group("/api")
@@ -62,8 +63,9 @@ func NewEngine() *Engine {
 	u.POST("/import", importCtrl.ImportUser(db))
 	u.GET("/feed", feedCtrl.GetFeed(db))
 
-	// metric endpoint according to RFC 5785
-	engine.Echo.GET("/.well-known/health-check", metricCtrl.GetMetric(db))
+	// metric / health endpoint according to RFC 5785
+	engine.Echo.GET("/.well-known/health-check", healthCtrl.GetHealthcheck(db))
+	engine.Echo.GET("/.well-known/metrics", echo.WrapHandler(promhttp.Handler()))
 
 	return engine
 }

@@ -34,7 +34,8 @@ $ go run main.go
 - [X] Web Development with Custom elements
 - [X] Templating
 - [ ] Correct linking with the app bundles
-- [X] Metric endpoint
+- [X] Metric endpoint (Prometheus)
+- [X] Healthcheck endpoint (Prometheus)
 - [ ] JWT Decoding
 - [ ] Benchmarks
 - [ ] Unit tests
