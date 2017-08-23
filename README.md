@@ -1,6 +1,8 @@
 ![big-gopher](big-gopher.png)
 
+
 [![Build Status](https://travis-ci.org/StarpTech/go-web.svg?branch=master)](https://travis-ci.org/StarpTech/go-web)
+[![Go Report Card](https://goreportcard.com/badge/github.com/StarpTech/go-web)](https://goreportcard.com/report/github.com/StarpTech/go-web)
 
 # Go-Web
 Modern Web Application with Golang "Keep it simple, stupid"
