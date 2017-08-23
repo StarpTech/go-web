@@ -15,6 +15,8 @@ Modern Web Application with Golang "Keep it simple, stupid"
 - Load ENV variables from .env file [godotenv](https://github.com/joho/godotenv)
 - Payload validation [validator](https://github.com/go-playground/validator)
 - Templating [Go Templates](https://golang.org/pkg/text/template/)
+- Frontend module bundler [rollupjs](https://rollupjs.org/)
+- Stylesheet language [sass](http://sass-lang.com/)
 
 # Getting Started
 
