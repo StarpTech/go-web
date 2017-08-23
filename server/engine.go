@@ -63,6 +63,8 @@ func NewEngine() *Engine {
 	u.POST("/import", importCtrl.ImportUser(db))
 	u.GET("/feed", feedCtrl.GetFeed(db))
 
+	engine.Echo.Static("/", config.PublicDir)
+
 	// metric / health endpoint according to RFC 5785
 	engine.Echo.GET("/.well-known/health-check", healthCtrl.GetHealthcheck(db))
 	engine.Echo.GET("/.well-known/metrics", echo.WrapHandler(promhttp.Handler()))
