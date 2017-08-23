@@ -5,7 +5,6 @@ import (
 	"net/http"
 
 	"github.com/labstack/echo"
-	"github.com/starptech/go-web/db"
 	"github.com/starptech/go-web/models"
 	validator "gopkg.in/go-playground/validator.v9"
 )
@@ -34,7 +33,6 @@ func (ctrl Importer) ImportUser(c echo.Context) error {
 	}
 
 	model := models.User{Name: u.Name}
-	db := db.GetDB()
 
 	if errM := db.Create(&model).Error; errM != nil {
 		b := boom{Code: EntityCreationError, Message: "user could not be created", Details: errM}

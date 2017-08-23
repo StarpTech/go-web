@@ -15,6 +15,6 @@ func TestImportRecipe(t *testing.T) {
 	req := httptest.NewRequest(echo.POST, "/recipes/import", strings.NewReader(`{ "name": "bernd" }`))
 	req.Header.Set("Content-Type", "application/json")
 	rec := httptest.NewRecorder()
-	e.ServeHTTP(rec, req)
+	e.Echo.ServeHTTP(rec, req)
 	assert.Equal(t, http.StatusOK, rec.Code)
 }

@@ -5,7 +5,6 @@ import (
 	"strconv"
 
 	"github.com/labstack/echo"
-	"github.com/starptech/go-web/db"
 	"github.com/starptech/go-web/models"
 )
 
@@ -21,7 +20,6 @@ func (ctrl User) GetUser(c echo.Context) error {
 		return c.JSON(http.StatusBadRequest, b)
 	}
 
-	db := db.GetDB()
 	user := models.User{ID: uint64(userID)}
 
 	err = db.First(&user).Error
@@ -45,7 +43,6 @@ func (ctrl User) GetUserDetails(c echo.Context) error {
 		return c.JSON(http.StatusBadRequest, b)
 	}
 
-	db := db.GetDB()
 	user := models.User{ID: uint64(userID)}
 
 	err = db.First(&user).Error
@@ -69,7 +66,6 @@ func (ctrl User) GetUserJSON(c echo.Context) error {
 		return c.JSON(http.StatusBadRequest, b)
 	}
 
-	db := db.GetDB()
 	user := models.User{ID: uint64(userID)}
 
 	err = db.First(&user).Error

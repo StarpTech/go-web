@@ -10,9 +10,9 @@ import (
 	"github.com/labstack/gommon/log"
 )
 
-var config *configuration
+var config *Configuration
 
-type configuration struct {
+type Configuration struct {
 	Address          string `env:"ADDRESS" envDefault:":8080"`
 	Dialect          string `env:"DIALECT" envDefault:"postgres"`
 	PublicDir        string `env:"PUBLIC_DIR" envDefault:"public"`
@@ -29,7 +29,7 @@ func init() {
 		log.Info("No .env file could be found")
 	}
 
-	cfg := configuration{}
+	cfg := Configuration{}
 	err = env.Parse(&cfg)
 	if err != nil {
 		fmt.Printf("%+v\n", err)
@@ -45,6 +45,6 @@ func init() {
 	config = &cfg
 }
 
-func GetConfig() *configuration {
+func GetConfig() *Configuration {
 	return config
 }
