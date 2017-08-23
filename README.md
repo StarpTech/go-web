@@ -24,6 +24,12 @@ $ docker-compose up
 $ go run main.go
 ```
 
+# Tooling
+
+- IDE plugin [vscode-go](https://github.com/Microsoft/vscode-go)
+- Administration of postgresql database [pgAdmin](https://www.pgadmin.org/)
+- REST client [Postman](https://chrome.google.com/webstore/detail/postman/fhbjgbiflinjbdggehcddcbncdddomop?hl=en)
+
 # TODO
 
 - [X] Testsuite
