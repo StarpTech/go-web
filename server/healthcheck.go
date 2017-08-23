@@ -13,6 +13,7 @@ type healthcheckReport struct {
 	Health string `json:"health"`
 }
 
+// GetHealthcheck return the current functional state of the application
 func (ctrl Healthcheck) GetHealthcheck(db *gorm.DB) echo.HandlerFunc {
 	return func(c echo.Context) error {
 		m := healthcheckReport{"OK"}
