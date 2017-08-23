@@ -1,7 +1,7 @@
 package db
 
 import (
-	"fmt"
+	"log"
 
 	"github.com/jinzhu/gorm"
 	_ "github.com/jinzhu/gorm/dialects/postgres"
@@ -15,7 +15,7 @@ func init() {
 	database, err := gorm.Open(config.Dialect, config.ConnectionString)
 
 	if err != nil {
-		fmt.Printf("could not connect to database %q", err)
+		log.Fatalf("gorm: could not connect to database %q", err)
 	}
 
 	db = database

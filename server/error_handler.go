@@ -13,6 +13,6 @@ func HTTPErrorHandler(err error, c echo.Context) {
 	case *echo.HTTPError:
 		c.JSON(v.Code, v)
 	default:
-		c.JSON(code, v)
+		c.JSON(code, boom{Code: InternalError, Message: "Bad implementation"})
 	}
 }

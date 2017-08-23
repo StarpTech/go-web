@@ -2,9 +2,10 @@ package server
 
 const (
 	InvalidUserID       = "invalidUserID"
+	InternalError       = "internalError"
 	UserNotFound        = "userNotFound"
 	InvalidBindingModel = "invalidBindingModel"
-	EntityCreationError = "EntityCreationError"
+	EntityCreationError = "entityCreationError"
 )
 
 type booms struct {
