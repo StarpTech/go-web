@@ -1,15 +1,18 @@
 package server
 
 import (
+	"github.com/jinzhu/gorm"
 	"github.com/starptech/go-web/models"
 )
 
-type Migration struct{}
+type Migration struct {
+	Db *gorm.DB
+}
 
 func (m *Migration) Up() {
-	db.AutoMigrate(&models.User{})
+	m.Db.AutoMigrate(&models.User{})
 
 	// test data
 	model := models.User{Name: "thorsten"}
-	db.Create(&model)
+	m.Db.Create(&model)
 }

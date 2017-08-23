@@ -7,7 +7,7 @@ import (
 func main() {
 	e := server.NewEngine()
 
-	m := server.Migration{}
+	m := server.Migration{Db: e.Db}
 	m.Up()
 
 	go func() {

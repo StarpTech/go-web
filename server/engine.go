@@ -14,22 +14,21 @@ import (
 	v "gopkg.in/go-playground/validator.v9"
 )
 
-var logger *log.Logger
-var db *gorm.DB
-
 type Engine struct {
 	Echo   *echo.Echo
 	Config *config.Configuration
 	Logger *log.Logger
+	Db     *gorm.DB
 }
 
 func NewEngine() *Engine {
 
 	config := config.GetConfig()
-	db = NewDB(config.Dialect, config.ConnectionString)
-	logger = NewLogger(config.GrayLogAddr, config.IsProduction)
+	db := NewDB(config.Dialect, config.ConnectionString)
+	logger := NewLogger(config.GrayLogAddr, config.IsProduction)
 
 	engine := &Engine{}
+	engine.Db = db
 	engine.Config = config
 	engine.Echo = echo.New()
 	engine.Logger = logger
@@ -53,13 +52,13 @@ func NewEngine() *Engine {
 	importCtrl := new(Importer)
 
 	g := engine.Echo.Group("/api")
-	g.GET("/users/:id", userCtrl.GetUserJSON)
+	g.GET("/users/:id", userCtrl.GetUserJSON(db))
 
 	u := engine.Echo.Group("/users")
-	u.GET("/:id", userCtrl.GetUser)
-	u.GET("/:id/details", userCtrl.GetUserDetails)
-	u.POST("/import", importCtrl.ImportUser)
-	u.GET("/feed", feedCtrl.GetFeed)
+	u.GET("/:id", userCtrl.GetUser(db))
+	u.GET("/:id/details", userCtrl.GetUserDetails(db))
+	u.POST("/import", importCtrl.ImportUser(db))
+	u.GET("/feed", feedCtrl.GetFeed(db))
 
 	return engine
 }
