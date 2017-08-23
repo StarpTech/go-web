@@ -42,6 +42,7 @@ $ go run main.go
 - [X] Healthcheck endpoint
 - [ ] JWT Decoding
 - [ ] Benchmarks
+- [X] Integration tests
 - [ ] Unit tests
 - [X] Setup Travis CI with static code analysis
 - [ ] Swagger Documentation
