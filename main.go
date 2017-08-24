@@ -17,10 +17,10 @@ func main() {
 	// serve files for dev
 	server.ServeStaticFiles()
 
-	userCtrl := &controllers.User{server}
-	feedCtrl := &controllers.Feed{server}
-	healthCtrl := &controllers.Healthcheck{server}
-	importCtrl := &controllers.Importer{server}
+	userCtrl := &controllers.User{Context: server}
+	feedCtrl := &controllers.Feed{Context: server}
+	healthCtrl := &controllers.Healthcheck{Context: server}
+	importCtrl := &controllers.Importer{Context: server}
 
 	// api rest endpoints
 	g := server.Echo.Group("/api")
