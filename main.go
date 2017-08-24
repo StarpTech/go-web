@@ -5,15 +5,15 @@ import (
 	"github.com/prometheus/client_golang/prometheus/promhttp"
 	"github.com/starptech/go-web/config"
 	"github.com/starptech/go-web/controllers"
+	"github.com/starptech/go-web/core"
 	"github.com/starptech/go-web/models"
-	"github.com/starptech/go-web/server"
 )
 
 func main() {
 	config := config.NewConfig()
 
 	// create server
-	server := server.NewServer(config)
+	server := core.NewServer(config)
 	// serve files for dev
 	server.ServeStaticFiles()
 

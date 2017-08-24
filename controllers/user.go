@@ -5,7 +5,7 @@ import (
 	"strconv"
 
 	"github.com/labstack/echo"
-	"github.com/starptech/go-web/boom"
+	"github.com/starptech/go-web/core/errors"
 	"github.com/starptech/go-web/models"
 )
 
@@ -24,7 +24,7 @@ func (ctrl User) GetUser(c echo.Context) error {
 	userID, err := strconv.Atoi(up)
 
 	if err != nil {
-		b := boom.New(boom.InvalidUserID, "invalid user id", err)
+		b := errors.NewBoom(errors.InvalidUserID, "invalid user id", err)
 		c.Logger().Error(err)
 		return c.JSON(http.StatusBadRequest, b)
 	}
@@ -34,7 +34,7 @@ func (ctrl User) GetUser(c echo.Context) error {
 	err = ctrl.Context.GetDB().First(&user).Error
 
 	if err != nil {
-		b := boom.New(boom.UserNotFound, "user could not be found", err)
+		b := errors.NewBoom(errors.UserNotFound, "user could not be found", err)
 		c.Logger().Error(err)
 		return c.JSON(http.StatusNotFound, b)
 	}
@@ -44,7 +44,7 @@ func (ctrl User) GetUser(c echo.Context) error {
 		PublicDir: ctrl.Context.GetConfig().AssetsPublicDir,
 	}
 
-	return c.Render(http.StatusOK, "user.html", vm)
+	return c.JSON(http.StatusOK, "user.html", vm)
 
 }
 
@@ -54,7 +54,7 @@ func (ctrl User) GetUserDetails(c echo.Context) error {
 	userID, err := strconv.Atoi(up)
 
 	if err != nil {
-		b := boom.New(boom.InvalidUserID, "invalid user id", err)
+		b := errors.NewBoom(errors.InvalidUserID, "invalid user id", err)
 		c.Logger().Error(b)
 		return c.JSON(http.StatusBadRequest, b)
 	}
@@ -64,7 +64,7 @@ func (ctrl User) GetUserDetails(c echo.Context) error {
 	err = ctrl.Context.GetDB().First(&user).Error
 
 	if err != nil {
-		b := boom.New(boom.UserNotFound, "user could not be found", err)
+		b := errors.NewBoom(errors.UserNotFound, "user could not be found", err)
 		c.Logger().Error(err)
 		return c.JSON(http.StatusNotFound, b)
 	}
@@ -83,7 +83,7 @@ func (ctrl User) GetUserJSON(c echo.Context) error {
 	userID, err := strconv.Atoi(up)
 
 	if err != nil {
-		b := boom.New(boom.InvalidUserID, "invalid user id", err)
+		b := errors.NewBoom(errors.InvalidUserID, "invalid user id", err)
 		c.Logger().Error(err)
 		return c.JSON(http.StatusBadRequest, b)
 	}
@@ -93,7 +93,7 @@ func (ctrl User) GetUserJSON(c echo.Context) error {
 	err = ctrl.Context.GetDB().First(&user).Error
 
 	if err != nil {
-		b := boom.New(boom.UserNotFound, "user could not be found", err)
+		b := errors.NewBoom(errors.UserNotFound, "user could not be found", err)
 		c.Logger().Error(err)
 		return c.JSON(http.StatusNotFound, b)
 	}

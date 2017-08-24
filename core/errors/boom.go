@@ -1,4 +1,4 @@
-package boom
+package errors
 
 const (
 	InvalidUserID       = "invalidUserID"
@@ -19,6 +19,6 @@ type Boom struct {
 	Details interface{} `json:"details"`
 }
 
-func New(code, msg string, details interface{}) *Boom {
+func NewBoom(code, msg string, details interface{}) *Boom {
 	return &Boom{Code: code, Message: msg, Details: details}
 }

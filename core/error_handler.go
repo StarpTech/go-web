@@ -1,10 +1,10 @@
-package server
+package core
 
 import (
 	"net/http"
 
 	"github.com/labstack/echo"
-	"github.com/starptech/go-web/boom"
+	"github.com/starptech/go-web/core/errors"
 )
 
 func HTTPErrorHandler(err error, c echo.Context) {
@@ -17,7 +17,7 @@ func HTTPErrorHandler(err error, c echo.Context) {
 			c.Logger().Error("error handler: json encoding", err)
 		}
 	default:
-		e := boom.New(boom.InternalError, "Bad implementation", nil)
+		e := errors.NewBoom(errors.InternalError, "Bad implementation", nil)
 		err := c.JSON(code, e)
 		if err != nil {
 			c.Logger().Error("error handler: json encoding", err)

@@ -38,6 +38,15 @@ $ go run main.go
 - Administration of postgresql database [pgAdmin](https://www.pgadmin.org/)
 - REST client [Postman](https://chrome.google.com/webstore/detail/postman/fhbjgbiflinjbdggehcddcbncdddomop?hl=en)
 - Go testing in the browser [go-convey](https://github.com/smartystreets/goconvey)
+- Benchmarking [bombardier](go get -u github.com/codesenberg/bombardier)
+
+# Benchmarking
+
+```
+$ bombardier -c 10 -n 10000 http://localhost:8080/feed
+$ bombardier -c 10 -n 10000 http://localhost:8080/users/1
+$ bombardier -c 10 -n 10000 http://localhost:8080/users/1/details
+```
 
 # TODO
 
@@ -57,7 +66,7 @@ $ go run main.go
 - [X] Healthcheck endpoint
 - [X] Distributed cache with Redis
 - [ ] JWT Decoding
-- [ ] Benchmarks
+- [X] Benchmarks
 - [X] Integration tests
 - [ ] Unit tests
 - [X] Setup Travis CI with static code analysis
