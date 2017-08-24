@@ -8,14 +8,14 @@ import (
 	"github.com/labstack/gommon/log"
 	"github.com/prometheus/client_golang/prometheus/promhttp"
 	"github.com/starptech/go-web/config"
+	"github.com/starptech/go-web/core"
 	"github.com/starptech/go-web/models"
-	"github.com/starptech/go-web/server"
 )
 
 var e struct {
 	config *config.Configuration
 	logger *log.Logger
-	server *server.Server
+	server *core.Server
 }
 
 func TestMain(m *testing.M) {
@@ -27,7 +27,7 @@ func TestMain(m *testing.M) {
 		RedisAddr:        ":6379",
 	}
 
-	e.server = server.NewServer(e.config)
+	e.server = core.NewServer(e.config)
 
 	setup()
 	code := m.Run()
