@@ -52,7 +52,6 @@ func setup() {
 	e.server.Echo.GET("/feed", feedCtrl.GetFeed(e.server))
 	e.server.Echo.GET("/.well-known/health-check", healthCtrl.GetHealthcheck(e.server))
 	e.server.Echo.GET("/.well-known/metrics", echo.WrapHandler(promhttp.Handler()))
-	e.server.Echo.Logger.SetLevel(log.OFF)
 
 	// test data
 	user := models.User{Name: "peter"}
