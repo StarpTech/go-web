@@ -17,6 +17,7 @@ Modern Web Application with Golang "Keep it simple, stupid"
 - Templating [Go Templates](https://golang.org/pkg/text/template/)
 - Frontend module bundler [rollupjs](https://rollupjs.org/)
 - Stylesheet language [sass](http://sass-lang.com/)
+- Redis Cache [Redis](https://github.com/go-redis/redis)
 
 # Getting Started
 
@@ -48,6 +49,7 @@ $ go run main.go
 - [X] Correct linking with the app bundles
 - [X] Metric endpoint (Prometheus)
 - [X] Healthcheck endpoint
+- [X] Distributed cache with Redis
 - [ ] JWT Decoding
 - [ ] Benchmarks
 - [X] Integration tests

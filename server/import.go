@@ -4,7 +4,6 @@ import (
 	"errors"
 	"net/http"
 
-	"github.com/jinzhu/gorm"
 	"github.com/labstack/echo"
 	"github.com/starptech/go-web/models"
 	validator "gopkg.in/go-playground/validator.v9"
@@ -16,7 +15,7 @@ type UserEntity struct {
 	Name string `json:"name" validate:"required"`
 }
 
-func (ctrl Importer) ImportUser(db *gorm.DB, config *Configuration) echo.HandlerFunc {
+func (ctrl Importer) ImportUser(e *Engine) echo.HandlerFunc {
 	return func(c echo.Context) error {
 		u := new(UserEntity)
 
@@ -36,7 +35,7 @@ func (ctrl Importer) ImportUser(db *gorm.DB, config *Configuration) echo.Handler
 
 		model := models.User{Name: u.Name}
 
-		if errM := db.Create(&model).Error; errM != nil {
+		if errM := e.GetDB().Create(&model).Error; errM != nil {
 			b := boom{Code: EntityCreationError, Message: "user could not be created", Details: errM}
 			c.Logger().Error(errM)
 			return c.JSON(http.StatusBadRequest, b)

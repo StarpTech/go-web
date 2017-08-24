@@ -19,3 +19,8 @@ PostgreSQL:
     - REPLICATION_SSLMODE=
   volumes:
     - /srv/docker/postgresql:/var/lib/postgresql
+    
+redis:
+  ports:
+    - "6379:6379"
+  image: "redis:alpine"

@@ -4,7 +4,6 @@ import (
 	"net/http"
 	"strconv"
 
-	"github.com/jinzhu/gorm"
 	"github.com/labstack/echo"
 	"github.com/starptech/go-web/models"
 )
@@ -17,7 +16,7 @@ type (
 	}
 )
 
-func (ctrl User) GetUser(db *gorm.DB, config *Configuration) echo.HandlerFunc {
+func (ctrl User) GetUser(e *Engine) echo.HandlerFunc {
 	return func(c echo.Context) error {
 		up := c.Param("id")
 		userID, err := strconv.Atoi(up)
@@ -30,7 +29,7 @@ func (ctrl User) GetUser(db *gorm.DB, config *Configuration) echo.HandlerFunc {
 
 		user := models.User{ID: uint64(userID)}
 
-		err = db.First(&user).Error
+		err = e.GetDB().First(&user).Error
 
 		if err != nil {
 			b := boom{Code: UserNotFound, Message: "user could not be found", Details: err}
@@ -40,14 +39,14 @@ func (ctrl User) GetUser(db *gorm.DB, config *Configuration) echo.HandlerFunc {
 
 		vm := UserViewModel{
 			Name:      user.Name,
-			PublicDir: config.AssetsPublicDir,
+			PublicDir: e.config.AssetsPublicDir,
 		}
 
 		return c.Render(http.StatusOK, "user.html", vm)
 	}
 }
 
-func (ctrl User) GetUserDetails(db *gorm.DB, config *Configuration) echo.HandlerFunc {
+func (ctrl User) GetUserDetails(e *Engine) echo.HandlerFunc {
 	return func(c echo.Context) error {
 		up := c.Param("id")
 		userID, err := strconv.Atoi(up)
@@ -60,7 +59,7 @@ func (ctrl User) GetUserDetails(db *gorm.DB, config *Configuration) echo.Handler
 
 		user := models.User{ID: uint64(userID)}
 
-		err = db.First(&user).Error
+		err = e.GetDB().First(&user).Error
 
 		if err != nil {
 			b := boom{Code: UserNotFound, Message: "user could not be found", Details: err}
@@ -70,14 +69,14 @@ func (ctrl User) GetUserDetails(db *gorm.DB, config *Configuration) echo.Handler
 
 		vm := UserViewModel{
 			Name:      user.Name,
-			PublicDir: config.AssetsPublicDir,
+			PublicDir: e.config.AssetsPublicDir,
 		}
 
 		return c.Render(http.StatusOK, "details.html", vm)
 	}
 }
 
-func (ctrl User) GetUserJSON(db *gorm.DB, config *Configuration) echo.HandlerFunc {
+func (ctrl User) GetUserJSON(e *Engine) echo.HandlerFunc {
 	return func(c echo.Context) error {
 		up := c.Param("id")
 		userID, err := strconv.Atoi(up)
@@ -90,7 +89,7 @@ func (ctrl User) GetUserJSON(db *gorm.DB, config *Configuration) echo.HandlerFun
 
 		user := models.User{ID: uint64(userID)}
 
-		err = db.First(&user).Error
+		err = e.GetDB().First(&user).Error
 
 		if err != nil {
 			b := boom{Code: UserNotFound, Message: "user could not be found", Details: err}
@@ -100,7 +99,7 @@ func (ctrl User) GetUserJSON(db *gorm.DB, config *Configuration) echo.HandlerFun
 
 		vm := UserViewModel{
 			Name:      user.Name,
-			PublicDir: config.AssetsPublicDir,
+			PublicDir: e.config.AssetsPublicDir,
 		}
 
 		return c.JSON(http.StatusOK, vm)

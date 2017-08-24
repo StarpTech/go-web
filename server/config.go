@@ -14,6 +14,8 @@ type Configuration struct {
 	AssetsPublicDir  string `env:"ASSETS_PUBLIC_DIR,required"`
 	AssetsBuildDir   string `env:"ASSETS_BUILD_DIR"`
 	TemplateDir      string `env:"TPL_DIR" envDefault:"templates"`
+	RedisAddr        string `env:"REDIS_ADDR" envDefault:":6379"`
+	RedisPwd         string `env:"REDIS_PWD"`
 	ConnectionString string `env:"CONNECTION_STRING,required"`
 	IsProduction     bool   `env:"PRODUCTION"`
 	GrayLogAddr      string `env:"GRAYLOG_ADDR"`

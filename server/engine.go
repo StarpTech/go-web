@@ -6,6 +6,7 @@ import (
 	"os/signal"
 	"time"
 
+	"github.com/go-redis/redis"
 	"github.com/jinzhu/gorm"
 	"github.com/labstack/echo"
 	"github.com/labstack/echo/middleware"
@@ -16,17 +17,19 @@ import (
 
 type Engine struct {
 	Echo   *echo.Echo     // HTTP middleware
-	Config *Configuration // Central configuration
+	config *Configuration // Central configuration
 	Logger *log.Logger    // Global logger also for request logging
-	Db     *gorm.DB       // database connection
+	db     *gorm.DB       // database connection
+	cache  *redis.Client  // redis cache connection
 }
 
 // NewEngine will create a new instance of the application
 func NewEngine(config *Configuration) *Engine {
 	engine := &Engine{}
 	engine.Echo = echo.New()
-	engine.Config = config
-	engine.Db = NewDB(config.Dialect, config.ConnectionString)
+	engine.config = config
+	engine.cache = NewCache(config.RedisAddr, config.RedisPwd)
+	engine.db = NewDB(config.Dialect, config.ConnectionString)
 
 	// define validator
 	engine.Echo.Validator = &Validator{validator: v.New()}
@@ -41,7 +44,7 @@ func NewEngine(config *Configuration) *Engine {
 	engine.Echo.HTTPErrorHandler = HTTPErrorHandler
 
 	// Add html templates with go template syntax
-	renderer := NewTemplateRenderer(engine.Config.TemplateDir+"/layouts/*.html", engine.Config.TemplateDir+"/*.html")
+	renderer := NewTemplateRenderer(engine.config.TemplateDir+"/layouts/*.html", engine.config.TemplateDir+"/*.html")
 	engine.Echo.Renderer = renderer
 
 	// add controllers
@@ -52,22 +55,26 @@ func NewEngine(config *Configuration) *Engine {
 
 	// api rest endpoints
 	g := engine.Echo.Group("/api")
-	g.GET("/users/:id", userCtrl.GetUserJSON(engine.Db, engine.Config))
+	g.GET("/users/:id", userCtrl.GetUserJSON(engine))
 
 	// pages
 	u := engine.Echo.Group("/users")
-	u.GET("/:id", userCtrl.GetUser(engine.Db, engine.Config))
-	u.GET("/:id/details", userCtrl.GetUserDetails(engine.Db, engine.Config))
+	u.GET("/:id", userCtrl.GetUser(engine))
+	u.GET("/:id/details", userCtrl.GetUserDetails(engine))
 
 	// special endpoints
-	engine.Echo.POST("/import", importCtrl.ImportUser(engine.Db, engine.Config))
-	engine.Echo.GET("/feed", feedCtrl.GetFeed(engine.Db, engine.Config))
+	engine.Echo.POST("/import", importCtrl.ImportUser(engine))
+	engine.Echo.GET("/feed", feedCtrl.GetFeed(engine))
 
 	// metric / health endpoint according to RFC 5785
-	engine.Echo.GET("/.well-known/health-check", healthCtrl.GetHealthcheck(engine.Db))
+	engine.Echo.GET("/.well-known/health-check", healthCtrl.GetHealthcheck(engine))
 	engine.Echo.GET("/.well-known/metrics", echo.WrapHandler(promhttp.Handler()))
 
 	return engine
+}
+
+func (e *Engine) GetDB() *gorm.DB {
+	return e.db
 }
 
 // Start the http server
@@ -83,7 +90,7 @@ func (e *Engine) SetLogger(logger *log.Logger) {
 
 // ServeStaticFiles serve static files
 func (e *Engine) ServeStaticFiles() {
-	e.Echo.Static("/", e.Config.AssetsBuildDir)
+	e.Echo.Static("/", e.config.AssetsBuildDir)
 }
 
 // GracefulShutdown Wait for interrupt signal
@@ -96,6 +103,19 @@ func (e *Engine) GracefulShutdown() {
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 	defer cancel()
 
+	// close cache
+	cErr := e.cache.Close()
+	if cErr != nil {
+		e.Logger.Fatal(cErr)
+	}
+
+	// close database connection
+	dErr := e.db.Close()
+	if dErr != nil {
+		e.Logger.Fatal(dErr)
+	}
+
+	// shutdown http server
 	if err := e.Echo.Shutdown(ctx); err != nil {
 		e.Logger.Fatal(err)
 	}

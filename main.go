@@ -12,7 +12,7 @@ func main() {
 	engine.SetLogger(logger)
 	engine.ServeStaticFiles()
 
-	m := server.Migration{Db: engine.Db}
+	m := server.Migration{Db: engine.GetDB()}
 	m.Up()
 
 	go func() {
