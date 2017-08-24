@@ -19,6 +19,7 @@ func TestMain(m *testing.M) {
 		ConnectionString: "host=localhost user=gorm dbname=gorm sslmode=disable password=mypassword",
 		TemplateDir:      "../templates",
 		Dialect:          "postgres",
+		RedisAddr:        ":6379",
 	}
 
 	e.logger = NewLogger(e.config.GrayLogAddr, e.config.IsProduction)
@@ -33,11 +34,11 @@ func TestMain(m *testing.M) {
 }
 
 func setup() {
-	m := Migration{Db: e.engine.Db}
+	m := Migration{Db: e.engine.GetDB()}
 	m.Up()
 }
 
 func tearDown() {
 	u := &models.User{}
-	e.engine.Db.DropTableIfExists(u)
+	e.engine.GetDB().DropTableIfExists(u)
 }
