@@ -6,6 +6,8 @@ import (
 	"os/signal"
 	"time"
 
+	"gopkg.in/Graylog2/go-gelf.v2/gelf"
+
 	"github.com/go-redis/redis"
 	"github.com/jinzhu/gorm"
 	"github.com/labstack/echo"
@@ -16,11 +18,12 @@ import (
 )
 
 type Engine struct {
-	Echo   *echo.Echo     // HTTP middleware
-	config *Configuration // Central configuration
-	Logger *log.Logger    // Global logger also for request logging
-	db     *gorm.DB       // database connection
-	cache  *redis.Client  // redis cache connection
+	Echo       *echo.Echo     // HTTP middleware
+	config     *Configuration // Central configuration
+	Logger     *log.Logger    // Global logger also for request logging
+	greyLogger *gelf.TCPWriter
+	db         *gorm.DB      // database connection
+	cache      *redis.Client // redis cache connection
 }
 
 // NewEngine will create a new instance of the application
@@ -77,15 +80,19 @@ func (e *Engine) GetDB() *gorm.DB {
 	return e.db
 }
 
+func (e *Engine) SetGrayLogger(g *gelf.TCPWriter) {
+	e.greyLogger = g
+}
+
 // Start the http server
 func (e *Engine) Start(addr string) error {
 	return e.Echo.Start(addr)
 }
 
 // SetLogger set the logger instance for http server and internal
-func (e *Engine) SetLogger(logger *log.Logger) {
-	e.Logger = logger
-	e.Echo.Logger = logger
+func (e *Engine) SetLogger(l *log.Logger) {
+	e.Logger = l
+	e.Echo.Logger = l
 }
 
 // ServeStaticFiles serve static files
@@ -104,15 +111,27 @@ func (e *Engine) GracefulShutdown() {
 	defer cancel()
 
 	// close cache
-	cErr := e.cache.Close()
-	if cErr != nil {
-		e.Logger.Fatal(cErr)
+	if e.cache != nil {
+		cErr := e.cache.Close()
+		if cErr != nil {
+			e.Logger.Fatal(cErr)
+		}
 	}
 
 	// close database connection
-	dErr := e.db.Close()
-	if dErr != nil {
-		e.Logger.Fatal(dErr)
+	if e.db != nil {
+		dErr := e.db.Close()
+		if dErr != nil {
+			e.Logger.Fatal(dErr)
+		}
+	}
+
+	// close greylogger tcp connection
+	if e.greyLogger != nil {
+		gErr := e.greyLogger.Close()
+		if gErr != nil {
+			e.Logger.Fatal(gErr)
+		}
 	}
 
 	// shutdown http server

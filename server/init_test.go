@@ -22,7 +22,7 @@ func TestMain(m *testing.M) {
 		RedisAddr:        ":6379",
 	}
 
-	e.logger = NewLogger(e.config.GrayLogAddr, e.config.IsProduction)
+	e.logger = NewLogger(false)
 	e.engine = NewEngine(e.config)
 	e.engine.SetLogger(e.logger)
 

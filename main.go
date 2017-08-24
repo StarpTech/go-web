@@ -6,7 +6,7 @@ import (
 
 func main() {
 	config := server.NewConfig()
-	logger := server.NewLogger(config.GrayLogAddr, config.IsProduction)
+	logger := server.NewLogger(config.CliColors)
 
 	engine := server.NewEngine(config)
 	engine.SetLogger(logger)
