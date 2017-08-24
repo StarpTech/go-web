@@ -44,7 +44,7 @@ func (ctrl User) GetUser(c echo.Context) error {
 		PublicDir: ctrl.Context.GetConfig().AssetsPublicDir,
 	}
 
-	return c.JSON(http.StatusOK, "user.html", vm)
+	return c.Render(http.StatusOK, "user.html", vm)
 
 }
 
