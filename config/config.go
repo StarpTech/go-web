@@ -19,7 +19,6 @@ type Configuration struct {
 	ConnectionString string `env:"CONNECTION_STRING,required"`
 	IsProduction     bool   `env:"PRODUCTION"`
 	GrayLogAddr      string `env:"GRAYLOG_ADDR"`
-	CliColors        bool   `env:"CLI_COLORS"`
 }
 
 func NewConfig(files ...string) *Configuration {

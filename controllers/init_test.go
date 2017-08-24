@@ -8,7 +8,6 @@ import (
 	"github.com/labstack/gommon/log"
 	"github.com/prometheus/client_golang/prometheus/promhttp"
 	"github.com/starptech/go-web/config"
-	"github.com/starptech/go-web/logger"
 	"github.com/starptech/go-web/models"
 	"github.com/starptech/go-web/server"
 )
@@ -27,9 +26,7 @@ func TestMain(m *testing.M) {
 		RedisAddr:        ":6379",
 	}
 
-	e.logger = logger.NewLogger(e.config)
 	e.server = server.NewServer(e.config)
-	e.server.SetLogger(e.logger)
 
 	setup()
 	code := m.Run()
@@ -55,12 +52,17 @@ func setup() {
 	e.server.Echo.GET("/feed", feedCtrl.GetFeed(e.server))
 	e.server.Echo.GET("/.well-known/health-check", healthCtrl.GetHealthcheck(e.server))
 	e.server.Echo.GET("/.well-known/metrics", echo.WrapHandler(promhttp.Handler()))
+	e.server.Echo.Logger.SetLevel(log.OFF)
 
 	// test data
 	user := models.User{Name: "peter"}
 
 	// bootstrap db
-	log.Fatal(e.server.GetDB().Register(user))
+	err := e.server.GetDB().Register(user)
+	if err != nil {
+		log.Fatal(err)
+	}
+
 	e.server.GetDB().AutoMigrateAll()
 	e.server.GetDB().Create(&user)
 }

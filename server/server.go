@@ -6,8 +6,6 @@ import (
 	"os/signal"
 	"time"
 
-	"gopkg.in/Graylog2/go-gelf.v2/gelf"
-
 	"github.com/go-redis/redis"
 	"github.com/labstack/echo"
 	"github.com/labstack/echo/middleware"
@@ -19,12 +17,10 @@ import (
 )
 
 type Server struct {
-	Echo       *echo.Echo            // HTTP middleware
-	Config     *config.Configuration // Configuration
-	Logger     *log.Logger           // logger also used for request logging
-	greyLogger *gelf.TCPWriter       // Graylogger logger
-	db         *models.Model         // Database connection
-	cache      *redis.Client         // Redis cache connection
+	Echo   *echo.Echo            // HTTP middleware
+	Config *config.Configuration // Configuration
+	db     *models.Model         // Database connection
+	cache  *redis.Client         // Redis cache connection
 }
 
 // NewServer will create a new instance of the application
@@ -60,39 +56,28 @@ func NewServer(config *config.Configuration) *Server {
 }
 
 // GetDB returns gorm (ORM)
-func (e *Server) GetDB() *models.Model {
-	return e.db
+func (s *Server) GetDB() *models.Model {
+	return s.db
 }
 
 // GetCache returns the current redis client
-func (e *Server) GetCache() *redis.Client {
-	return e.cache
-}
-
-// SetGrayLogger set the graylogger
-func (e *Server) SetGrayLogger(g *gelf.TCPWriter) {
-	e.greyLogger = g
+func (s *Server) GetCache() *redis.Client {
+	return s.cache
 }
 
 // Start the http server
-func (e *Server) Start(addr string) error {
-	return e.Echo.Start(addr)
-}
-
-// SetLogger set the logger instance for http server and internal
-func (e *Server) SetLogger(l *log.Logger) {
-	e.Logger = l
-	e.Echo.Logger = l
+func (s *Server) Start(addr string) error {
+	return s.Echo.Start(addr)
 }
 
 // ServeStaticFiles serve static files for development purpose
-func (e *Server) ServeStaticFiles() {
-	e.Echo.Static("/", e.Config.AssetsBuildDir)
+func (s *Server) ServeStaticFiles() {
+	s.Echo.Static("/", s.Config.AssetsBuildDir)
 }
 
 // GracefulShutdown Wait for interrupt signal
 // to gracefully shutdown the server with a timeout of 5 seconds.
-func (e *Server) GracefulShutdown() {
+func (s *Server) GracefulShutdown() {
 	quit := make(chan os.Signal)
 
 	signal.Notify(quit, os.Interrupt)
@@ -101,31 +86,23 @@ func (e *Server) GracefulShutdown() {
 	defer cancel()
 
 	// close cache
-	if e.cache != nil {
-		cErr := e.cache.Close()
+	if s.cache != nil {
+		cErr := s.cache.Close()
 		if cErr != nil {
-			e.Logger.Fatal(cErr)
+			s.Echo.Logger.Fatal(cErr)
 		}
 	}
 
 	// close database connection
-	if e.db != nil {
-		dErr := e.db.Close()
+	if s.db != nil {
+		dErr := s.db.Close()
 		if dErr != nil {
-			e.Logger.Fatal(dErr)
-		}
-	}
-
-	// close greylogger tcp connection
-	if e.greyLogger != nil {
-		gErr := e.greyLogger.Close()
-		if gErr != nil {
-			e.Logger.Fatal(gErr)
+			s.Echo.Logger.Fatal(dErr)
 		}
 	}
 
 	// shutdown http server
-	if err := e.Echo.Shutdown(ctx); err != nil {
-		e.Logger.Fatal(err)
+	if err := s.Echo.Shutdown(ctx); err != nil {
+		s.Echo.Logger.Fatal(err)
 	}
 }

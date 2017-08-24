@@ -1,24 +1,19 @@
 package main
 
 import (
-	"log"
-
 	"github.com/labstack/echo"
 	"github.com/prometheus/client_golang/prometheus/promhttp"
 	"github.com/starptech/go-web/config"
 	"github.com/starptech/go-web/controllers"
-	"github.com/starptech/go-web/logger"
 	"github.com/starptech/go-web/models"
 	"github.com/starptech/go-web/server"
 )
 
 func main() {
 	config := config.NewConfig()
-	logger := logger.NewLogger(config)
 
 	// create server
 	server := server.NewServer(config)
-	server.SetLogger(logger)
 	server.ServeStaticFiles()
 
 	userCtrl := new(controllers.User)
@@ -45,13 +40,16 @@ func main() {
 
 	// migration for dev
 	user := models.User{Name: "peter"}
-	log.Fatal(server.GetDB().Register(user))
+	err := server.GetDB().Register(user)
+	if err != nil {
+		server.Echo.Logger.Fatal(err)
+	}
 	server.GetDB().AutoMigrateAll()
 	server.GetDB().Create(&user)
 
 	// listen
 	go func() {
-		logger.Fatal(server.Start(config.Address))
+		server.Echo.Logger.Fatal(server.Start(config.Address))
 	}()
 
 	server.GracefulShutdown()
