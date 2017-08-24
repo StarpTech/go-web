@@ -34,7 +34,11 @@ func NewServer(config *config.Configuration) *Server {
 	server.Config = config
 	server.db = models.NewModel()
 	server.cache = cache.NewCache(config)
-	server.db.OpenWithConfig(config)
+
+	err := server.db.OpenWithConfig(config)
+	if err != nil {
+		log.Errorf("gorm: could not connect to db %q", err)
+	}
 
 	// define validator
 	server.Echo.Validator = &Validator{validator: v.New()}

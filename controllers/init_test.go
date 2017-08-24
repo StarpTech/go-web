@@ -16,7 +16,7 @@ import (
 var e struct {
 	config *config.Configuration
 	logger *log.Logger
-	engine *server.Server
+	server *server.Server
 }
 
 func TestMain(m *testing.M) {
@@ -28,8 +28,8 @@ func TestMain(m *testing.M) {
 	}
 
 	e.logger = logger.NewLogger(e.config)
-	e.engine = server.NewServer(e.config)
-	e.engine.SetLogger(e.logger)
+	e.server = server.NewServer(e.config)
+	e.server.SetLogger(e.logger)
 
 	setup()
 	code := m.Run()
@@ -44,25 +44,27 @@ func setup() {
 	healthCtrl := new(Healthcheck)
 	importCtrl := new(Importer)
 
-	g := e.engine.Echo.Group("/api")
-	g.GET("/users/:id", userCtrl.GetUserJSON(e.engine))
+	g := e.server.Echo.Group("/api")
+	g.GET("/users/:id", userCtrl.GetUserJSON(e.server))
 
-	u := e.engine.Echo.Group("/users")
-	u.GET("/:id", userCtrl.GetUser(e.engine))
-	u.GET("/:id/details", userCtrl.GetUserDetails(e.engine))
+	u := e.server.Echo.Group("/users")
+	u.GET("/:id", userCtrl.GetUser(e.server))
+	u.GET("/:id/details", userCtrl.GetUserDetails(e.server))
 
-	e.engine.Echo.POST("/import", importCtrl.ImportUser(e.engine))
-	e.engine.Echo.GET("/feed", feedCtrl.GetFeed(e.engine))
-	e.engine.Echo.GET("/.well-known/health-check", healthCtrl.GetHealthcheck(e.engine))
-	e.engine.Echo.GET("/.well-known/metrics", echo.WrapHandler(promhttp.Handler()))
+	e.server.Echo.POST("/import", importCtrl.ImportUser(e.server))
+	e.server.Echo.GET("/feed", feedCtrl.GetFeed(e.server))
+	e.server.Echo.GET("/.well-known/health-check", healthCtrl.GetHealthcheck(e.server))
+	e.server.Echo.GET("/.well-known/metrics", echo.WrapHandler(promhttp.Handler()))
 
+	// test data
 	user := models.User{Name: "peter"}
 
-	e.engine.GetDB().Register(user)
-	e.engine.GetDB().AutoMigrateAll()
-	e.engine.GetDB().Create(&user)
+	// bootstrap db
+	log.Fatal(e.server.GetDB().Register(user))
+	e.server.GetDB().AutoMigrateAll()
+	e.server.GetDB().Create(&user)
 }
 
 func tearDown() {
-	e.engine.GetDB().AutoDropAll()
+	e.server.GetDB().AutoDropAll()
 }

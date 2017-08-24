@@ -1,11 +1,14 @@
 package main
 
 import (
+	"log"
+
 	"github.com/labstack/echo"
 	"github.com/prometheus/client_golang/prometheus/promhttp"
 	"github.com/starptech/go-web/config"
 	"github.com/starptech/go-web/controllers"
 	"github.com/starptech/go-web/logger"
+	"github.com/starptech/go-web/models"
 	"github.com/starptech/go-web/server"
 )
 
@@ -39,6 +42,12 @@ func main() {
 	// metric / health endpoint according to RFC 5785
 	server.Echo.GET("/.well-known/health-check", healthCtrl.GetHealthcheck(server))
 	server.Echo.GET("/.well-known/metrics", echo.WrapHandler(promhttp.Handler()))
+
+	// migration for dev
+	user := models.User{Name: "peter"}
+	log.Fatal(server.GetDB().Register(user))
+	server.GetDB().AutoMigrateAll()
+	server.GetDB().Create(&user)
 
 	// listen
 	go func() {
