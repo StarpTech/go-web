@@ -32,6 +32,7 @@ $ go run main.go
 - IDE plugin [vscode-go](https://github.com/Microsoft/vscode-go)
 - Administration of postgresql database [pgAdmin](https://www.pgadmin.org/)
 - REST client [Postman](https://chrome.google.com/webstore/detail/postman/fhbjgbiflinjbdggehcddcbncdddomop?hl=en)
+- Go testing in the browser [go-convey](https://github.com/smartystreets/goconvey)
 
 # TODO
 
