@@ -16,7 +16,7 @@ func HTTPErrorHandler(err error, c echo.Context) {
 			c.Logger().Error("error handler: json encoding", e)
 		}
 	default:
-		e := c.JSON(code, boom{Code: InternalError, Message: "Bad implementation"})
+		e := c.JSON(code, Boom{Code: InternalError, Message: "Bad implementation"})
 		if e != nil {
 			c.Logger().Error("error handler: json encoding", e)
 		}

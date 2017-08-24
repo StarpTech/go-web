@@ -17,7 +17,7 @@ type templateRenderer struct {
 }
 
 // NewTemplateRenderer creates a new setup to render layout based go templates
-func NewTemplateRenderer(layoutsDir, templatesDir string) *templateRenderer {
+func newTemplateRenderer(layoutsDir, templatesDir string) *templateRenderer {
 	r := &templateRenderer{}
 	r.templates = make(map[string]*template.Template)
 	r.Load(layoutsDir, templatesDir)

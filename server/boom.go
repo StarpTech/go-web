@@ -8,12 +8,12 @@ const (
 	EntityCreationError = "entityCreationError"
 )
 
-type booms struct {
-	Errors []boom
+type Booms struct {
+	Errors []Boom
 }
 
-// boom represent the basic json structure for an error
-type boom struct {
+// boom represent the basic structure of an json error
+type Boom struct {
 	Code    string      `json:"code"`
 	Message string      `json:"message"`
 	Details interface{} `json:"details"`

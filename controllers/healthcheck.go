@@ -1,9 +1,10 @@
-package server
+package controllers
 
 import (
 	"net/http"
 
 	"github.com/labstack/echo"
+	"github.com/starptech/go-web/server"
 )
 
 type Healthcheck struct{}
@@ -14,12 +15,12 @@ type healthcheckReport struct {
 }
 
 // GetHealthcheck return the current functional state of the application
-func (ctrl Healthcheck) GetHealthcheck(e *Engine) echo.HandlerFunc {
+func (ctrl Healthcheck) GetHealthcheck(e *server.Server) echo.HandlerFunc {
 	return func(c echo.Context) error {
 		m := healthcheckReport{Health: "OK"}
 
-		dbCheck := e.GetDB().DB().Ping()
-		cacheCheck := e.cache.Ping().Err()
+		dbCheck := e.GetDB().DB.DB().Ping()
+		cacheCheck := e.GetCache().Ping().Err()
 
 		if dbCheck != nil {
 			m.Health = "NOT"

@@ -1,15 +1,16 @@
-package server
+package cache
 
 import (
 	"log"
 
 	"github.com/go-redis/redis"
+	"github.com/starptech/go-web/config"
 )
 
-func NewCache(addr, password string) *redis.Client {
+func NewCache(config *config.Configuration) *redis.Client {
 	client := redis.NewClient(&redis.Options{
-		Addr:     addr,
-		Password: password,
+		Addr:     config.RedisAddr,
+		Password: config.RedisPwd,
 		DB:       0, // use default DB
 	})
 

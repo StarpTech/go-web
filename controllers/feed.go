@@ -1,14 +1,15 @@
-package server
+package controllers
 
 import (
 	"net/http"
 
 	"github.com/labstack/echo"
+	"github.com/starptech/go-web/server"
 )
 
 type Feed struct{}
 
-func (ctrl Feed) GetFeed(e *Engine) echo.HandlerFunc {
+func (ctrl Feed) GetFeed(e *server.Server) echo.HandlerFunc {
 	return func(c echo.Context) error {
 		var user struct {
 			Name string `json:"name"`
