@@ -21,8 +21,8 @@ var e struct {
 func TestMain(m *testing.M) {
 	e.config = &config.Configuration{
 		ConnectionString: "host=localhost user=gorm dbname=gorm sslmode=disable password=mypassword",
-		TemplateDir:      "templates/*.html",
-		LayoutDir:        "templates/layouts/*.html",
+		TemplateDir:      "../templates/*.html",
+		LayoutDir:        "../templates/layouts/*.html",
 		Dialect:          "postgres",
 		RedisAddr:        ":6379",
 	}
