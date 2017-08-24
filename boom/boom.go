@@ -1,4 +1,4 @@
-package server
+package boom
 
 const (
 	InvalidUserID       = "invalidUserID"
@@ -17,4 +17,8 @@ type Boom struct {
 	Code    string      `json:"code"`
 	Message string      `json:"message"`
 	Details interface{} `json:"details"`
+}
+
+func New(code, msg string, details interface{}) *Boom {
+	return &Boom{Code: code, Message: msg, Details: details}
 }

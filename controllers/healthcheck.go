@@ -4,10 +4,11 @@ import (
 	"net/http"
 
 	"github.com/labstack/echo"
-	"github.com/starptech/go-web/server"
 )
 
-type Healthcheck struct{}
+type Healthcheck struct {
+	Context CtrlContext
+}
 
 type healthcheckReport struct {
 	Health  string          `json:"health"`
@@ -15,23 +16,21 @@ type healthcheckReport struct {
 }
 
 // GetHealthcheck return the current functional state of the application
-func (ctrl Healthcheck) GetHealthcheck(e *server.Server) echo.HandlerFunc {
-	return func(c echo.Context) error {
-		m := healthcheckReport{Health: "OK"}
+func (ctrl Healthcheck) GetHealthcheck(c echo.Context) error {
+	m := healthcheckReport{Health: "OK"}
 
-		dbCheck := e.GetDB().DB.DB().Ping()
-		cacheCheck := e.GetCache().Ping().Err()
+	dbCheck := ctrl.Context.GetDB().DB.DB().Ping()
+	cacheCheck := ctrl.Context.GetCache().Ping().Err()
 
-		if dbCheck != nil {
-			m.Health = "NOT"
-			m.Details["db"] = false
-		}
-
-		if cacheCheck != nil {
-			m.Health = "NOT"
-			m.Details["cache"] = false
-		}
-
-		return c.JSON(http.StatusOK, m)
+	if dbCheck != nil {
+		m.Health = "NOT"
+		m.Details["db"] = false
 	}
+
+	if cacheCheck != nil {
+		m.Health = "NOT"
+		m.Details["cache"] = false
+	}
+
+	return c.JSON(http.StatusOK, m)
 }

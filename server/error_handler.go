@@ -4,6 +4,7 @@ import (
 	"net/http"
 
 	"github.com/labstack/echo"
+	"github.com/starptech/go-web/boom"
 )
 
 func HTTPErrorHandler(err error, c echo.Context) {
@@ -11,14 +12,15 @@ func HTTPErrorHandler(err error, c echo.Context) {
 
 	switch v := err.(type) {
 	case *echo.HTTPError:
-		e := c.JSON(v.Code, v)
-		if e != nil {
-			c.Logger().Error("error handler: json encoding", e)
+		err := c.JSON(v.Code, v)
+		if err != nil {
+			c.Logger().Error("error handler: json encoding", err)
 		}
 	default:
-		e := c.JSON(code, Boom{Code: InternalError, Message: "Bad implementation"})
-		if e != nil {
-			c.Logger().Error("error handler: json encoding", e)
+		e := boom.New(boom.InternalError, "Bad implementation", nil)
+		err := c.JSON(code, e)
+		if err != nil {
+			c.Logger().Error("error handler: json encoding", err)
 		}
 	}
 }

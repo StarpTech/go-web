@@ -21,7 +21,8 @@ var e struct {
 func TestMain(m *testing.M) {
 	e.config = &config.Configuration{
 		ConnectionString: "host=localhost user=gorm dbname=gorm sslmode=disable password=mypassword",
-		TemplateDir:      "../templates",
+		TemplateDir:      "templates/*.html",
+		LayoutDir:        "templates/layouts/*.html",
 		Dialect:          "postgres",
 		RedisAddr:        ":6379",
 	}
@@ -36,21 +37,21 @@ func TestMain(m *testing.M) {
 }
 
 func setup() {
-	userCtrl := new(User)
-	feedCtrl := new(Feed)
-	healthCtrl := new(Healthcheck)
-	importCtrl := new(Importer)
+	userCtrl := &User{e.server}
+	feedCtrl := &Feed{e.server}
+	healthCtrl := &Healthcheck{e.server}
+	importCtrl := &Importer{e.server}
 
 	g := e.server.Echo.Group("/api")
-	g.GET("/users/:id", userCtrl.GetUserJSON(e.server))
+	g.GET("/users/:id", userCtrl.GetUserJSON)
 
 	u := e.server.Echo.Group("/users")
-	u.GET("/:id", userCtrl.GetUser(e.server))
-	u.GET("/:id/details", userCtrl.GetUserDetails(e.server))
+	u.GET("/:id", userCtrl.GetUser)
+	u.GET("/:id/details", userCtrl.GetUserDetails)
 
-	e.server.Echo.POST("/import", importCtrl.ImportUser(e.server))
-	e.server.Echo.GET("/feed", feedCtrl.GetFeed(e.server))
-	e.server.Echo.GET("/.well-known/health-check", healthCtrl.GetHealthcheck(e.server))
+	e.server.Echo.POST("/import", importCtrl.ImportUser)
+	e.server.Echo.GET("/feed", feedCtrl.GetFeed)
+	e.server.Echo.GET("/.well-known/health-check", healthCtrl.GetHealthcheck)
 	e.server.Echo.GET("/.well-known/metrics", echo.WrapHandler(promhttp.Handler()))
 
 	// test data
