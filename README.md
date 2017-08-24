@@ -27,6 +27,11 @@ $ docker-compose up
 $ go run main.go
 ```
 
+# Guidelines
+
+- Javascript [standard](https://standardjs.com/)
+- CSS [airbnb](https://github.com/airbnb/css)
+
 # Tooling
 
 - IDE plugin [vscode-go](https://github.com/Microsoft/vscode-go)
