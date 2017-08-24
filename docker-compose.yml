@@ -1,3 +1,4 @@
+# database
 PostgreSQL:
   restart: always
   image: sameersbn/postgresql:9.6-2
@@ -19,17 +20,20 @@ PostgreSQL:
     - REPLICATION_SSLMODE=
   volumes:
     - /srv/docker/postgresql:/var/lib/postgresql
-    
+
+# cache
 redis:
   ports:
     - "6379:6379"
   image: "redis:alpine"
 
+# graylog
 some-mongo:
   image: "mongo:3"
 some-elasticsearch:
   image: "elasticsearch:2"
   command: "elasticsearch -Des.cluster.name='graylog'"
+
 graylog:
   image: graylog/graylog:2.3.0-1
   environment:
