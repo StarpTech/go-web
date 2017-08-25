@@ -6,7 +6,8 @@ import (
 	"github.com/starptech/go-web/store"
 )
 
-// Context is the new context in the request / reponse cycle
+// Context is the new context in the request / response cycle
+// We can use the db store, cache and central configuration
 type Context struct {
 	echo.Context
 	UserStore store.User
