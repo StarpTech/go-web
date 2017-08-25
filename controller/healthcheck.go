@@ -1,18 +1,13 @@
-package controllers
+package controller
 
 import (
 	"net/http"
 
 	"github.com/labstack/echo"
-	"github.com/starptech/go-web/config"
-	"github.com/starptech/go-web/store"
+	"github.com/starptech/go-web/context"
 )
 
-type Healthcheck struct {
-	Store  store.User
-	Cache  store.Cache
-	Config *config.Configuration
-}
+type Healthcheck struct{}
 
 type healthcheckReport struct {
 	Health  string          `json:"health"`
@@ -21,10 +16,11 @@ type healthcheckReport struct {
 
 // GetHealthcheck return the current functional state of the application
 func (ctrl Healthcheck) GetHealthcheck(c echo.Context) error {
+	cc := c.(*context.Context)
 	m := healthcheckReport{Health: "OK"}
 
-	dbCheck := ctrl.Store.Ping()
-	cacheCheck := ctrl.Cache.Ping()
+	dbCheck := cc.UserStore.Ping()
+	cacheCheck := cc.Cache.Ping()
 
 	if dbCheck != nil {
 		m.Health = "NOT"

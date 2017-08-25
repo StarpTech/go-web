@@ -26,17 +26,16 @@ type Server struct {
 func NewServer(config *config.Configuration) *Server {
 	server := &Server{}
 	server.config = config
-	server.Echo = NewRouter(server)
 	server.modelRegistry = models.NewModel()
-	server.cache = cache.NewCache(config)
-
 	err := server.modelRegistry.OpenWithConfig(config)
 
 	if err != nil {
 		server.Echo.Logger.Fatalf("gorm: could not connect to db %q", err)
 	}
 
+	server.cache = cache.NewCache(config)
 	server.db = server.modelRegistry.DB
+	server.Echo = NewRouter(server)
 
 	return server
 }

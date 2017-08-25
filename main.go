@@ -4,7 +4,7 @@ import (
 	"github.com/labstack/echo"
 	"github.com/prometheus/client_golang/prometheus/promhttp"
 	"github.com/starptech/go-web/config"
-	"github.com/starptech/go-web/controllers"
+	"github.com/starptech/go-web/controller"
 	"github.com/starptech/go-web/core"
 	"github.com/starptech/go-web/models"
 )
@@ -16,30 +16,10 @@ func main() {
 	// serve files for dev
 	server.ServeStaticFiles()
 
-	cache := server.GetCache()
-	db := server.GetDB()
-
-	userCtrl := &controllers.User{
-		Cache:  &core.CacheStore{Cache: cache},
-		Config: config,
-		Store:  &core.UserStore{DB: db},
-	}
-
-	feedCtrl := &controllers.Feed{
-		Cache:  &core.CacheStore{Cache: cache},
-		Config: config,
-		Store:  &core.UserStore{DB: db},
-	}
-	healthCtrl := &controllers.Healthcheck{
-		Cache:  &core.CacheStore{Cache: cache},
-		Config: config,
-		Store:  &core.UserStore{DB: db},
-	}
-	importCtrl := &controllers.Importer{
-		Cache:  &core.CacheStore{Cache: cache},
-		Config: config,
-		Store:  &core.UserStore{DB: db},
-	}
+	userCtrl := &controller.User{}
+	feedCtrl := &controller.Feed{}
+	healthCtrl := &controller.Healthcheck{}
+	importCtrl := &controller.Importer{}
 
 	// api rest endpoints
 	g := server.Echo.Group("/api")

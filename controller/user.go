@@ -1,22 +1,17 @@
-package controllers
+package controller
 
 import (
 	"net/http"
 	"strconv"
 
 	"github.com/labstack/echo"
-	"github.com/starptech/go-web/config"
+	"github.com/starptech/go-web/context"
 	"github.com/starptech/go-web/core/errors"
 	"github.com/starptech/go-web/models"
-	"github.com/starptech/go-web/store"
 )
 
 type (
-	User struct {
-		Store  store.User
-		Cache  store.Cache
-		Config *config.Configuration
-	}
+	User          struct{}
 	UserViewModel struct {
 		Name      string
 		PublicDir string
@@ -24,6 +19,7 @@ type (
 )
 
 func (ctrl User) GetUser(c echo.Context) error {
+	cc := c.(*context.Context)
 	up := c.Param("id")
 	userID, err := strconv.Atoi(up)
 
@@ -35,7 +31,7 @@ func (ctrl User) GetUser(c echo.Context) error {
 
 	user := models.User{ID: uint64(userID)}
 
-	err = ctrl.Store.First(&user)
+	err = cc.UserStore.First(&user)
 
 	if err != nil {
 		b := errors.NewBoom(errors.UserNotFound, "user could not be found", err)
@@ -45,7 +41,7 @@ func (ctrl User) GetUser(c echo.Context) error {
 
 	vm := UserViewModel{
 		Name:      user.Name,
-		PublicDir: ctrl.Config.AssetsPublicDir,
+		PublicDir: cc.Config.AssetsPublicDir,
 	}
 
 	return c.Render(http.StatusOK, "user.html", vm)
@@ -53,7 +49,7 @@ func (ctrl User) GetUser(c echo.Context) error {
 }
 
 func (ctrl User) GetUserDetails(c echo.Context) error {
-
+	cc := c.(*context.Context)
 	up := c.Param("id")
 	userID, err := strconv.Atoi(up)
 
@@ -65,7 +61,7 @@ func (ctrl User) GetUserDetails(c echo.Context) error {
 
 	user := models.User{ID: uint64(userID)}
 
-	err = ctrl.Store.First(&user)
+	err = cc.UserStore.First(&user)
 
 	if err != nil {
 		b := errors.NewBoom(errors.UserNotFound, "user could not be found", err)
@@ -75,7 +71,7 @@ func (ctrl User) GetUserDetails(c echo.Context) error {
 
 	vm := UserViewModel{
 		Name:      user.Name,
-		PublicDir: ctrl.Config.AssetsPublicDir,
+		PublicDir: cc.Config.AssetsPublicDir,
 	}
 
 	return c.Render(http.StatusOK, "details.html", vm)
@@ -83,6 +79,7 @@ func (ctrl User) GetUserDetails(c echo.Context) error {
 }
 
 func (ctrl User) GetUserJSON(c echo.Context) error {
+	cc := c.(*context.Context)
 	up := c.Param("id")
 	userID, err := strconv.Atoi(up)
 
@@ -94,7 +91,7 @@ func (ctrl User) GetUserJSON(c echo.Context) error {
 
 	user := models.User{ID: uint64(userID)}
 
-	err = ctrl.Store.First(&user)
+	err = cc.UserStore.First(&user)
 
 	if err != nil {
 		b := errors.NewBoom(errors.UserNotFound, "user could not be found", err)
@@ -104,7 +101,7 @@ func (ctrl User) GetUserJSON(c echo.Context) error {
 
 	vm := UserViewModel{
 		Name:      user.Name,
-		PublicDir: ctrl.Config.AssetsPublicDir,
+		PublicDir: cc.Config.AssetsPublicDir,
 	}
 
 	return c.JSON(http.StatusOK, vm)

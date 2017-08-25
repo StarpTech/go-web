@@ -1,4 +1,4 @@
-package controllers
+package controller
 
 import (
 	"net/http"
@@ -6,6 +6,8 @@ import (
 	"testing"
 
 	"github.com/labstack/echo"
+	"github.com/starptech/go-web/context"
+	"github.com/starptech/go-web/middlewares"
 	"github.com/starptech/go-web/models"
 	"github.com/stretchr/testify/assert"
 )
@@ -38,10 +40,14 @@ func TestUnitGetUserJson(t *testing.T) {
 	req := httptest.NewRequest(echo.GET, "/api/users/1", nil)
 	rec := httptest.NewRecorder()
 
-	userCtrl := &User{
-		Config: e.config,
-		Store:  &UserFakeStore{},
+	userCtrl := &User{}
+
+	cc := &context.Context{
+		Config:    e.config,
+		UserStore: &UserFakeStore{},
 	}
+
+	s.Use(middlewares.EnrichContext(cc))
 
 	g.GET("/users/:id", userCtrl.GetUserJSON)
 	s.ServeHTTP(rec, req)

@@ -1,4 +1,4 @@
-package controllers
+package controller
 
 import (
 	"os"
@@ -37,30 +37,10 @@ func TestMain(m *testing.M) {
 }
 
 func setup() {
-	db := e.server.GetDB()
-	cache := e.server.GetCache()
-
-	userCtrl := &User{
-		Cache:  &core.CacheStore{Cache: cache},
-		Config: e.config,
-		Store:  &core.UserStore{DB: db},
-	}
-
-	feedCtrl := &Feed{
-		Cache:  &core.CacheStore{Cache: cache},
-		Config: e.config,
-		Store:  &core.UserStore{DB: db},
-	}
-	healthCtrl := &Healthcheck{
-		Cache:  &core.CacheStore{Cache: cache},
-		Config: e.config,
-		Store:  &core.UserStore{DB: db},
-	}
-	importCtrl := &Importer{
-		Cache:  &core.CacheStore{Cache: cache},
-		Config: e.config,
-		Store:  &core.UserStore{DB: db},
-	}
+	userCtrl := &User{}
+	feedCtrl := &Feed{}
+	healthCtrl := &Healthcheck{}
+	importCtrl := &Importer{}
 
 	g := e.server.Echo.Group("/api")
 	g.GET("/users/:id", userCtrl.GetUserJSON)
@@ -82,6 +62,7 @@ func setup() {
 	if err != nil {
 		e.server.Echo.Logger.Fatal(err)
 	}
+
 	mr.AutoMigrateAll()
 	mr.Create(&user)
 }
