@@ -5,13 +5,17 @@ import (
 	"strconv"
 
 	"github.com/labstack/echo"
+	"github.com/starptech/go-web/config"
 	"github.com/starptech/go-web/core/errors"
 	"github.com/starptech/go-web/models"
+	"github.com/starptech/go-web/store"
 )
 
 type (
 	User struct {
-		Context CtrlContext
+		Store  store.User
+		Cache  store.Cache
+		Config *config.Configuration
 	}
 	UserViewModel struct {
 		Name      string
@@ -31,7 +35,7 @@ func (ctrl User) GetUser(c echo.Context) error {
 
 	user := models.User{ID: uint64(userID)}
 
-	err = ctrl.Context.GetDB().First(&user).Error
+	err = ctrl.Store.First(&user)
 
 	if err != nil {
 		b := errors.NewBoom(errors.UserNotFound, "user could not be found", err)
@@ -41,7 +45,7 @@ func (ctrl User) GetUser(c echo.Context) error {
 
 	vm := UserViewModel{
 		Name:      user.Name,
-		PublicDir: ctrl.Context.GetConfig().AssetsPublicDir,
+		PublicDir: ctrl.Config.AssetsPublicDir,
 	}
 
 	return c.Render(http.StatusOK, "user.html", vm)
@@ -61,7 +65,7 @@ func (ctrl User) GetUserDetails(c echo.Context) error {
 
 	user := models.User{ID: uint64(userID)}
 
-	err = ctrl.Context.GetDB().First(&user).Error
+	err = ctrl.Store.First(&user)
 
 	if err != nil {
 		b := errors.NewBoom(errors.UserNotFound, "user could not be found", err)
@@ -71,7 +75,7 @@ func (ctrl User) GetUserDetails(c echo.Context) error {
 
 	vm := UserViewModel{
 		Name:      user.Name,
-		PublicDir: ctrl.Context.GetConfig().AssetsPublicDir,
+		PublicDir: ctrl.Config.AssetsPublicDir,
 	}
 
 	return c.Render(http.StatusOK, "details.html", vm)
@@ -90,7 +94,7 @@ func (ctrl User) GetUserJSON(c echo.Context) error {
 
 	user := models.User{ID: uint64(userID)}
 
-	err = ctrl.Context.GetDB().First(&user).Error
+	err = ctrl.Store.First(&user)
 
 	if err != nil {
 		b := errors.NewBoom(errors.UserNotFound, "user could not be found", err)
@@ -100,7 +104,7 @@ func (ctrl User) GetUserJSON(c echo.Context) error {
 
 	vm := UserViewModel{
 		Name:      user.Name,
-		PublicDir: ctrl.Context.GetConfig().AssetsPublicDir,
+		PublicDir: ctrl.Config.AssetsPublicDir,
 	}
 
 	return c.JSON(http.StatusOK, vm)

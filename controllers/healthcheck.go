@@ -4,10 +4,14 @@ import (
 	"net/http"
 
 	"github.com/labstack/echo"
+	"github.com/starptech/go-web/config"
+	"github.com/starptech/go-web/store"
 )
 
 type Healthcheck struct {
-	Context CtrlContext
+	Store  store.User
+	Cache  store.Cache
+	Config *config.Configuration
 }
 
 type healthcheckReport struct {
@@ -19,8 +23,8 @@ type healthcheckReport struct {
 func (ctrl Healthcheck) GetHealthcheck(c echo.Context) error {
 	m := healthcheckReport{Health: "OK"}
 
-	dbCheck := ctrl.Context.GetDB().DB.DB().Ping()
-	cacheCheck := ctrl.Context.GetCache().Ping().Err()
+	dbCheck := ctrl.Store.Ping()
+	cacheCheck := ctrl.Cache.Ping()
 
 	if dbCheck != nil {
 		m.Health = "NOT"

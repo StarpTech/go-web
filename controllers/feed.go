@@ -4,10 +4,14 @@ import (
 	"net/http"
 
 	"github.com/labstack/echo"
+	"github.com/starptech/go-web/config"
+	"github.com/starptech/go-web/store"
 )
 
 type Feed struct {
-	Context CtrlContext
+	Store  store.User
+	Cache  store.Cache
+	Config *config.Configuration
 }
 
 func (ctrl Feed) GetFeed(c echo.Context) error {

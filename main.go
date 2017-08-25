@@ -17,10 +17,30 @@ func main() {
 	// serve files for dev
 	server.ServeStaticFiles()
 
-	userCtrl := &controllers.User{Context: server}
-	feedCtrl := &controllers.Feed{Context: server}
-	healthCtrl := &controllers.Healthcheck{Context: server}
-	importCtrl := &controllers.Importer{Context: server}
+	cache := server.GetCache()
+	db := server.GetDB()
+
+	userCtrl := &controllers.User{
+		Cache:  &core.CacheStore{Cache: cache},
+		Config: config,
+		Store:  &core.UserStore{DB: db},
+	}
+
+	feedCtrl := &controllers.Feed{
+		Cache:  &core.CacheStore{Cache: cache},
+		Config: config,
+		Store:  &core.UserStore{DB: db},
+	}
+	healthCtrl := &controllers.Healthcheck{
+		Cache:  &core.CacheStore{Cache: cache},
+		Config: config,
+		Store:  &core.UserStore{DB: db},
+	}
+	importCtrl := &controllers.Importer{
+		Cache:  &core.CacheStore{Cache: cache},
+		Config: config,
+		Store:  &core.UserStore{DB: db},
+	}
 
 	// api rest endpoints
 	g := server.Echo.Group("/api")
@@ -41,12 +61,14 @@ func main() {
 
 	// migration for dev
 	user := models.User{Name: "peter"}
-	err := server.GetDB().Register(user)
+	mr := server.GetModelRegistry()
+	err := mr.Register(user)
+
 	if err != nil {
 		server.Echo.Logger.Fatal(err)
 	}
-	server.GetDB().AutoMigrateAll()
-	server.GetDB().Create(&user)
+	mr.AutoMigrateAll()
+	mr.Create(&user)
 
 	// listen
 	go func() {

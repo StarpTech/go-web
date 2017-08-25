@@ -57,7 +57,7 @@ func (m *Model) Register(values ...interface{}) error {
 			case reflect.Struct:
 				models[getTypName(rVal.Type())] = reflect.New(rVal.Type())
 			default:
-				return errors.New("utron: models must be structs")
+				return errors.New("models must be structs")
 			}
 		}
 	}

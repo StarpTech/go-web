@@ -4,13 +4,17 @@ import (
 	"net/http"
 
 	"github.com/labstack/echo"
+	"github.com/starptech/go-web/config"
 	"github.com/starptech/go-web/core/errors"
 	"github.com/starptech/go-web/models"
+	"github.com/starptech/go-web/store"
 	validator "gopkg.in/go-playground/validator.v9"
 )
 
 type Importer struct {
-	Context CtrlContext
+	Store  store.User
+	Cache  store.Cache
+	Config *config.Configuration
 }
 
 type UserEntity struct {
@@ -37,7 +41,7 @@ func (ctrl Importer) ImportUser(c echo.Context) error {
 
 	model := models.User{Name: u.Name}
 
-	if errM := ctrl.Context.GetDB().Create(&model).Error; errM != nil {
+	if errM := ctrl.Store.Create(&model); errM != nil {
 		b := errors.NewBoom(errors.EntityCreationError, "user could not be created", errM)
 		c.Logger().Error(errM)
 		return c.JSON(http.StatusBadRequest, b)

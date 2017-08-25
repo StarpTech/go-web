@@ -7,18 +7,19 @@ import (
 	"time"
 
 	"github.com/go-redis/redis"
+	"github.com/jinzhu/gorm"
 	"github.com/labstack/echo"
-	"github.com/labstack/gommon/log"
 	"github.com/starptech/go-web/cache"
 	"github.com/starptech/go-web/config"
 	"github.com/starptech/go-web/models"
 )
 
 type Server struct {
-	Echo   *echo.Echo            // HTTP middleware
-	config *config.Configuration // Configuration
-	db     *models.Model         // Database connection
-	cache  *redis.Client         // Redis cache connection
+	Echo          *echo.Echo            // HTTP middleware
+	config        *config.Configuration // Configuration
+	db            *gorm.DB              // Database connection
+	cache         *redis.Client         // Redis cache connection
+	modelRegistry *models.Model
 }
 
 // NewServer will create a new instance of the application
@@ -26,19 +27,22 @@ func NewServer(config *config.Configuration) *Server {
 	server := &Server{}
 	server.config = config
 	server.Echo = NewRouter(server)
-	server.db = models.NewModel()
+	server.modelRegistry = models.NewModel()
 	server.cache = cache.NewCache(config)
-	err := server.db.OpenWithConfig(config)
+
+	err := server.modelRegistry.OpenWithConfig(config)
 
 	if err != nil {
-		log.Errorf("gorm: could not connect to db %q", err)
+		server.Echo.Logger.Fatalf("gorm: could not connect to db %q", err)
 	}
+
+	server.db = server.modelRegistry.DB
 
 	return server
 }
 
 // GetDB returns gorm (ORM)
-func (s *Server) GetDB() *models.Model {
+func (s *Server) GetDB() *gorm.DB {
 	return s.db
 }
 
@@ -49,6 +53,10 @@ func (s *Server) GetCache() *redis.Client {
 
 func (s *Server) GetConfig() *config.Configuration {
 	return s.config
+}
+
+func (s *Server) GetModelRegistry() *models.Model {
+	return s.modelRegistry
 }
 
 // Start the http server

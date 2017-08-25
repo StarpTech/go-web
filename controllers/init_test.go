@@ -37,10 +37,30 @@ func TestMain(m *testing.M) {
 }
 
 func setup() {
-	userCtrl := &User{e.server}
-	feedCtrl := &Feed{e.server}
-	healthCtrl := &Healthcheck{e.server}
-	importCtrl := &Importer{e.server}
+	db := e.server.GetDB()
+	cache := e.server.GetCache()
+
+	userCtrl := &User{
+		Cache:  &core.CacheStore{Cache: cache},
+		Config: e.config,
+		Store:  &core.UserStore{DB: db},
+	}
+
+	feedCtrl := &Feed{
+		Cache:  &core.CacheStore{Cache: cache},
+		Config: e.config,
+		Store:  &core.UserStore{DB: db},
+	}
+	healthCtrl := &Healthcheck{
+		Cache:  &core.CacheStore{Cache: cache},
+		Config: e.config,
+		Store:  &core.UserStore{DB: db},
+	}
+	importCtrl := &Importer{
+		Cache:  &core.CacheStore{Cache: cache},
+		Config: e.config,
+		Store:  &core.UserStore{DB: db},
+	}
 
 	g := e.server.Echo.Group("/api")
 	g.GET("/users/:id", userCtrl.GetUserJSON)
@@ -56,17 +76,16 @@ func setup() {
 
 	// test data
 	user := models.User{Name: "peter"}
+	mr := e.server.GetModelRegistry()
+	err := mr.Register(user)
 
-	// bootstrap db
-	err := e.server.GetDB().Register(user)
 	if err != nil {
-		log.Fatal(err)
+		e.server.Echo.Logger.Fatal(err)
 	}
-
-	e.server.GetDB().AutoMigrateAll()
-	e.server.GetDB().Create(&user)
+	mr.AutoMigrateAll()
+	mr.Create(&user)
 }
 
 func tearDown() {
-	e.server.GetDB().AutoDropAll()
+	e.server.GetModelRegistry().AutoDropAll()
 }
