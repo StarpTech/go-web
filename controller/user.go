@@ -20,13 +20,13 @@ type (
 
 func (ctrl User) GetUser(c echo.Context) error {
 	cc := c.(*context.Context)
-	up := c.Param("id")
+	up := cc.Param("id")
 	userID, err := strconv.Atoi(up)
 
 	if err != nil {
 		b := errors.NewBoom(errors.InvalidUserID, "invalid user id", err)
-		c.Logger().Error(err)
-		return c.JSON(http.StatusBadRequest, b)
+		cc.Logger().Error(err)
+		return cc.JSON(http.StatusBadRequest, b)
 	}
 
 	user := models.User{ID: uint64(userID)}
@@ -35,8 +35,8 @@ func (ctrl User) GetUser(c echo.Context) error {
 
 	if err != nil {
 		b := errors.NewBoom(errors.UserNotFound, "user could not be found", err)
-		c.Logger().Error(err)
-		return c.JSON(http.StatusNotFound, b)
+		cc.Logger().Error(err)
+		return cc.JSON(http.StatusNotFound, b)
 	}
 
 	vm := UserViewModel{
@@ -44,7 +44,7 @@ func (ctrl User) GetUser(c echo.Context) error {
 		PublicDir: cc.Config.AssetsPublicDir,
 	}
 
-	return c.Render(http.StatusOK, "user.html", vm)
+	return cc.Render(http.StatusOK, "user.html", vm)
 
 }
 

@@ -7,7 +7,7 @@ import (
 
 	"github.com/labstack/echo"
 	"github.com/starptech/go-web/context"
-	"github.com/starptech/go-web/middlewares"
+	"github.com/starptech/go-web/middleware"
 	"github.com/starptech/go-web/models"
 	"github.com/stretchr/testify/assert"
 )
@@ -33,7 +33,6 @@ func TestUserPage(t *testing.T) {
 }
 
 func TestUnitGetUserJson(t *testing.T) {
-
 	s := echo.New()
 	g := s.Group("/api")
 
@@ -47,7 +46,7 @@ func TestUnitGetUserJson(t *testing.T) {
 		UserStore: &UserFakeStore{},
 	}
 
-	s.Use(middlewares.EnrichContext(cc))
+	s.Use(middleware.WrapContext(cc))
 
 	g.GET("/users/:id", userCtrl.GetUserJSON)
 	s.ServeHTTP(rec, req)

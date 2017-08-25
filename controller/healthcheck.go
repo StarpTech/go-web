@@ -32,5 +32,5 @@ func (ctrl Healthcheck) GetHealthcheck(c echo.Context) error {
 		m.Details["cache"] = false
 	}
 
-	return c.JSON(http.StatusOK, m)
+	return cc.JSON(http.StatusOK, m)
 }
