@@ -38,7 +38,7 @@ $ go run main.go
 - Administration of postgresql database [pgAdmin](https://www.pgadmin.org/)
 - REST client [Postman](https://chrome.google.com/webstore/detail/postman/fhbjgbiflinjbdggehcddcbncdddomop?hl=en)
 - Go testing in the browser [go-convey](https://github.com/smartystreets/goconvey)
-- Benchmarking [bombardier](go get -u github.com/codesenberg/bombardier)
+- Benchmarking [bombardier](http://github.com/codesenberg/bombardier)
 
 # Benchmarking
 
