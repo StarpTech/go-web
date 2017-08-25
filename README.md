@@ -68,7 +68,7 @@ $ bombardier -c 10 -n 10000 http://localhost:8080/users/1/details
 - [ ] JWT Decoding
 - [X] Benchmarks
 - [X] Integration tests
-- [ ] Unit tests
+- [X] Unit tests
 - [ ] Using seperate interface for db operations (testing)
 - [X] Setup Travis CI with static code analysis
 - [ ] Swagger Documentation
