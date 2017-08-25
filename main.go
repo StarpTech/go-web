@@ -11,7 +11,6 @@ import (
 
 func main() {
 	config := config.NewConfig()
-
 	// create server
 	server := core.NewServer(config)
 	// serve files for dev
