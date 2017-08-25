@@ -18,6 +18,7 @@ Modern Web Application with Golang "Keep it simple, stupid"
 - Frontend module bundler [rollupjs](https://rollupjs.org/)
 - Stylesheet language [sass](http://sass-lang.com/)
 - Redis Cache [Redis](https://github.com/go-redis/redis)
+- Localization [gotext](https://github.com/leonelquinteros/gotext)
 
 # Getting Started
 
@@ -65,6 +66,7 @@ $ bombardier -c 10 -n 10000 http://localhost:8080/users/1/details
 - [X] Metric endpoint (Prometheus)
 - [X] Healthcheck endpoint
 - [X] Distributed cache with Redis
+- [X] Localization
 - [ ] JWT Decoding
 - [X] Benchmarks
 - [X] Integration tests

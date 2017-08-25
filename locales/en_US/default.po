@@ -1,0 +1,14 @@
+# msgid ""
+# msgstr ""
+# Initial comment
+# Headers below
+"Language: en\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+# Some comment
+msgid "My text"
+msgstr "Translated text"
+# More comments
+msgid "Another string"
+msgstr ""

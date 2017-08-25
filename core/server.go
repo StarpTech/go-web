@@ -2,6 +2,7 @@ package core
 
 import (
 	"context"
+	"log"
 	"os"
 	"os/signal"
 	"time"
@@ -19,7 +20,7 @@ type Server struct {
 	config        *config.Configuration // Configuration
 	db            *gorm.DB              // Database connection
 	cache         *redis.Client         // Redis cache connection
-	modelRegistry *models.Model
+	modelRegistry *models.Model         // Model registry for migration
 }
 
 // NewServer will create a new instance of the application
@@ -30,7 +31,7 @@ func NewServer(config *config.Configuration) *Server {
 	err := server.modelRegistry.OpenWithConfig(config)
 
 	if err != nil {
-		server.Echo.Logger.Fatalf("gorm: could not connect to db %q", err)
+		log.Fatalf("gorm: could not connect to db %q", err)
 	}
 
 	server.cache = cache.NewCache(config)
@@ -50,10 +51,12 @@ func (s *Server) GetCache() *redis.Client {
 	return s.cache
 }
 
+// GetConfig return the current app configuration
 func (s *Server) GetConfig() *config.Configuration {
 	return s.config
 }
 
+// GetModelRegistry returns the model registry
 func (s *Server) GetModelRegistry() *models.Model {
 	return s.modelRegistry
 }

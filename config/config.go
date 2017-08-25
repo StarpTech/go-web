@@ -21,6 +21,9 @@ type Configuration struct {
 	IsProduction     bool   `env:"PRODUCTION"`
 	GrayLogAddr      string `env:"GRAYLOG_ADDR"`
 	RequestLogger    bool   `env:"REQUEST_LOGGER"`
+	LocaleDir        string `env:"LOCALE_DIR" envDefault:"locales"`
+	Lang             string `env:"LANG" envDefault:"EN_US"`
+	LangDomain       string `env:"LANG_DOMAIN" envDefault:"default"`
 }
 
 func NewConfig(files ...string) *Configuration {

@@ -8,6 +8,7 @@ import (
 	"path/filepath"
 
 	"github.com/labstack/echo"
+	gotext "gopkg.in/leonelquinteros/gotext.v1"
 )
 
 var mainTmpl = `{{define "main" }} {{ template "base" . }} {{ end }}`
@@ -17,10 +18,10 @@ type templateRenderer struct {
 }
 
 // NewTemplateRenderer creates a new setup to render layout based go templates
-func newTemplateRenderer(layoutsDir, templatesDir string) *templateRenderer {
+func newTemplateRenderer(layoutsDir, templatesDir, localesDir, lang, domain string) *templateRenderer {
 	r := &templateRenderer{}
 	r.templates = make(map[string]*template.Template)
-	r.Load(layoutsDir, templatesDir)
+	r.Load(layoutsDir, templatesDir, localesDir, lang, domain)
 	return r
 }
 
@@ -34,7 +35,7 @@ func (t *templateRenderer) Render(w io.Writer, name string, data interface{}, c 
 	return tmpl.ExecuteTemplate(w, "base", data)
 }
 
-func (t *templateRenderer) Load(layoutsDir, templatesDir string) {
+func (t *templateRenderer) Load(layoutsDir, templatesDir, localesDir, lang, domain string) {
 	layouts, err := filepath.Glob(layoutsDir)
 	if err != nil {
 		log.Fatal(err)
@@ -46,7 +47,16 @@ func (t *templateRenderer) Load(layoutsDir, templatesDir string) {
 		log.Fatal(err)
 	}
 
+	funcMap := template.FuncMap{
+		"Loc": func(str string, vars ...interface{}) string {
+			return gotext.Get(str, vars...)
+		},
+	}
+
+	gotext.Configure(localesDir, lang, domain)
+
 	mainTemplate := template.New("main")
+	mainTemplate.Funcs(funcMap)
 
 	mainTemplate, err = mainTemplate.Parse(mainTmpl)
 	if err != nil {
