@@ -5,6 +5,7 @@ import (
 	"github.com/starptech/go-web/models"
 )
 
+// UserStore implements the UserStore interface
 type UserStore struct {
 	DB *gorm.DB
 }
