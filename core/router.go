@@ -36,7 +36,7 @@ func NewRouter(server *Server) *echo.Echo {
 	e.HTTPErrorHandler = HTTPErrorHandler
 
 	// Add html templates with go template syntax
-	renderer := newTemplateRenderer(config.LayoutDir, config.TemplateDir, config.LocaleDir, config.Lang, config.LangDomain)
+	renderer := newTemplateRenderer(config.LayoutDir, config.TemplateDir)
 	e.Renderer = renderer
 
 	return e

@@ -12,6 +12,7 @@ import (
 	"github.com/labstack/echo"
 	"github.com/starptech/go-web/cache"
 	"github.com/starptech/go-web/config"
+	"github.com/starptech/go-web/i18n"
 	"github.com/starptech/go-web/models"
 )
 
@@ -27,6 +28,7 @@ type Server struct {
 func NewServer(config *config.Configuration) *Server {
 	server := &Server{}
 	server.config = config
+	i18n.Configure(config.LocaleDir, config.Lang, config.LangDomain)
 	server.modelRegistry = models.NewModel()
 	err := server.modelRegistry.OpenWithConfig(config)
 
