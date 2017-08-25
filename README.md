@@ -69,7 +69,7 @@ $ bombardier -c 10 -n 10000 http://localhost:8080/users/1/details
 - [X] Benchmarks
 - [X] Integration tests
 - [X] Unit tests
-- [ ] Using seperate interface for db operations (testing)
+- [X] Using interface for db, cache (better testable)
 - [X] Setup Travis CI with static code analysis
 - [ ] Swagger Documentation
 - [ ] Code documentation `godoc`
