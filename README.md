@@ -85,6 +85,10 @@ Each of the items should be possible with the easiest solution.
 - [X] Code documentation `godoc`
 - [X] Rollup bundles with hashs
 
+## Deploy on Heroku
+
+[![Heroku Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/StarpTech/go-web)
+
 # Useful links
 
 - http://www.alexedwards.net/blog/organising-database-access
