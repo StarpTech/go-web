@@ -24,7 +24,7 @@ func (ctrl User) GetUser(c echo.Context) error {
 	userID, err := strconv.Atoi(up)
 
 	if err != nil {
-		b := errors.NewBoom(errors.InvalidUserID, "invalid user id", err)
+		b := errors.NewBoom(errors.InvalidUserID, errors.ErrorText(errors.InvalidUserID), err)
 		cc.Logger().Error(err)
 		return cc.JSON(http.StatusBadRequest, b)
 	}
@@ -34,7 +34,7 @@ func (ctrl User) GetUser(c echo.Context) error {
 	err = cc.UserStore.First(&user)
 
 	if err != nil {
-		b := errors.NewBoom(errors.UserNotFound, "user could not be found", err)
+		b := errors.NewBoom(errors.UserNotFound, errors.ErrorText(errors.UserNotFound), err)
 		cc.Logger().Error(err)
 		return cc.JSON(http.StatusNotFound, b)
 	}
@@ -54,7 +54,7 @@ func (ctrl User) GetUserDetails(c echo.Context) error {
 	userID, err := strconv.Atoi(up)
 
 	if err != nil {
-		b := errors.NewBoom(errors.InvalidUserID, "invalid user id", err)
+		b := errors.NewBoom(errors.InvalidUserID, errors.ErrorText(errors.InvalidUserID), err)
 		c.Logger().Error(b)
 		return c.JSON(http.StatusBadRequest, b)
 	}
@@ -64,7 +64,7 @@ func (ctrl User) GetUserDetails(c echo.Context) error {
 	err = cc.UserStore.First(&user)
 
 	if err != nil {
-		b := errors.NewBoom(errors.UserNotFound, "user could not be found", err)
+		b := errors.NewBoom(errors.UserNotFound, errors.ErrorText(errors.UserNotFound), err)
 		c.Logger().Error(err)
 		return c.JSON(http.StatusNotFound, b)
 	}
@@ -84,7 +84,7 @@ func (ctrl User) GetUserJSON(c echo.Context) error {
 	userID, err := strconv.Atoi(up)
 
 	if err != nil {
-		b := errors.NewBoom(errors.InvalidUserID, "invalid user id", err)
+		b := errors.NewBoom(errors.InvalidUserID, errors.ErrorText(errors.InvalidUserID), err)
 		c.Logger().Error(err)
 		return c.JSON(http.StatusBadRequest, b)
 	}
@@ -94,7 +94,7 @@ func (ctrl User) GetUserJSON(c echo.Context) error {
 	err = cc.UserStore.First(&user)
 
 	if err != nil {
-		b := errors.NewBoom(errors.UserNotFound, "user could not be found", err)
+		b := errors.NewBoom(errors.UserNotFound, errors.ErrorText(errors.UserNotFound), err)
 		c.Logger().Error(err)
 		return c.JSON(http.StatusNotFound, b)
 	}

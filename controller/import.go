@@ -21,7 +21,7 @@ func (ctrl Importer) ImportUser(c echo.Context) error {
 	u := new(UserEntity)
 
 	if errB := cc.Bind(u); errB != nil {
-		b := errors.NewBoom(errors.InvalidBindingModel, "invalid user model", errB)
+		b := errors.NewBoom(errors.InvalidBindingModel, errors.ErrorText(errors.InvalidBindingModel), errB)
 		c.Logger().Error(errB)
 		return c.JSON(http.StatusBadRequest, b)
 	}
@@ -37,7 +37,7 @@ func (ctrl Importer) ImportUser(c echo.Context) error {
 	model := models.User{Name: u.Name}
 
 	if errM := cc.UserStore.Create(&model); errM != nil {
-		b := errors.NewBoom(errors.EntityCreationError, "user could not be created", errM)
+		b := errors.NewBoom(errors.EntityCreationError, errors.ErrorText(errors.EntityCreationError), errM)
 		cc.Logger().Error(errM)
 		return cc.JSON(http.StatusBadRequest, b)
 	}

@@ -8,6 +8,14 @@ const (
 	EntityCreationError = "entityCreationError"
 )
 
+var errorMessage = map[string]string{
+	"invalidUserID":       "invalid user id",
+	"internalError":       "an internal error occured",
+	"userNotFound":        "user could not be found",
+	"invalidBindingModel": "model could not be bound",
+	"EntityCreationError": "could not create entity",
+}
+
 type Booms struct {
 	Errors []Boom
 }
@@ -21,4 +29,8 @@ type Boom struct {
 
 func NewBoom(code, msg string, details interface{}) *Boom {
 	return &Boom{Code: code, Message: msg, Details: details}
+}
+
+func ErrorText(code string) string {
+	return errorMessage[code]
 }
