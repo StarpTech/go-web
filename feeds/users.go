@@ -106,13 +106,14 @@ func (u *userFeed) poll(last uint64) {
 	fmt.Println(feed)
 }
 
-// update the database with the current feed
+// update the database with the feed payload
 func (u *userFeed) update(f *feed) error {
 	return nil
 }
 
 // saveLast store the cursor of the current feed position
-func (u *userFeed) saveLast(int uint64) {
+func (u *userFeed) saveLast(c uint64) {
+	u.Last = c
 }
 
 // Request the feed endpoint and return the feed results
