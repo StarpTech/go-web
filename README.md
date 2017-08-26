@@ -93,3 +93,4 @@ Each of the items should be implemented with the easiest approach.
 # Useful links
 
 - http://www.alexedwards.net/blog/organising-database-access
+- https://12factor.net/
