@@ -41,6 +41,14 @@ $ go run main.go
 - Go testing in the browser [go-convey](https://github.com/smartystreets/goconvey)
 - Benchmarking [bombardier](http://github.com/codesenberg/bombardier)
 
+# Documentation
+
+```
+$ godoc github.com/starptech/go-web/controller
+$ godoc -http=:6060
+```
+Visit localhost:6060 and search for `go-web`
+
 # Benchmarking
 
 ```
@@ -67,14 +75,13 @@ $ bombardier -c 10 -n 10000 http://localhost:8080/users/1/details
 - [X] Healthcheck endpoint
 - [X] Distributed cache with Redis
 - [X] Localization in templates and handlers
-- [ ] JWT Decoding
+- [X] JWT Decoding
 - [X] Benchmarks
 - [X] Integration tests
 - [X] Unit tests
 - [X] Using interface for db, cache (better testable)
 - [X] Setup Travis CI with static code analysis
-- [ ] Swagger Documentation
-- [ ] Code documentation `godoc`
+- [X] Code documentation `godoc`
 - [ ] Rollup bundles with hashs
 
 # Useful links

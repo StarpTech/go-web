@@ -24,6 +24,7 @@ type Configuration struct {
 	LocaleDir        string `env:"LOCALE_DIR" envDefault:"locales"`
 	Lang             string `env:"LANG" envDefault:"en_US"`
 	LangDomain       string `env:"LANG_DOMAIN" envDefault:"default"`
+	JwtSecret        string `env:"JWT_SECRET,required"`
 }
 
 func NewConfig(files ...string) *Configuration {
