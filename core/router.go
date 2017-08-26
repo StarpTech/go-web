@@ -29,11 +29,20 @@ func NewRouter(server *Server) *echo.Echo {
 		e.Use(middleware.Logger()) // request logger
 	}
 
-	e.Use(middleware.Recover()) // panic errors are thrown
-	e.Use(middleware.JWT([]byte(config.JwtSecret)))
+	e.Use(middleware.Recover())       // panic errors are thrown
 	e.Use(middleware.BodyLimit("5M")) // limit body payload to 5MB
 	e.Use(middleware.Secure())        // provide protection against injection attacks
 	e.Use(middleware.RequestID())     // generate unique requestId
+
+	/*e.Use(middleware.JWTWithConfig(middleware.JWTConfig{
+		Skipper:      middleware.DefaultSkipper,
+		SigningKey: []byte(config.JwtSecret),
+	}))*/
+
+	e.Use(middleware.CORSWithConfig(middleware.CORSConfig{
+		AllowOrigins: []string{"*"},
+		AllowMethods: []string{echo.GET, echo.HEAD, echo.PUT, echo.PATCH, echo.POST, echo.DELETE},
+	}))
 
 	// add custom error formating
 	e.HTTPErrorHandler = HTTPErrorHandler
