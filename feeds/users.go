@@ -19,6 +19,12 @@ import (
 //
 // u := feeds.NewUser()
 // go u.Start()
+//
+// The feed endpoint accept a parameter called "last" which is used as cursor for the current feed position
+// This cursor will be saved when the update process is finsished
+// GET http://example.de/feed?last=1503769504008
+// { "items": [{ "name": "peter" }] }
+//
 
 var configuration *config
 
