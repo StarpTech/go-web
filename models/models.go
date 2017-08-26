@@ -4,6 +4,7 @@ import (
 	"errors"
 	"reflect"
 	"strings"
+	"time"
 
 	"github.com/jinzhu/gorm"
 	_ "github.com/jinzhu/gorm/dialects/postgres"
@@ -36,6 +37,12 @@ func (m *Model) OpenWithConfig(cfg *config.Configuration) error {
 	if err != nil {
 		return err
 	}
+
+	// https://github.com/go-sql-driver/mysql/issues/461
+	db.DB().SetConnMaxLifetime(time.Minute * 5)
+	db.DB().SetMaxIdleConns(0)
+	db.DB().SetMaxOpenConns(20)
+
 	m.DB = db
 	m.isOpen = true
 	return nil

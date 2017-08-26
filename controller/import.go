@@ -17,10 +17,10 @@ type UserEntity struct {
 }
 
 func (ctrl Importer) ImportUser(c echo.Context) error {
-	cc := c.(*context.Context)
+	app := c.Get("app").(*context.AppContext)
 	u := new(UserEntity)
 
-	if errB := cc.Bind(u); errB != nil {
+	if errB := c.Bind(u); errB != nil {
 		b := errors.NewBoom(errors.InvalidBindingModel, errors.ErrorText(errors.InvalidBindingModel), errB)
 		c.Logger().Error(errB)
 		return c.JSON(http.StatusBadRequest, b)
@@ -30,18 +30,18 @@ func (ctrl Importer) ImportUser(c echo.Context) error {
 
 	if errV != nil {
 		err := errV.(validator.ValidationErrors)
-		cc.Logger().Error(err.Error())
+		c.Logger().Error(err.Error())
 		return err
 	}
 
 	model := models.User{Name: u.Name}
 
-	if errM := cc.UserStore.Create(&model); errM != nil {
+	if errM := app.UserStore.Create(&model); errM != nil {
 		b := errors.NewBoom(errors.EntityCreationError, errors.ErrorText(errors.EntityCreationError), errM)
-		cc.Logger().Error(errM)
-		return cc.JSON(http.StatusBadRequest, b)
+		c.Logger().Error(errM)
+		return c.JSON(http.StatusBadRequest, b)
 	}
 
-	return cc.JSON(http.StatusOK, u)
+	return c.JSON(http.StatusOK, u)
 
 }

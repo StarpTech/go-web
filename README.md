@@ -66,7 +66,7 @@ $ bombardier -c 10 -n 10000 http://localhost:8080/users/1/details
 - [X] Metric endpoint (Prometheus)
 - [X] Healthcheck endpoint
 - [X] Distributed cache with Redis
-- [X] Localization
+- [X] Localization in templates and handlers
 - [ ] JWT Decoding
 - [X] Benchmarks
 - [X] Integration tests

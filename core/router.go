@@ -4,7 +4,8 @@ import (
 	"github.com/labstack/echo"
 	"github.com/labstack/echo/middleware"
 	"github.com/starptech/go-web/context"
-	mid "github.com/starptech/go-web/middleware"
+	mid "github.com/starptech/go-web/core/middleware"
+	"github.com/starptech/go-web/i18n"
 
 	v "gopkg.in/go-playground/validator.v9"
 )
@@ -15,13 +16,14 @@ func NewRouter(server *Server) *echo.Echo {
 	// define validator
 	e.Validator = &Validator{validator: v.New()}
 
-	cc := &context.Context{
+	cc := &context.AppContext{
 		Cache:     &CacheStore{Cache: server.cache},
 		Config:    config,
 		UserStore: &UserStore{DB: server.db},
+		Loc:       i18n.New(),
 	}
 
-	e.Use(mid.WrapContext(cc))
+	e.Use(mid.AppContext(cc))
 
 	if config.RequestLogger {
 		e.Use(middleware.Logger()) // request logger

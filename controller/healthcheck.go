@@ -16,11 +16,11 @@ type healthcheckReport struct {
 
 // GetHealthcheck return the current functional state of the application
 func (ctrl Healthcheck) GetHealthcheck(c echo.Context) error {
-	cc := c.(*context.Context)
+	app := c.Get("app").(*context.AppContext)
 	m := healthcheckReport{Health: "OK"}
 
-	dbCheck := cc.UserStore.Ping()
-	cacheCheck := cc.Cache.Ping()
+	dbCheck := app.UserStore.Ping()
+	cacheCheck := app.Cache.Ping()
 
 	if dbCheck != nil {
 		m.Health = "NOT"
@@ -32,5 +32,5 @@ func (ctrl Healthcheck) GetHealthcheck(c echo.Context) error {
 		m.Details["cache"] = false
 	}
 
-	return cc.JSON(http.StatusOK, m)
+	return c.JSON(http.StatusOK, m)
 }

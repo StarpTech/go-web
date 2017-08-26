@@ -22,7 +22,7 @@ type Configuration struct {
 	GrayLogAddr      string `env:"GRAYLOG_ADDR"`
 	RequestLogger    bool   `env:"REQUEST_LOGGER"`
 	LocaleDir        string `env:"LOCALE_DIR" envDefault:"locales"`
-	Lang             string `env:"LANG" envDefault:"EN_US"`
+	Lang             string `env:"LANG" envDefault:"en_US"`
 	LangDomain       string `env:"LANG_DOMAIN" envDefault:"default"`
 }
 

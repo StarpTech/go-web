@@ -19,37 +19,37 @@ type (
 )
 
 func (ctrl User) GetUser(c echo.Context) error {
-	cc := c.(*context.Context)
-	up := cc.Param("id")
+	app := c.Get("app").(*context.AppContext)
+	up := c.Param("id")
 	userID, err := strconv.Atoi(up)
 
 	if err != nil {
 		b := errors.NewBoom(errors.InvalidUserID, errors.ErrorText(errors.InvalidUserID), err)
-		cc.Logger().Error(err)
-		return cc.JSON(http.StatusBadRequest, b)
+		c.Logger().Error(err)
+		return c.JSON(http.StatusBadRequest, b)
 	}
 
 	user := models.User{ID: uint64(userID)}
 
-	err = cc.UserStore.First(&user)
+	err = app.UserStore.First(&user)
 
 	if err != nil {
 		b := errors.NewBoom(errors.UserNotFound, errors.ErrorText(errors.UserNotFound), err)
-		cc.Logger().Error(err)
-		return cc.JSON(http.StatusNotFound, b)
+		c.Logger().Error(err)
+		return c.JSON(http.StatusNotFound, b)
 	}
 
 	vm := UserViewModel{
 		Name:      user.Name,
-		PublicDir: cc.Config.AssetsPublicDir,
+		PublicDir: app.Config.AssetsPublicDir,
 	}
 
-	return cc.Render(http.StatusOK, "user.html", vm)
+	return c.Render(http.StatusOK, "user.html", vm)
 
 }
 
 func (ctrl User) GetUserDetails(c echo.Context) error {
-	cc := c.(*context.Context)
+	app := c.Get("app").(*context.AppContext)
 	up := c.Param("id")
 	userID, err := strconv.Atoi(up)
 
@@ -61,7 +61,7 @@ func (ctrl User) GetUserDetails(c echo.Context) error {
 
 	user := models.User{ID: uint64(userID)}
 
-	err = cc.UserStore.First(&user)
+	err = app.UserStore.First(&user)
 
 	if err != nil {
 		b := errors.NewBoom(errors.UserNotFound, errors.ErrorText(errors.UserNotFound), err)
@@ -71,7 +71,7 @@ func (ctrl User) GetUserDetails(c echo.Context) error {
 
 	vm := UserViewModel{
 		Name:      user.Name,
-		PublicDir: cc.Config.AssetsPublicDir,
+		PublicDir: app.Config.AssetsPublicDir,
 	}
 
 	return c.Render(http.StatusOK, "details.html", vm)
@@ -79,7 +79,7 @@ func (ctrl User) GetUserDetails(c echo.Context) error {
 }
 
 func (ctrl User) GetUserJSON(c echo.Context) error {
-	cc := c.(*context.Context)
+	app := c.Get("app").(*context.AppContext)
 	up := c.Param("id")
 	userID, err := strconv.Atoi(up)
 
@@ -91,7 +91,7 @@ func (ctrl User) GetUserJSON(c echo.Context) error {
 
 	user := models.User{ID: uint64(userID)}
 
-	err = cc.UserStore.First(&user)
+	err = app.UserStore.First(&user)
 
 	if err != nil {
 		b := errors.NewBoom(errors.UserNotFound, errors.ErrorText(errors.UserNotFound), err)
@@ -101,7 +101,7 @@ func (ctrl User) GetUserJSON(c echo.Context) error {
 
 	vm := UserViewModel{
 		Name:      user.Name,
-		PublicDir: cc.Config.AssetsPublicDir,
+		PublicDir: app.Config.AssetsPublicDir,
 	}
 
 	return c.JSON(http.StatusOK, vm)
