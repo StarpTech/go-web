@@ -2,10 +2,10 @@ package config
 
 import (
 	"fmt"
+	"log"
 
 	"github.com/caarlos0/env"
 	"github.com/joho/godotenv"
-	"github.com/labstack/gommon/log"
 )
 
 type Configuration struct {
@@ -31,7 +31,7 @@ func NewConfig(files ...string) *Configuration {
 	err := godotenv.Load(files...)
 
 	if err != nil {
-		log.Infof("No .env file could be found %q", files)
+		log.Printf("No .env file could be found %q\n", files)
 	}
 
 	cfg := Configuration{}

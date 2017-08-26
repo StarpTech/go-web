@@ -46,6 +46,7 @@ func main() {
 	if err != nil {
 		server.Echo.Logger.Fatal(err)
 	}
+
 	mr.AutoMigrateAll()
 	mr.Create(&user)
 
