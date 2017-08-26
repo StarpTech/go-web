@@ -125,7 +125,12 @@ func (u *userFeed) request() (*feed, error) {
 	client.KeepLog = true
 
 	resp, err := client.Get(configuration.URL)
-	defer resp.Body.Close()
+	defer func() {
+		err := resp.Body.Close()
+		if err != nil {
+			log.Printf("error closing response body %q\n", err)
+		}
+	}()
 
 	if err != nil {
 		return nil, ErrClient
