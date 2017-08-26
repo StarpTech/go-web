@@ -12,7 +12,8 @@
     "api"
   ],
   "addons": [
-    "heroku-postgresql"
+    "heroku-postgresql",
+    "heroku-redis"
   ],
   "env": {}
 }
