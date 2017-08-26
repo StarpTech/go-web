@@ -86,7 +86,7 @@ func NewUser() *userFeed {
 
 // Poll starts the mechanism to initiate updates in certain intervals
 func (u *userFeed) Start() {
-	for _ = range u.ticker.C {
+	for range u.ticker.C {
 		u.poll(u.Last)
 	}
 }
