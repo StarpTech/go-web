@@ -58,6 +58,7 @@ $ bombardier -c 10 -n 10000 http://localhost:8080/users/1/details
 ```
 
 # TODO
+Each of the items should be possible with the easiest solution.
 
 - [X] Testsuite
 - [X] Parameter Validation
@@ -75,14 +76,14 @@ $ bombardier -c 10 -n 10000 http://localhost:8080/users/1/details
 - [X] Healthcheck endpoint
 - [X] Distributed cache with Redis
 - [X] Localization in templates and handlers
-- [X] JWT Decoding
+- [X] JWT Decoding (built in Echo)
 - [X] Benchmarks
 - [X] Integration tests
 - [X] Unit tests
 - [X] Using interface for db, cache (better testable)
 - [X] Setup Travis CI with static code analysis
 - [X] Code documentation `godoc`
-- [ ] Rollup bundles with hashs
+- [X] Rollup bundles with hashs
 
 # Useful links
 

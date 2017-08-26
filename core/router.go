@@ -13,7 +13,6 @@ import (
 func NewRouter(server *Server) *echo.Echo {
 	config := server.config
 	e := echo.New()
-	// define validator
 	e.Validator = &Validator{validator: v.New()}
 
 	cc := &context.AppContext{
@@ -33,11 +32,6 @@ func NewRouter(server *Server) *echo.Echo {
 	e.Use(middleware.BodyLimit("5M")) // limit body payload to 5MB
 	e.Use(middleware.Secure())        // provide protection against injection attacks
 	e.Use(middleware.RequestID())     // generate unique requestId
-
-	/*e.Use(middleware.JWTWithConfig(middleware.JWTConfig{
-		Skipper:      middleware.DefaultSkipper,
-		SigningKey: []byte(config.JwtSecret),
-	}))*/
 
 	e.Use(middleware.CORSWithConfig(middleware.CORSConfig{
 		AllowOrigins: []string{"*"},

@@ -37,6 +37,7 @@
     "rollup-plugin-bundle-size": "^1.0.1",
     "rollup-plugin-coverage": "^0.1.4",
     "rollup-plugin-eslint": "^4.0.0",
+    "rollup-plugin-hash": "^1.2.2",
     "rollup-plugin-json": "^2.3.0",
     "rollup-plugin-node-resolve": "^3.0.0",
     "rollup-plugin-scss": "^0.3.0",

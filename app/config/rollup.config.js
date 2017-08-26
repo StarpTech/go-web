@@ -1,6 +1,7 @@
 import json from 'rollup-plugin-json'
 import resolve from 'rollup-plugin-node-resolve'
 import babel from 'rollup-plugin-babel'
+import hash from 'rollup-plugin-hash'
 
 import bundleSize from './rollup-plugin-bundle-size'
 import scssTask from './rollup.scss.config'
@@ -22,6 +23,10 @@ const componentConfig = {
     }),
     babel({
       exclude: 'node_modules/**'
+    }),
+    hash({
+      dest: componentsDistPath + '.[hash].js',
+      manifest: 'dist/components.manifest.json'
     }),
     uglifyTask({
       distPath: componentsDistPath
@@ -48,6 +53,10 @@ const userConfig = {
     }),
     scssTask({
       distPath: userDistPath
+    }),
+    hash({
+      dest: userDistPath + '.[hash].js',
+      manifest: 'dist/user.manifest.json'
     }),
     babel({
       exclude: 'node_modules/**'
@@ -77,6 +86,10 @@ const userDetailsConfig = {
     }),
     scssTask({
       distPath: userDetailsDistPath
+    }),
+    hash({
+      dest: userDetailsDistPath + '.[hash].js',
+      manifest: 'dist/user-details.manifest.json'
     }),
     babel({
       exclude: 'node_modules/**'
