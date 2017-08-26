@@ -58,7 +58,7 @@ $ bombardier -c 10 -n 10000 http://localhost:8080/users/1/details
 ```
 
 # TODO
-Each of the items should be possible with the easiest solution.
+Each of the items should be implemented with the easiest approach.
 
 - [X] Testsuite
 - [X] Parameter Validation
@@ -84,6 +84,7 @@ Each of the items should be possible with the easiest solution.
 - [X] Setup Travis CI with static code analysis
 - [X] Code documentation `godoc`
 - [X] Rollup bundles with hashs
+- [X] Implement sample feed machanism (timestamp based)
 
 ## Deploy on Heroku
 
