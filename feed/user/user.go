@@ -11,10 +11,10 @@ import (
 	"github.com/starptech/go-web/feed"
 )
 
-// Example only configurable with env variables
-//
+// Example:
+// cfg := feed.Config{Table: "user", Interval: 5, URL: "http://example.de/feed"}
 // store := feed.NewMemoryStore()
-// uf := userFeed.NewUser(feed.Config{Table: "user", Interval: 5, URL: "http://example.de/feed"}, store)
+// uf := userFeed.NewUser(cfg, store)
 // go uf.Start()
 //
 // The feed endpoint accept a parameter called "last" which is used as cursor for the current feed position
