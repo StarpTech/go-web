@@ -90,7 +90,8 @@ Each of the items should be implemented with the easiest approach.
 
 [![Heroku Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/StarpTech/go-web)
 
-# Useful links
+# Further reading
 
 - http://www.alexedwards.net/blog/organising-database-access
 - https://12factor.net/
+- https://dev.otto.de/2015/09/30/on-monoliths-and-microservices/
