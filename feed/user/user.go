@@ -48,7 +48,7 @@ func (u *Feed) Start() {
 }
 
 // poll start a request against the feed endpoint
-func (u *Feed) poll(last uint64) {
+func (u *Feed) poll(after uint64) {
 	feed, err := u.request()
 
 	if err != nil {
@@ -57,7 +57,9 @@ func (u *Feed) poll(last uint64) {
 			fmt.Println(err)
 		}
 	} else if err := u.store.Save(feed); err == nil {
-		u.store.SetPosition(u.config.Table, last)
+		if err := u.store.SetPosition(u.config.Table, after); err == nil {
+			u.after = after
+		}
 	}
 
 	fmt.Println(feed)
