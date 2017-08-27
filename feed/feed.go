@@ -16,7 +16,6 @@ type (
 		after  uint64
 		ticker *time.Ticker
 	}
-	FeedItem interface{}
 	RootFeed struct {
 		Items []FeedItem `json:"items"`
 	}
@@ -24,5 +23,9 @@ type (
 		URL      string
 		Table    string
 		Interval int64
+	}
+	FeedItem      interface{}
+	FeedRequester interface {
+		Request(url string) (*RootFeed, error)
 	}
 )
