@@ -3,7 +3,6 @@ package feed
 type MemoryStore struct {
 	db        []interface{}
 	positions map[string]uint64
-	out       interface{}
 }
 
 func NewMemoryStore() *MemoryStore {
