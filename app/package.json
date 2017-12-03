@@ -6,7 +6,6 @@
   "scripts": {
     "build": "rollup -c config/rollup.config.js",
     "build:watch": "npm run build -- -w",
-    "lint": "standard --fix src/**/*.js",
     "dependencies:check": "npm-check -p || true"
   },
   "repository": {
@@ -20,41 +19,36 @@
   },
   "homepage": "https://github.com/StarpTech/go-web#readme",
   "dependencies": {
-    "custom-event-polyfill": "^0.3.0",
-    "document-register-element": "^1.7.0"
+    "riot": "^3.7.4"
   },
   "devDependencies": {
-    "autoprefixer": "^7.1.2",
+    "autoprefixer": "^7.2.0",
     "babel-core": "^6.26.0",
     "babel-plugin-external-helpers": "^6.22.0",
-    "babel-preset-latest": "^6.24.1",
+    "babel-preset-env": "^1.6.1",
     "chalk": "^2.1.0",
+    "eslint-plugin-html": "^3.2.2",
+    "local-web-server": "^2.2.4",
     "maxmin": "^2.1.0",
-    "npm-check": "^5.4.5",
-    "postcss": "^6.0.9",
-    "rollup": "^0.48.2",
+    "npm-check": "^5.5.2",
+    "postcss": "^6.0.14",
+    "postcss-cssnext": "^3.0.2",
+    "prettier": "^1.8.2",
+    "rollup": "^0.50.0",
+    "rollup-plugin-alias": "^1.4.0",
     "rollup-plugin-babel": "^3.0.2",
     "rollup-plugin-bundle-size": "^1.0.1",
+    "rollup-plugin-commonjs": "^8.2.6",
+    "rollup-plugin-copy": "^0.2.3",
     "rollup-plugin-coverage": "^0.1.4",
     "rollup-plugin-eslint": "^4.0.0",
     "rollup-plugin-hash": "^1.2.2",
     "rollup-plugin-json": "^2.3.0",
     "rollup-plugin-node-resolve": "^3.0.0",
+    "rollup-plugin-replace": "^2.0.0",
+    "rollup-plugin-riot": "^1.1.0",
     "rollup-plugin-scss": "^0.3.0",
     "rollup-plugin-uglify": "^2.0.1",
-    "rollup-watch": "^4.3.1",
-    "standard": "^10.0.3"
-  },
-  "standard": {
-    "ignore": [
-      "**/node_modules/"
-    ],
-    "envs": [
-      "es6"
-    ],
-    "globals": [
-      "HTMLElement",
-      "customElements"
-    ]
+    "rollup-watch": "^4.3.1"
   }
 }

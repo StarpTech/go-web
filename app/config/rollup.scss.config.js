@@ -22,7 +22,7 @@ export default function (options) {
         })
     },
     verbose: true,
-    includePaths: [ 'src/', 'node_modules'],
+    includePaths: ['src/', 'node_modules'],
     outputStyle: isProduction ? 'compressed' : 'nested'
   })
 };

@@ -1,42 +1,43 @@
 import json from 'rollup-plugin-json'
 import resolve from 'rollup-plugin-node-resolve'
 import babel from 'rollup-plugin-babel'
-import hash from 'rollup-plugin-hash'
-
-import bundleSize from './rollup-plugin-bundle-size'
+import commonjs from 'rollup-plugin-commonjs'
+import postcss from 'postcss'
+import riot from 'rollup-plugin-riot'
+import uglify from './rollup.uglify.config'
+import replace from 'rollup-plugin-replace'
+import postcssCssnext from 'postcss-cssnext'
 import scssTask from './rollup.scss.config'
-import uglifyTask from './rollup.uglify.config'
 
-const componentsDistPath = 'dist/components'
-const userDistPath = 'dist/user'
-const userDetailsDistPath = 'dist/user-details'
+const appDist = 'dist/app'
 
-const componentConfig = {
-  input: 'src/components.js',
+const config = {
+  input: 'src/app.js',
   plugins: [
-    json(),
-    resolve({
-      browser: true
-    }),
+    resolve({ jsnext: true }),
     scssTask({
-      distPath: componentsDistPath
+      distPath: appDist
     }),
-    babel({
-      exclude: 'node_modules/**'
+    json(),
+    riot({
+      style: 'cssnext',
+      type: 'es6',
+      parsers: {
+        css: { cssnext }
+      }
     }),
-    hash({
-      dest: componentsDistPath + '.[hash].js',
-      manifest: 'dist/components.manifest.json'
+    replace({
+      exclude: 'node_modules/**',
+      ENV: JSON.stringify(process.env.NODE_ENV || 'development')
     }),
-    uglifyTask({
-      distPath: componentsDistPath
-    }),
-    bundleSize()
+    commonjs(),
+    babel(),
+    // uglify()
   ],
   output: {
-    file: `${componentsDistPath}.js`,
+    file: `${appDist}.js`,
     format: 'iife',
-    name: 'Components',
+    name: 'App',
     sourcemap: true
   },
   watch: {
@@ -44,70 +45,16 @@ const componentConfig = {
   }
 }
 
-const userConfig = {
-  input: 'src/user.js',
-  plugins: [
-    json(),
-    resolve({
-      browser: true
-    }),
-    scssTask({
-      distPath: userDistPath
-    }),
-    hash({
-      dest: userDistPath + '.[hash].js',
-      manifest: 'dist/user.manifest.json'
-    }),
-    babel({
-      exclude: 'node_modules/**'
-    }),
-    uglifyTask({
-      distPath: userDistPath
-    }),
-    bundleSize()
-  ],
-  output: {
-    file: `${userDistPath}.js`,
-    format: 'iife',
-    name: 'User',
-    sourcemap: true
-  },
-  watch: {
-    exclude: ['node_modules/**']
-  }
+/**
+ * Transforms new CSS specs into more compatible CSS
+ */
+function cssnext (tagName, css) {
+  // A small hack: it passes :scope as :root to PostCSS.
+  // This make it easy to use css variables inside tags.
+  css = css.replace(/:scope/g, ':root')
+  css = postcss([postcssCssnext]).process(css).css
+  css = css.replace(/:root/g, ':scope')
+  return css
 }
 
-const userDetailsConfig = {
-  input: 'src/user-details.js',
-  plugins: [
-    json(),
-    resolve({
-      browser: true
-    }),
-    scssTask({
-      distPath: userDetailsDistPath
-    }),
-    hash({
-      dest: userDetailsDistPath + '.[hash].js',
-      manifest: 'dist/user-details.manifest.json'
-    }),
-    babel({
-      exclude: 'node_modules/**'
-    }),
-    uglifyTask({
-      distPath: userDetailsDistPath
-    }),
-    bundleSize()
-  ],
-  output: {
-    file: `${userDetailsDistPath}.js`,
-    format: 'iife',
-    name: 'UserDetails',
-    sourcemap: true
-  },
-  watch: {
-    exclude: ['node_modules/**']
-  }
-}
-
-export default [componentConfig, userConfig, userDetailsConfig]
+export default [config]
