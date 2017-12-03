@@ -17,7 +17,7 @@ type UserEntity struct {
 }
 
 func (ctrl Importer) ImportUser(c echo.Context) error {
-	app := c.Get("app").(*context.AppContext)
+	cc := c.(*context.AppContext)
 	u := new(UserEntity)
 
 	if errB := c.Bind(u); errB != nil {
@@ -36,7 +36,7 @@ func (ctrl Importer) ImportUser(c echo.Context) error {
 
 	model := models.User{Name: u.Name}
 
-	if errM := app.UserStore.Create(&model); errM != nil {
+	if errM := cc.UserStore.Create(&model); errM != nil {
 		b := errors.NewBoom(errors.EntityCreationError, errors.ErrorText(errors.EntityCreationError), errM)
 		c.Logger().Error(errM)
 		return c.JSON(http.StatusBadRequest, b)

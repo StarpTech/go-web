@@ -10,7 +10,7 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-func TestImportRecipe(t *testing.T) {
+func TestImportUser(t *testing.T) {
 	req := httptest.NewRequest(echo.POST, "/import", strings.NewReader(`{ "name": "bernd" }`))
 	req.Header.Set("Content-Type", "application/json")
 	rec := httptest.NewRecorder()

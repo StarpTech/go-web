@@ -6,10 +6,10 @@ import (
 )
 
 func AppContext(cc *context.AppContext) echo.MiddlewareFunc {
-	return func(next echo.HandlerFunc) echo.HandlerFunc {
+	return func(h echo.HandlerFunc) echo.HandlerFunc {
 		return func(c echo.Context) error {
-			c.Set("app", cc)
-			return next(c)
+			cc.Context = c
+			return h(cc)
 		}
 	}
 }

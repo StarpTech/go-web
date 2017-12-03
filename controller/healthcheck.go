@@ -14,13 +14,13 @@ type healthcheckReport struct {
 	Details map[string]bool `json:"details"`
 }
 
-// GetHealthcheck return the current functional state of the application
+// GetHealthcheck returns the current functional state of the application
 func (ctrl Healthcheck) GetHealthcheck(c echo.Context) error {
-	app := c.Get("app").(*context.AppContext)
+	cc := c.(*context.AppContext)
 	m := healthcheckReport{Health: "OK"}
 
-	dbCheck := app.UserStore.Ping()
-	cacheCheck := app.Cache.Ping()
+	dbCheck := cc.UserStore.Ping()
+	cacheCheck := cc.Cache.Ping()
 
 	if dbCheck != nil {
 		m.Health = "NOT"

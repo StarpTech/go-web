@@ -15,14 +15,14 @@ func NewRouter(server *Server) *echo.Echo {
 	e := echo.New()
 	e.Validator = &Validator{validator: v.New()}
 
-	cc := &context.AppContext{
+	cc := context.AppContext{
 		Cache:     &CacheStore{Cache: server.cache},
 		Config:    config,
 		UserStore: &UserStore{DB: server.db},
 		Loc:       i18n.New(),
 	}
 
-	e.Use(mid.AppContext(cc))
+	e.Use(mid.AppContext(&cc))
 
 	if config.RequestLogger {
 		e.Use(middleware.Logger()) // request logger
