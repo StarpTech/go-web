@@ -65,6 +65,7 @@ Each of the items should be implemented with the easiest approach.
 - [X] Configuration
 - [X] Load ENV variables from .env file
 - [X] Add Graylog logger
+- [X] Structured logging
 - [X] Frontend build pipeline
 - [X] Postgresql models
 - [X] Gracefully shutdown
@@ -76,7 +77,7 @@ Each of the items should be implemented with the easiest approach.
 - [X] Healthcheck endpoint
 - [X] Distributed cache with Redis
 - [X] Localization in templates and handlers
-- [X] JWT Decoding (built in Echo)
+- [X] JWT
 - [X] Benchmarks
 - [X] Integration tests
 - [X] Unit tests
