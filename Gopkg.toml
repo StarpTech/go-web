@@ -72,3 +72,7 @@
 [prune]
   go-tests = true
   unused-packages = true
+
+[[constraint]]
+  name = "honnef.co/go/tools"
+  version = "2019.1.1"

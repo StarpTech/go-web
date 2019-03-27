@@ -28,6 +28,13 @@ $ docker-compose up
 $ go run main.go
 ```
 
+Install tools
+
+```
+$ go get -u honnef.co/go/tools/cmd/staticcheck
+$ go get -u github.com/kisielk/errcheck
+```
+
 # Guidelines
 
 - Javascript [standard](https://standardjs.com/)
