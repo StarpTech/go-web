@@ -76,7 +76,7 @@ func (s *Server) ServeStaticFiles() {
 // GracefulShutdown Wait for interrupt signal
 // to gracefully shutdown the server with a timeout of 5 seconds.
 func (s *Server) GracefulShutdown() {
-	quit := make(chan os.Signal)
+	quit := make(chan os.Signal, 1)
 
 	signal.Notify(quit, os.Interrupt)
 	<-quit

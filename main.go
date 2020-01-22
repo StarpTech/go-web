@@ -17,7 +17,6 @@ func main() {
 	server.ServeStaticFiles()
 
 	userCtrl := &controller.User{}
-	feedCtrl := &controller.Feed{}
 	healthCtrl := &controller.Healthcheck{}
 	importCtrl := &controller.Importer{}
 
@@ -32,7 +31,6 @@ func main() {
 
 	// special endpoints
 	server.Echo.POST("/import", importCtrl.ImportUser)
-	server.Echo.GET("/feed", feedCtrl.GetFeed)
 
 	// metric / health endpoint according to RFC 5785
 	server.Echo.GET("/.well-known/health-check", healthCtrl.GetHealthcheck)

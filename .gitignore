@@ -46,3 +46,7 @@ npm-debug.log
 testem.log
 /typings
 /vendor
+
+# test data
+cockroach-data
+bin

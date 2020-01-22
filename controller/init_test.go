@@ -38,7 +38,6 @@ func TestMain(m *testing.M) {
 
 func setup() {
 	userCtrl := &User{}
-	feedCtrl := &Feed{}
 	healthCtrl := &Healthcheck{}
 	importCtrl := &Importer{}
 
@@ -50,7 +49,6 @@ func setup() {
 	u.GET("/:id/details", userCtrl.GetUserDetails)
 
 	e.server.Echo.POST("/import", importCtrl.ImportUser)
-	e.server.Echo.GET("/feed", feedCtrl.GetFeed)
 	e.server.Echo.GET("/.well-known/health-check", healthCtrl.GetHealthcheck)
 	e.server.Echo.GET("/.well-known/metrics", echo.WrapHandler(promhttp.Handler()))
 
