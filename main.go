@@ -18,7 +18,6 @@ func main() {
 
 	userCtrl := &controller.User{}
 	healthCtrl := &controller.Healthcheck{}
-	importCtrl := &controller.Importer{}
 
 	// api rest endpoints
 	g := server.Echo.Group("/api")
@@ -28,9 +27,6 @@ func main() {
 	u := server.Echo.Group("/users")
 	u.GET("/:id", userCtrl.GetUser)
 	u.GET("/:id/details", userCtrl.GetUserDetails)
-
-	// special endpoints
-	server.Echo.POST("/import", importCtrl.ImportUser)
 
 	// metric / health endpoint according to RFC 5785
 	server.Echo.GET("/.well-known/health-check", healthCtrl.GetHealthcheck)

@@ -1,6 +1,8 @@
 package controller
 
 import (
+	"html/template"
+	"io/ioutil"
 	"net/http"
 	"strconv"
 
@@ -13,8 +15,8 @@ import (
 type (
 	User          struct{}
 	UserViewModel struct {
-		Name      string
-		PublicDir string
+		Name          string
+		AssetIncludes template.HTML
 	}
 )
 
@@ -39,9 +41,14 @@ func (ctrl User) GetUser(c echo.Context) error {
 		return c.JSON(http.StatusNotFound, b)
 	}
 
+	file, err := ioutil.ReadFile("ui/dist/global.html")
+	if err != nil {
+		return err
+	}
+
 	vm := UserViewModel{
-		Name:      user.Name,
-		PublicDir: cc.Config.AssetsPublicDir,
+		Name:          user.Name,
+		AssetIncludes: template.HTML(file),
 	}
 
 	return c.Render(http.StatusOK, "user.html", vm)
@@ -69,9 +76,14 @@ func (ctrl User) GetUserDetails(c echo.Context) error {
 		return c.JSON(http.StatusNotFound, b)
 	}
 
+	file, err := ioutil.ReadFile("ui/dist/global.html")
+	if err != nil {
+		return err
+	}
+
 	vm := UserViewModel{
-		Name:      user.Name,
-		PublicDir: cc.Config.AssetsPublicDir,
+		Name:          user.Name,
+		AssetIncludes: template.HTML(file),
 	}
 
 	return c.Render(http.StatusOK, "details.html", vm)
@@ -100,8 +112,7 @@ func (ctrl User) GetUserJSON(c echo.Context) error {
 	}
 
 	vm := UserViewModel{
-		Name:      user.Name,
-		PublicDir: cc.Config.AssetsPublicDir,
+		Name: user.Name,
 	}
 
 	return c.JSON(http.StatusOK, vm)

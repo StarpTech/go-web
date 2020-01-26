@@ -39,7 +39,6 @@ func TestMain(m *testing.M) {
 func setup() {
 	userCtrl := &User{}
 	healthCtrl := &Healthcheck{}
-	importCtrl := &Importer{}
 
 	g := e.server.Echo.Group("/api")
 	g.GET("/users/:id", userCtrl.GetUserJSON)
@@ -48,7 +47,6 @@ func setup() {
 	u.GET("/:id", userCtrl.GetUser)
 	u.GET("/:id/details", userCtrl.GetUserDetails)
 
-	e.server.Echo.POST("/import", importCtrl.ImportUser)
 	e.server.Echo.GET("/.well-known/health-check", healthCtrl.GetHealthcheck)
 	e.server.Echo.GET("/.well-known/metrics", echo.WrapHandler(promhttp.Handler()))
 

@@ -3,22 +3,19 @@
 
 <head>
   <title>{{ block "title" . }} {{end}}</title>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <link rel="stylesheet" href="{{.PublicDir}}/app.css">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+  />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
   {{block "style" .}} {{end}}
 </head>
 
 <body>
-  <div class="container-header">
-  </div>
-  <div class="container-content">
-      {{ template "content" . }}
-  </div>
-  <script src="{{.PublicDir}}/app.js"></script>
-  {{block "js" .}} {{end}}
+  <div id="app"></div>
+  {{ template "content" . }} {{.AssetIncludes}} {{block "js" .}} {{end}}
 </body>
 {{ end }}

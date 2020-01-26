@@ -70,7 +70,7 @@ func (s *Server) Start(addr string) error {
 
 // ServeStaticFiles serve static files for development purpose
 func (s *Server) ServeStaticFiles() {
-	s.Echo.Static("/", s.config.AssetsBuildDir)
+	s.Echo.Static("/assets", s.config.AssetsBuildDir)
 }
 
 // GracefulShutdown Wait for interrupt signal
