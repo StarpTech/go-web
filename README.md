@@ -64,7 +64,7 @@ docker run --network="host" -it cockroachdb/cockroach:v19.2.1 sql --insecure -e 
 go run main.go
 ```
 
-5. Navigate to test Peter's [page](http://127.0.0.1/users/1)
+5. Navigate to users list [page](http://127.0.0.1/users)
 
 ## CI and Static Analysis
 
