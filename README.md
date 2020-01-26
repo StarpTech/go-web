@@ -20,6 +20,7 @@ Modern Web Application with Golang "Keep it simple, stupid"
 - Cache [Redis](https://github.com/go-redis/redis)
 - Localization [gotext](https://github.com/leonelquinteros/gotext)
 - Database [CockroachDB](https://github.com/cockroachdb/cockroach)
+- Releasing [goreleaser](https://github.com/goreleaser/goreleaser)
 
 ## Frontend
 
@@ -81,10 +82,14 @@ Generally, code must be adjusted to satisfy these tools, though there are except
 - [go mod tidy](https://tip.golang.org/cmd/go/#hdr-Add_missing_and_remove_unused_modules) ensures that the source code and go.mod agree.
 - [staticcheck](https://staticcheck.io/) checks for things like: unused code, code that can be simplified, code that is incorrect and code that will have performance issues.
 
-# Guidelines
+# Releasing
 
-- Javascript [standard](https://standardjs.com/)
-- CSS [airbnb](https://github.com/airbnb/css)
+When a new tag is pushed, the version is releaseed with [goreleaser](https://github.com/goreleaser/goreleaser).
+
+```
+$ git tag -a v0.1.0 -m "First release"
+$ git push origin v0.1.0 # => want to release v0.1.0
+```
 
 # Tooling
 
