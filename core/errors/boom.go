@@ -1,7 +1,6 @@
 package errors
 
 const (
-	InvalidUserID       = "invalidUserID"
 	InternalError       = "internalError"
 	UserNotFound        = "userNotFound"
 	InvalidBindingModel = "invalidBindingModel"
@@ -9,7 +8,6 @@ const (
 )
 
 var errorMessage = map[string]string{
-	"invalidUserID":       "invalid user id",
 	"internalError":       "an internal error occured",
 	"userNotFound":        "user could not be found",
 	"invalidBindingModel": "model could not be bound",

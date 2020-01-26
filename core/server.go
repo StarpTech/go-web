@@ -9,7 +9,7 @@ import (
 
 	"github.com/go-redis/redis"
 	"github.com/jinzhu/gorm"
-	"github.com/labstack/echo"
+	"github.com/labstack/echo/v4"
 	"github.com/starptech/go-web/cache"
 	"github.com/starptech/go-web/config"
 	"github.com/starptech/go-web/i18n"
@@ -70,13 +70,13 @@ func (s *Server) Start(addr string) error {
 
 // ServeStaticFiles serve static files for development purpose
 func (s *Server) ServeStaticFiles() {
-	s.Echo.Static("/", s.config.AssetsBuildDir)
+	s.Echo.Static("/assets", s.config.AssetsBuildDir)
 }
 
 // GracefulShutdown Wait for interrupt signal
 // to gracefully shutdown the server with a timeout of 5 seconds.
 func (s *Server) GracefulShutdown() {
-	quit := make(chan os.Signal)
+	quit := make(chan os.Signal, 1)
 
 	signal.Notify(quit, os.Interrupt)
 	<-quit

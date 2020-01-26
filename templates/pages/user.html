@@ -1,0 +1,19 @@
+{{define "title"}}User {{.Name}}{{end}}
+
+{{define "header"}}
+<div class="header-component" data-message="{{.Name}}"></div>
+{{end}}
+
+{{define "content"}}
+
+<div class="d-flex flex-column bd-highlight mb-3">
+  <div class="p-2 bd-highlight">ID: {{.ID}}</div>
+  <div class="p-2 bd-highlight">Name: {{.Name}}</div>
+  <div class="p-2 bd-highlight">Translated content: {{ Loc "My text" }}</div>
+  <div class="p-2 bd-highlight">
+    Mount server rendered html as react component:
+    <div class="like-button-component d-inline-block" data-id="101"></div>
+  </div>
+</div>
+
+{{end}}

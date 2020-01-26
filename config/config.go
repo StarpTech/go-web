@@ -11,7 +11,6 @@ import (
 type Configuration struct {
 	Address          string `env:"ADDRESS" envDefault:":8080"`
 	Dialect          string `env:"DIALECT,required" envDefault:"postgres"`
-	AssetsPublicDir  string `env:"ASSETS_PUBLIC_DIR,required"`
 	AssetsBuildDir   string `env:"ASSETS_BUILD_DIR"`
 	TemplateDir      string `env:"TPL_DIR"`
 	LayoutDir        string `env:"LAYOUT_DIR"`

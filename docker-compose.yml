@@ -1,49 +1,50 @@
-# database
-PostgreSQL:
-  restart: always
-  image: sameersbn/postgresql:9.6-2
-  ports:
-    - "5432:5432"
-  environment:
-    - DEBUG=false
+version: "3"
+services:
+  roach1:
+    container_name: roach1
+    image: cockroachdb/cockroach:v19.2.1
+    command: start --insecure
+    ports:
+      - "26257:26257"
+      - "8111:8080"
+    volumes:
+      - ./cockroach-data/roach1:/cockroach/cockroach-data
+    networks:
+      roachnet:
+        aliases:
+          - roach1
 
-    - DB_USER=gorm
-    - DB_PASS=mypassword
-    - DB_NAME=gorm
-    - DB_TEMPLATE=
+  roach2:
+    container_name: roach2
+    image: cockroachdb/cockroach:v19.2.1
+    command: start --insecure --join=roach1
+    volumes:
+      - ./cockroach-data/roach2:/cockroach/cockroach-data
+    depends_on:
+      - roach1
+    networks:
+      roachnet:
+        aliases:
+          - roach2
 
-    - DB_EXTENSION=
+  roach3:
+    container_name: roach3
+    image: cockroachdb/cockroach:v19.2.1
+    command: start --insecure --join=roach1
+    volumes:
+      - ./cockroach-data/roach3:/cockroach/cockroach-data
+    depends_on:
+      - roach1
+    networks:
+      roachnet:
+        aliases:
+          - roach3
 
-    - REPLICATION_MODE=
-    - REPLICATION_USER=
-    - REPLICATION_PASS=
-    - REPLICATION_SSLMODE=
-  volumes:
-    - /srv/docker/postgresql:/var/lib/postgresql
+  redis:
+    ports:
+      - "6379:6379"
+    image: "redis:alpine"
 
-# cache
-redis:
-  ports:
-    - "6379:6379"
-  image: "redis:alpine"
-
-# graylog
-some-mongo:
-  image: "mongo:3"
-some-elasticsearch:
-  image: "elasticsearch:2"
-  command: "elasticsearch -Des.cluster.name='graylog'"
-
-graylog:
-  image: graylog/graylog:2.3.0-1
-  environment:
-    GRAYLOG_PASSWORD_SECRET: somepasswordpepper
-    GRAYLOG_ROOT_PASSWORD_SHA2: 8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918
-    GRAYLOG_WEB_ENDPOINT_URI: http://127.0.0.1:9000/api
-  links:
-    - some-mongo:mongo
-    - some-elasticsearch:elasticsearch
-  ports:
-    - "9000:9000"
-    - "12201:12201"
-    - "12202:12202"
+networks:
+  roachnet:
+    driver: bridge

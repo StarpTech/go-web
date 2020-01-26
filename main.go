@@ -1,7 +1,7 @@
 package main
 
 import (
-	"github.com/labstack/echo"
+	"github.com/labstack/echo/v4"
 	"github.com/prometheus/client_golang/prometheus/promhttp"
 	"github.com/starptech/go-web/config"
 	"github.com/starptech/go-web/controller"
@@ -17,29 +17,24 @@ func main() {
 	server.ServeStaticFiles()
 
 	userCtrl := &controller.User{}
-	feedCtrl := &controller.Feed{}
+	userListCtrl := &controller.UserList{}
 	healthCtrl := &controller.Healthcheck{}
-	importCtrl := &controller.Importer{}
 
-	// api rest endpoints
+	// api endpoints
 	g := server.Echo.Group("/api")
 	g.GET("/users/:id", userCtrl.GetUserJSON)
 
 	// pages
 	u := server.Echo.Group("/users")
+	u.GET("", userListCtrl.GetUsers)
 	u.GET("/:id", userCtrl.GetUser)
-	u.GET("/:id/details", userCtrl.GetUserDetails)
-
-	// special endpoints
-	server.Echo.POST("/import", importCtrl.ImportUser)
-	server.Echo.GET("/feed", feedCtrl.GetFeed)
 
 	// metric / health endpoint according to RFC 5785
 	server.Echo.GET("/.well-known/health-check", healthCtrl.GetHealthcheck)
 	server.Echo.GET("/.well-known/metrics", echo.WrapHandler(promhttp.Handler()))
 
 	// migration for dev
-	user := models.User{Name: "peter"}
+	user := models.User{Name: "Peter"}
 	mr := server.GetModelRegistry()
 	err := mr.Register(user)
 

@@ -3,11 +3,12 @@ package core
 import (
 	"net/http"
 
-	"github.com/labstack/echo"
+	"github.com/labstack/echo/v4"
 	"github.com/starptech/go-web/core/errors"
 )
 
 func HTTPErrorHandler(err error, c echo.Context) {
+	c.Logger().Error(err)
 	code := http.StatusInternalServerError
 
 	switch v := err.(type) {

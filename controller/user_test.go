@@ -5,7 +5,7 @@ import (
 	"net/http/httptest"
 	"testing"
 
-	"github.com/labstack/echo"
+	"github.com/labstack/echo/v4"
 	"github.com/starptech/go-web/context"
 	"github.com/starptech/go-web/core/middleware"
 	"github.com/starptech/go-web/models"
@@ -50,14 +50,6 @@ func TestUnitGetUserJson(t *testing.T) {
 
 	g.GET("/users/:id", userCtrl.GetUserJSON)
 	s.ServeHTTP(rec, req)
-
-	assert.Equal(t, http.StatusOK, rec.Code)
-}
-
-func TestUserDetailPage(t *testing.T) {
-	req := httptest.NewRequest(echo.GET, "/users/1/details", nil)
-	rec := httptest.NewRecorder()
-	e.server.Echo.ServeHTTP(rec, req)
 
 	assert.Equal(t, http.StatusOK, rec.Code)
 }
