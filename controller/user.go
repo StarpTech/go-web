@@ -1,10 +1,7 @@
 package controller
 
 import (
-	"html/template"
-	"io/ioutil"
 	"net/http"
-	"strconv"
 
 	"github.com/labstack/echo/v4"
 	"github.com/starptech/go-web/context"
@@ -15,95 +12,18 @@ import (
 type (
 	User          struct{}
 	UserViewModel struct {
-		Name          string
-		AssetIncludes template.HTML
+		Name string
+		ID   string
 	}
 )
 
 func (ctrl User) GetUser(c echo.Context) error {
 	cc := c.(*context.AppContext)
-	up := c.Param("id")
-	userID, err := strconv.Atoi(up)
+	userID := c.Param("id")
 
-	if err != nil {
-		b := errors.NewBoom(errors.InvalidUserID, errors.ErrorText(errors.InvalidUserID), err)
-		c.Logger().Error(err)
-		return c.JSON(http.StatusBadRequest, b)
-	}
+	user := models.User{ID: userID}
 
-	user := models.User{ID: uint64(userID)}
-
-	err = cc.UserStore.First(&user)
-
-	if err != nil {
-		b := errors.NewBoom(errors.UserNotFound, errors.ErrorText(errors.UserNotFound), err)
-		c.Logger().Error(err)
-		return c.JSON(http.StatusNotFound, b)
-	}
-
-	file, err := ioutil.ReadFile("ui/dist/global.html")
-	if err != nil {
-		return err
-	}
-
-	vm := UserViewModel{
-		Name:          user.Name,
-		AssetIncludes: template.HTML(file),
-	}
-
-	return c.Render(http.StatusOK, "user.html", vm)
-
-}
-
-func (ctrl User) GetUserDetails(c echo.Context) error {
-	cc := c.(*context.AppContext)
-	up := c.Param("id")
-	userID, err := strconv.Atoi(up)
-
-	if err != nil {
-		b := errors.NewBoom(errors.InvalidUserID, errors.ErrorText(errors.InvalidUserID), err)
-		c.Logger().Error(b)
-		return c.JSON(http.StatusBadRequest, b)
-	}
-
-	user := models.User{ID: uint64(userID)}
-
-	err = cc.UserStore.First(&user)
-
-	if err != nil {
-		b := errors.NewBoom(errors.UserNotFound, errors.ErrorText(errors.UserNotFound), err)
-		c.Logger().Error(err)
-		return c.JSON(http.StatusNotFound, b)
-	}
-
-	file, err := ioutil.ReadFile("ui/dist/global.html")
-	if err != nil {
-		return err
-	}
-
-	vm := UserViewModel{
-		Name:          user.Name,
-		AssetIncludes: template.HTML(file),
-	}
-
-	return c.Render(http.StatusOK, "details.html", vm)
-
-}
-
-func (ctrl User) GetUserJSON(c echo.Context) error {
-	cc := c.(*context.AppContext)
-	up := c.Param("id")
-	userID, err := strconv.Atoi(up)
-
-	if err != nil {
-		b := errors.NewBoom(errors.InvalidUserID, errors.ErrorText(errors.InvalidUserID), err)
-		c.Logger().Error(err)
-		return c.JSON(http.StatusBadRequest, b)
-	}
-
-	user := models.User{ID: uint64(userID)}
-
-	err = cc.UserStore.First(&user)
+	err := cc.UserStore.First(&user)
 
 	if err != nil {
 		b := errors.NewBoom(errors.UserNotFound, errors.ErrorText(errors.UserNotFound), err)
@@ -113,6 +33,30 @@ func (ctrl User) GetUserJSON(c echo.Context) error {
 
 	vm := UserViewModel{
 		Name: user.Name,
+		ID:   user.ID,
+	}
+
+	return c.Render(http.StatusOK, "user.html", vm)
+
+}
+
+func (ctrl User) GetUserJSON(c echo.Context) error {
+	cc := c.(*context.AppContext)
+	userID := c.Param("id")
+
+	user := models.User{ID: userID}
+
+	err := cc.UserStore.First(&user)
+
+	if err != nil {
+		b := errors.NewBoom(errors.UserNotFound, errors.ErrorText(errors.UserNotFound), err)
+		c.Logger().Error(err)
+		return c.JSON(http.StatusNotFound, b)
+	}
+
+	vm := UserViewModel{
+		Name: user.Name,
+		ID:   user.ID,
 	}
 
 	return c.JSON(http.StatusOK, vm)

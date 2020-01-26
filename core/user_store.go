@@ -18,6 +18,10 @@ func (s *UserStore) Create(m *models.User) error {
 	return s.DB.Create(m).Error
 }
 
+func (s *UserStore) Find(m *[]models.User) error {
+	return s.DB.Find(m).Error
+}
+
 func (s *UserStore) Ping() error {
 	return s.DB.DB().Ping()
 }

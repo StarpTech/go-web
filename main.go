@@ -17,23 +17,24 @@ func main() {
 	server.ServeStaticFiles()
 
 	userCtrl := &controller.User{}
+	userListCtrl := &controller.UserList{}
 	healthCtrl := &controller.Healthcheck{}
 
-	// api rest endpoints
+	// api endpoints
 	g := server.Echo.Group("/api")
 	g.GET("/users/:id", userCtrl.GetUserJSON)
 
 	// pages
 	u := server.Echo.Group("/users")
+	u.GET("", userListCtrl.GetUsers)
 	u.GET("/:id", userCtrl.GetUser)
-	u.GET("/:id/details", userCtrl.GetUserDetails)
 
 	// metric / health endpoint according to RFC 5785
 	server.Echo.GET("/.well-known/health-check", healthCtrl.GetHealthcheck)
 	server.Echo.GET("/.well-known/metrics", echo.WrapHandler(promhttp.Handler()))
 
 	// migration for dev
-	user := models.User{Name: "peter"}
+	user := models.User{Name: "Peter"}
 	mr := server.GetModelRegistry()
 	err := mr.Register(user)
 

@@ -3,7 +3,7 @@ package models
 import "time"
 
 type User struct {
-	ID        uint64 `gorm:"primary_key"`
+	ID        string `gorm:"type:uuid;primary_key;default:gen_random_uuid()"`
 	CreatedAt time.Time
 	UpdatedAt time.Time
 	DeletedAt *time.Time

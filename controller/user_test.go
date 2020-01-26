@@ -53,11 +53,3 @@ func TestUnitGetUserJson(t *testing.T) {
 
 	assert.Equal(t, http.StatusOK, rec.Code)
 }
-
-func TestUserDetailPage(t *testing.T) {
-	req := httptest.NewRequest(echo.GET, "/users/1/details", nil)
-	rec := httptest.NewRecorder()
-	e.server.Echo.ServeHTTP(rec, req)
-
-	assert.Equal(t, http.StatusOK, rec.Code)
-}

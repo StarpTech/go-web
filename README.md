@@ -42,7 +42,7 @@ make
 
 ## Bootstrap infrastructure and run application
 
-This project requires docker and docker compose to run the required service.
+This project requires docker and docker compose to run the required services.
 
 1. To run the services:
 
@@ -56,11 +56,15 @@ docker-compose up
 docker run --network="host" -it cockroachdb/cockroach:v19.2.1 sql --insecure -e "$(cat ./scripts/create.db.sql)"
 ```
 
-3. Start application
+3. Build [web application](ui/README.md)
+
+4. Start server
 
 ```
 go run main.go
 ```
+
+5. Navigate to test Peter's [page](http://127.0.0.1/users/1)
 
 ## CI and Static Analysis
 
@@ -84,7 +88,7 @@ Generally, code must be adjusted to satisfy these tools, though there are except
 
 # Releasing
 
-When a new tag is pushed, the version is releaseed with [goreleaser](https://github.com/goreleaser/goreleaser).
+When a new tag is pushed, the version is released with [goreleaser](https://github.com/goreleaser/goreleaser).
 
 ```
 $ git tag -a v0.1.0 -m "First release"

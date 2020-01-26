@@ -22,10 +22,11 @@ To create a production build:
 yarn run build-prod
 ```
 
-## Running
+## Development
 
-Open the file `dist/index.html` in your browser
+Run the server and start the bundler in watch mode
 
-## Credits
-
-Made with [createapp.dev](https://createapp.dev/)
+```sh
+yarn start
+go run main.go
+```

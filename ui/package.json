@@ -7,9 +7,9 @@
   "author": "",
   "license": "ISC",
   "scripts": {
-    "clean": "rm dist/bundle.js",
-    "start": "parcel watch src/global/global.html --public-url /assets/dist --out-file global.html",
-    "build-prod": "parcel build src/global/global.html --public-url /assets/dist --out-file global.html"
+    "clean": "rm -rf dist",
+    "start": "parcel watch src/app/index.js --public-url /assets/dist",
+    "build-prod": "yarn clean && parcel build src/app/index.js --public-url /assets/dist"
   },
   "dependencies": {
     "react": "^16.12.0",

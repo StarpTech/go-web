@@ -62,7 +62,7 @@ func (m *Model) Register(values ...interface{}) error {
 			}
 			switch rVal.Kind() {
 			case reflect.Struct:
-				models[getTypName(rVal.Type())] = reflect.New(rVal.Type())
+				models[getTypeName(rVal.Type())] = reflect.New(rVal.Type())
 			default:
 				return errors.New("models must be structs")
 			}
@@ -88,7 +88,7 @@ func (m *Model) AutoDropAll() {
 	}
 }
 
-func getTypName(typ reflect.Type) string {
+func getTypeName(typ reflect.Type) string {
 	if typ.Name() != "" {
 		return typ.Name()
 	}
