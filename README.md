@@ -1,7 +1,7 @@
 ![big-gopher](big-gopher.png)
 
 [![License MIT](https://img.shields.io/badge/License-MIT-blue.svg)](http://opensource.org/licenses/MIT)
-[![Build Status](https://github.com/starptech/go-web/workflows/go/badge.svg)](https://github.com/StarpTech/go-web/actions)
+[![Build Status](https://github.com/StarpTech/go-web/workflows/Go/badge.svg)](https://github.com/StarpTech/go-web/actions)
 [![Go Report Card](https://goreportcard.com/badge/github.com/StarpTech/go-web)](https://goreportcard.com/report/github.com/StarpTech/go-web)
 
 # Go-Web

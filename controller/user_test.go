@@ -17,6 +17,9 @@ type UserFakeStore struct{}
 func (s *UserFakeStore) First(m *models.User) error {
 	return nil
 }
+func (s *UserFakeStore) Find(m *[]models.User) error {
+	return nil
+}
 func (s *UserFakeStore) Create(m *models.User) error {
 	return nil
 }
@@ -25,7 +28,7 @@ func (s *UserFakeStore) Ping() error {
 }
 
 func TestUserPage(t *testing.T) {
-	req := httptest.NewRequest(echo.GET, "/users/1", nil)
+	req := httptest.NewRequest(echo.GET, "/users/"+e.testUser.ID, nil)
 	rec := httptest.NewRecorder()
 	e.server.Echo.ServeHTTP(rec, req)
 
@@ -36,7 +39,7 @@ func TestUnitGetUserJson(t *testing.T) {
 	s := echo.New()
 	g := s.Group("/api")
 
-	req := httptest.NewRequest(echo.GET, "/api/users/1", nil)
+	req := httptest.NewRequest(echo.GET, "/api/users/"+e.testUser.ID, nil)
 	rec := httptest.NewRecorder()
 
 	userCtrl := &User{}
