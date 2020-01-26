@@ -1,7 +1,7 @@
 ![big-gopher](big-gopher.png)
 
 [![License MIT](https://img.shields.io/badge/License-MIT-blue.svg)](http://opensource.org/licenses/MIT)
-[![Build Status](https://travis-ci.org/StarpTech/go-web.svg?branch=master)](https://travis-ci.org/StarpTech/go-web)
+[![Build Status](https://github.com/starptech/go-web/workflows/go/badge.svg)](https://github.com/StarpTech/go-web/actions)
 [![Go Report Card](https://goreportcard.com/badge/github.com/StarpTech/go-web)](https://goreportcard.com/report/github.com/StarpTech/go-web)
 
 # Go-Web
@@ -13,7 +13,6 @@ Modern Web Application with Golang "Keep it simple, stupid"
 ## Backend
 
 - HTTP Middleware [Echo](https://echo.labstack.com/)
-- Language [Go](https://golang.org/) +1.13
 - ORM library [gorm](https://github.com/jinzhu/gorm)
 - Configuration [env](https://github.com/caarlos0/env)
 - Load ENV variables from .env file [godotenv](https://github.com/joho/godotenv)

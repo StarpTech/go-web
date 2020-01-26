@@ -9,7 +9,7 @@ import (
 
 	"github.com/go-redis/redis"
 	"github.com/jinzhu/gorm"
-	"github.com/labstack/echo"
+	"github.com/labstack/echo/v4"
 	"github.com/starptech/go-web/cache"
 	"github.com/starptech/go-web/config"
 	"github.com/starptech/go-web/i18n"

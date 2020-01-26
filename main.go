@@ -1,7 +1,7 @@
 package main
 
 import (
-	"github.com/labstack/echo"
+	"github.com/labstack/echo/v4"
 	"github.com/prometheus/client_golang/prometheus/promhttp"
 	"github.com/starptech/go-web/config"
 	"github.com/starptech/go-web/controller"

@@ -1,8 +1,8 @@
 package core
 
 import (
-	"github.com/labstack/echo"
-	"github.com/labstack/echo/middleware"
+	"github.com/labstack/echo/v4"
+	"github.com/labstack/echo/v4/middleware"
 	"github.com/starptech/go-web/context"
 	mid "github.com/starptech/go-web/core/middleware"
 	"github.com/starptech/go-web/i18n"

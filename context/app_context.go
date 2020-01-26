@@ -1,7 +1,7 @@
 package context
 
 import (
-	"github.com/labstack/echo"
+	"github.com/labstack/echo/v4"
 	"github.com/starptech/go-web/config"
 	"github.com/starptech/go-web/i18n"
 	"github.com/starptech/go-web/store"
