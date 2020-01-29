@@ -115,8 +115,7 @@ Visit localhost:6060 and search for `go-web`
 # Benchmarking
 
 ```
-$ bombardier -c 10 -n 10000 http://localhost:8080/users/1
-$ bombardier -c 10 -n 10000 http://localhost:8080/users/1/details
+$ bombardier -c 10 -n 10000 http://localhost:8080/users
 ```
 
 # Cockroachdb Cluster overview
