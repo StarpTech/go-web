@@ -1,0 +1,15 @@
+{{define "title"}}User list{{end}}
+
+{{define "header"}}
+<div class="header-component" data-message="User list"></div>
+{{end}}
+
+{{define "content"}}
+
+<div class="d-flex flex-column bd-highlight mb-3">
+  {{range .Users}}
+  <div class="p-2 bd-highlight">{{.Name}}: <a href="/users/{{.ID}}">Details</a></div>
+  {{end}}
+</div>
+
+{{end}}
