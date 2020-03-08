@@ -8,8 +8,8 @@ import (
 	"github.com/labstack/gommon/log"
 	"github.com/prometheus/client_golang/prometheus/promhttp"
 	"github.com/starptech/go-web/config"
-	"github.com/starptech/go-web/models"
 	"github.com/starptech/go-web/internal/core"
+	"github.com/starptech/go-web/internal/models"
 )
 
 var e struct {
