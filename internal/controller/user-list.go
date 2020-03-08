@@ -4,9 +4,9 @@ import (
 	"net/http"
 
 	"github.com/labstack/echo/v4"
-	"github.com/starptech/go-web/context"
-	"github.com/starptech/go-web/core/errors"
-	"github.com/starptech/go-web/models"
+	"github.com/starptech/go-web/internal/context"
+	"github.com/starptech/go-web/internal/core/errors"
+	"github.com/starptech/go-web/internal/models"
 )
 
 type (

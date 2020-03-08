@@ -2,7 +2,7 @@ package middleware
 
 import (
 	"github.com/labstack/echo/v4"
-	"github.com/starptech/go-web/context"
+	"github.com/starptech/go-web/internal/context"
 )
 
 func AppContext(cc *context.AppContext) echo.MiddlewareFunc {

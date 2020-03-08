@@ -30,6 +30,10 @@ Modern Web Application with Golang "Keep it simple, stupid"
 
 # Getting Started
 
+# Project structure
+
+Follows https://github.com/golang-standards/project-layout
+
 ## Building From Source
 
 This project requires Go +1.13 and Go module support.
@@ -106,7 +110,7 @@ $ git push origin v0.1.0 # => want to release v0.1.0
 # Documentation
 
 ```
-$ godoc github.com/starptech/go-web/controller
+$ godoc github.com/starptech/go-web/pkg/controller
 $ godoc -http=:6060
 ```
 

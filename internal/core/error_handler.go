@@ -4,7 +4,7 @@ import (
 	"net/http"
 
 	"github.com/labstack/echo/v4"
-	"github.com/starptech/go-web/core/errors"
+	"github.com/starptech/go-web/internal/core/errors"
 )
 
 func HTTPErrorHandler(err error, c echo.Context) {

@@ -3,8 +3,8 @@ package context
 import (
 	"github.com/labstack/echo/v4"
 	"github.com/starptech/go-web/config"
-	"github.com/starptech/go-web/i18n"
-	"github.com/starptech/go-web/store"
+	"github.com/starptech/go-web/internal/i18n"
+	"github.com/starptech/go-web/internal/store"
 )
 
 // AppContext is the new context in the request / response cycle

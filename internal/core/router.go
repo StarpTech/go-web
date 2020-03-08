@@ -3,9 +3,9 @@ package core
 import (
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
-	"github.com/starptech/go-web/context"
-	mid "github.com/starptech/go-web/core/middleware"
-	"github.com/starptech/go-web/i18n"
+	"github.com/starptech/go-web/internal/context"
+	mid "github.com/starptech/go-web/internal/core/middleware"
+	"github.com/starptech/go-web/internal/i18n"
 
 	v "gopkg.in/go-playground/validator.v9"
 )

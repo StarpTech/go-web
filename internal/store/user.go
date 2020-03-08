@@ -1,6 +1,6 @@
 package store
 
-import "github.com/starptech/go-web/models"
+import "github.com/starptech/go-web/internal/models"
 
 type User interface {
 	First(m *models.User) error
