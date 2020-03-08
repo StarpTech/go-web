@@ -30,7 +30,7 @@ Modern Web Application with Golang "Keep it simple, stupid"
 
 # Getting Started
 
-# Project structure
+## Project structure
 
 Follows https://github.com/golang-standards/project-layout
 
