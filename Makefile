@@ -15,15 +15,23 @@ Q = $(if $(filter 1,$V),,@)
 M = $(shell printf "\033[34;1m▶\033[0m")
 
 export GO111MODULE=on
+export GOPROXY=https://proxy.golang.org,direct
 
 .PHONY: all
-all: fmt vet staticcheck errcheck | $(BIN) ; $(info $(M) building executable…) @ ## Build program binary
+all: fmt lint | $(BIN) ; $(info $(M) building executable…) @ ## Build program binary
 	$Q $(GO) build \
 		-tags release \
 		-ldflags '-X $(MODULE)/cmd.Version=$(VERSION) -X $(MODULE)/cmd.BuildDate=$(DATE)' \
 		-o $(BIN)/$(basename $(MODULE)) main.go
 
 # Tools
+
+# Install all the build and lint dependencies
+setup:
+	# Install by default to .bin
+	curl -sfL https://install.goreleaser.com/github.com/golangci/golangci-lint.sh | sh -s -- v1.24.0
+	go mod tidy
+.PHONY: setup
 
 $(BIN):
 	@mkdir -p $@
@@ -33,79 +41,46 @@ $(BIN)/%: | $(BIN) ; $(info $(M) building $(PACKAGE)…)
 		|| ret=$$?; \
 	   rm -rf $$tmp ; exit $$ret
 
-GOLINT = $(BIN)/golint
-$(BIN)/golint: PACKAGE=golang.org/x/lint/golint
-
-STATICCHECK = $(BIN)/staticcheck
-$(BIN)/staticcheck: PACKAGE=honnef.co/go/tools/cmd/staticcheck
-
-ERRCHECK = $(BIN)/errcheck
-$(BIN)/errcheck: PACKAGE=github.com/kisielk/errcheck
-
-GOCOV = $(BIN)/gocov
-$(BIN)/gocov: PACKAGE=github.com/axw/gocov/...
-
-GOCOVXML = $(BIN)/gocov-xml
-$(BIN)/gocov-xml: PACKAGE=github.com/AlekSi/gocov-xml
-
-GO2XUNIT = $(BIN)/go2xunit
-$(BIN)/go2xunit: PACKAGE=github.com/tebeka/go2xunit
-
 # Tests
 
-TEST_TARGETS := test-default test-bench test-short test-verbose test-race
-.PHONY: $(TEST_TARGETS) test-xml check test tests
-test-bench:   ARGS=-run=__absolutelynothing__ -bench=. ## Run benchmarks
-test-short:   ARGS=-short        ## Run only short tests
-test-verbose: ARGS=-v            ## Run tests in verbose mode with coverage reporting
-test-race:    ARGS=-race         ## Run tests with race detector
-$(TEST_TARGETS): NAME=$(MAKECMDGOALS:test-%=%)
-$(TEST_TARGETS): test
-check test tests: fmt vet staticcheck errcheck ; $(info $(M) running $(NAME:%=% )tests…) @ ## Run tests
-	$Q $(GO) test -timeout $(TIMEOUT)s $(ARGS) $(TESTPKGS)
+# Run all the tests
+test:
+	LC_ALL=C go test $(TEST_OPTIONS) -failfast -race -coverpkg=./... -covermode=atomic -coverprofile=coverage.txt $(SOURCE_FILES) -run $(TEST_PATTERN) -timeout=2m
+.PHONY: test
 
-test-xml: fmt vet staticcheck errcheck | $(GO2XUNIT) ; $(info $(M) running xUnit tests…) @ ## Run tests with xUnit output
-	$Q mkdir -p test
-	$Q 2>&1 $(GO) test -timeout $(TIMEOUT)s -v $(TESTPKGS) | tee test/tests.output
-	$(GO2XUNIT) -fail -input test/tests.output -output test/tests.xml
-
-COVERAGE_MODE    = atomic
-COVERAGE_PROFILE = $(COVERAGE_DIR)/profile.out
-COVERAGE_XML     = $(COVERAGE_DIR)/coverage.xml
-COVERAGE_HTML    = $(COVERAGE_DIR)/index.html
-.PHONY: test-coverage test-coverage-tools
-test-coverage-tools: | $(GOCOV) $(GOCOVXML)
-test-coverage: COVERAGE_DIR := $(CURDIR)/test/coverage.$(shell date -u +"%Y-%m-%dT%H:%M:%SZ")
-test-coverage: fmt vet staticcheck errcheck test-coverage-tools ; $(info $(M) running coverage tests…) @ ## Run coverage tests
-	$Q mkdir -p $(COVERAGE_DIR)
-	$Q $(GO) test \
-		-coverpkg=$$($(GO) list -f '{{ join .Deps "\n" }}' $(TESTPKGS) | \
-					grep '^$(MODULE)/' | \
-					tr '\n' ',' | sed 's/,$$//') \
-		-covermode=$(COVERAGE_MODE) \
-		-coverprofile="$(COVERAGE_PROFILE)" $(TESTPKGS)
-	$Q $(GO) tool cover -html=$(COVERAGE_PROFILE) -o $(COVERAGE_HTML)
-	$Q $(GOCOV) convert $(COVERAGE_PROFILE) | $(GOCOVXML) > $(COVERAGE_XML)
-
-.PHONY: lint
-lint: | $(GOLINT) ; $(info $(M) running golint…) @ ## Run golint
-	$Q $(GOLINT) -set_exit_status $(PKGS)
+.PHONY: cover
+cover: ; $(info $(M) running coverage…) @  # Run all the tests and opens the coverage report
+	go tool cover -html=coverage.txt
+.PHONY: cover
 
 .PHONY: fmt
 fmt: ; $(info $(M) running gofmt…) @ ## Run gofmt on all source files
 	$Q $(GO) fmt $(PKGS)
 
-.PHONY: vet
-vet: ; $(info $(M) running vet…) @ ## Run gofmt on all source files
-	$Q $(GO) vet $(PKGS)
+.PHONY: lint
+lint: ; $(info $(M) running lint…) @ ## Run gofmt on all source files
+	./bin/golangci-lint run ./...
+
+.PHONY: ci
+ci: all test; $(info $(M) running all the tests and code checks…) @ ## Run all the tests and code checks
+
+# UI
+
+.PHONY: ui
+ui: ; @ ## Run frontend development server
+	cd ui && yarn run dev
+
+.PHONY: build-ui
+build-ui: ; @ ## Build frontend production build
+	cd ui && yarn run build
+
+# API
+
+.PHONY: start
+start-api: ; @ ## Start api
+	go run main.go
 
 # Misc
-
-staticcheck: | $(STATICCHECK) ; $(info $(M) running staticcheck…) @
-	$Q $(BIN)/staticcheck ./...
-
-errcheck: | $(ERRCHECK) ; $(info $(M) running errcheck…) @
-	$Q $(BIN)/errcheck -ignore 'PublishError' ./...
 
 .PHONY: clean
 clean: ; $(info $(M) cleaning…)	@ ## Cleanup everything

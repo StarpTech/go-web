@@ -1,6 +1,8 @@
 package main
 
 import (
+	"log"
+
 	"github.com/labstack/echo/v4"
 	"github.com/prometheus/client_golang/prometheus/promhttp"
 	"github.com/starptech/go-web/config"
@@ -10,7 +12,10 @@ import (
 )
 
 func main() {
-	config := config.NewConfig()
+	config, err := config.NewConfig()
+	if err != nil {
+		log.Fatalf("%+v\n", err)
+	}
 	// create server
 	server := core.NewServer(config)
 	// serve files for dev
@@ -36,7 +41,7 @@ func main() {
 	// migration for dev
 	user := models.User{Name: "Peter"}
 	mr := server.GetModelRegistry()
-	err := mr.Register(user)
+	err = mr.Register(user)
 
 	if err != nil {
 		server.Echo.Logger.Fatal(err)
@@ -44,10 +49,11 @@ func main() {
 
 	mr.AutoMigrateAll()
 	mr.Create(&user)
-
-	// listen
+	// Start server
 	go func() {
-		server.Echo.Logger.Fatal(server.Start(config.Address))
+		if err := server.Start(config.Address); err != nil {
+			server.Echo.Logger.Info("shutting down the server")
+		}
 	}()
 
 	server.GracefulShutdown()

@@ -1,42 +1,28 @@
-# Binaries for programs and plugins
-*.exe
-*.dll
-*.so
-*.dylib
+# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
-# Test binary, build with `go test -c`
-*.test
+vendor
+.netrc
+.vscode
+.vs
+.tern-project
+.DS_Store
+.idea
+.cgo_ldflags
+tmp
 
-# Output of the go coverage tool, specifically when used with LiteIDE
-*.out
-
-# Project-local glide cache, RE: https://github.com/Masterminds/glide/issues/736
-.glide/
+.eslintcache
 
 # dependencies
-node_modules
-bower_components
+web/node_modules
+web/.pnp
+web/.pnp.js
 
-# dist
-dist
-
-# IDEs and editors
-/.idea
-.project
-.classpath
-.c9/
-*.launch
-.settings/
-.nyc_output/
-
-# IDE - VSCode
-.vscode/
-!.vscode/settings.json
-!.vscode/tasks.json
-!.vscode/launch.json
-!.vscode/extensions.json
+# testing
+web/coverage
 
 # misc
+.DS_Store
+.env*
 /.sass-cache
 /connect.lock
 /coverage/*
@@ -46,6 +32,35 @@ npm-debug.log
 testem.log
 /typings
 /vendor
+
+# dist
+dist
+
+# debug
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# make artifacts
+/bin
+
+# vendored files
+/vendor
+
+# test outputs
+/test-results.xml
+junit-results
+cypress/screenshots
+cypress/videos
+coverage.txt
+
+# gcloud utils
+cloud_sql_proxy
+.now
+
+# tools
+air
+air.log
 
 # test data
 cockroach-data

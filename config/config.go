@@ -1,7 +1,6 @@
 package config
 
 import (
-	"fmt"
 	"log"
 
 	"github.com/caarlos0/env"
@@ -26,7 +25,7 @@ type Configuration struct {
 	JwtSecret        string `env:"JWT_SECRET,required"`
 }
 
-func NewConfig(files ...string) *Configuration {
+func NewConfig(files ...string) (*Configuration, error) {
 	err := godotenv.Load(files...)
 
 	if err != nil {
@@ -36,8 +35,8 @@ func NewConfig(files ...string) *Configuration {
 	cfg := Configuration{}
 	err = env.Parse(&cfg)
 	if err != nil {
-		fmt.Printf("%+v\n", err)
+		return nil, err
 	}
 
-	return &cfg
+	return &cfg, nil
 }

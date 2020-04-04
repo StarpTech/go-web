@@ -86,9 +86,8 @@ Generally, code must be adjusted to satisfy these tools, though there are except
 
 - [go vet](https://golang.org/cmd/vet/) checks for Go code that should be considered incorrect.
 - [go fmt](https://golang.org/cmd/gofmt/) checks that Go code is correctly formatted.
-- [go lint](https://golang.org/x/lint/golint) checks for common bad practices.
+- [golangci-lint](https://github.com/golangci/golangci-lintt) checks for things like: unused code, code that can be simplified, code that is incorrect and code that will have performance issues.
 - [go mod tidy](https://tip.golang.org/cmd/go/#hdr-Add_missing_and_remove_unused_modules) ensures that the source code and go.mod agree.
-- [staticcheck](https://staticcheck.io/) checks for things like: unused code, code that can be simplified, code that is incorrect and code that will have performance issues.
 
 # Releasing
 
