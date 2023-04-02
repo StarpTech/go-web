@@ -4,7 +4,7 @@ import (
 	"net/http"
 
 	"github.com/labstack/echo/v4"
-	"github.com/starptech/go-web/internal/context"
+	"github.com/Stanxxy/stan-go-web/internal/context"
 )
 
 type Healthcheck struct{}

@@ -8,7 +8,7 @@ import (
 	"path/filepath"
 
 	"github.com/labstack/echo/v4"
-	"github.com/starptech/go-web/internal/i18n"
+	"github.com/Stanxxy/stan-go-web/internal/i18n"
 )
 
 var mainTmpl = `{{define "main" }} {{ template "base" . }} {{ end }}`

@@ -6,9 +6,9 @@ import (
 	"testing"
 
 	"github.com/labstack/echo/v4"
-	"github.com/starptech/go-web/internal/context"
-	"github.com/starptech/go-web/internal/core/middleware"
-	"github.com/starptech/go-web/internal/models"
+	"github.com/Stanxxy/stan-go-web/internal/context"
+	"github.com/Stanxxy/stan-go-web/internal/core/middleware"
+	"github.com/Stanxxy/stan-go-web/internal/models"
 	"github.com/stretchr/testify/assert"
 )
 

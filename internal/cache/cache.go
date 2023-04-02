@@ -4,7 +4,7 @@ import (
 	"log"
 
 	"github.com/go-redis/redis"
-	"github.com/starptech/go-web/config"
+	"github.com/Stanxxy/stan-go-web/config"
 )
 
 func NewCache(config *config.Configuration) *redis.Client {

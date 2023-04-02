@@ -7,9 +7,9 @@ import (
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/gommon/log"
 	"github.com/prometheus/client_golang/prometheus/promhttp"
-	"github.com/starptech/go-web/config"
-	"github.com/starptech/go-web/internal/core"
-	"github.com/starptech/go-web/internal/models"
+	"github.com/Stanxxy/stan-go-web/config"
+	"github.com/Stanxxy/stan-go-web/internal/core"
+	"github.com/Stanxxy/stan-go-web/internal/models"
 )
 
 var e struct {

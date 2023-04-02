@@ -10,10 +10,10 @@ import (
 	"github.com/go-redis/redis"
 	"github.com/jinzhu/gorm"
 	"github.com/labstack/echo/v4"
-	"github.com/starptech/go-web/config"
-	"github.com/starptech/go-web/internal/cache"
-	"github.com/starptech/go-web/internal/i18n"
-	"github.com/starptech/go-web/internal/models"
+	"github.com/Stanxxy/stan-go-web/config"
+	"github.com/Stanxxy/stan-go-web/internal/cache"
+	"github.com/Stanxxy/stan-go-web/internal/i18n"
+	"github.com/Stanxxy/stan-go-web/internal/models"
 )
 
 type Server struct {

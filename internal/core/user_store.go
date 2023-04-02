@@ -2,7 +2,7 @@ package core
 
 import (
 	"github.com/jinzhu/gorm"
-	"github.com/starptech/go-web/internal/models"
+	"github.com/Stanxxy/stan-go-web/internal/models"
 )
 
 // UserStore implements the UserStore interface
